@@ -1,0 +1,108 @@
+import { BuyRequest } from "@/types";
+
+export const buyRequests: BuyRequest[] = [
+  {
+    id: "req-1",
+    userId: "user-4",
+    title: "Looking for iPhone 14 or 15 in Good Condition",
+    description:
+      "Need an iPhone 14 or 15, any color. Must have good battery health (above 85%) and no screen cracks. PTA approved preferred. Can meet in Rawalpindi or Islamabad for inspection.",
+    category: "electronics",
+    budgetMin: 40000,
+    budgetMax: 65000,
+    city: "rawalpindi",
+    createdAt: "2026-02-14T09:00:00Z",
+    responses: 7,
+  },
+  {
+    id: "req-2",
+    userId: "user-6",
+    title: "Need Second-Hand Bridal Lehnga - Red/Maroon",
+    description:
+      "Looking for a bridal lehnga in red, maroon, or similar traditional color. Size small to medium. Quality fabric with decent embroidery work. Preferably from a known brand like HSY, Faraz Manan, or similar.",
+    category: "clothing",
+    budgetMin: 15000,
+    budgetMax: 35000,
+    city: "multan",
+    createdAt: "2026-02-13T11:30:00Z",
+    responses: 4,
+  },
+  {
+    id: "req-3",
+    userId: "user-3",
+    title: "Used Study Table with Drawers",
+    description:
+      "Looking for a sturdy study table with at least 2 drawers. Wooden preferred. Size should be around 4ft x 2ft. Must be in decent condition, no wobbly legs. For my son starting university.",
+    category: "furniture",
+    budgetMin: 3000,
+    budgetMax: 8000,
+    city: "islamabad",
+    createdAt: "2026-02-12T16:00:00Z",
+    responses: 3,
+  },
+  {
+    id: "req-4",
+    userId: "user-1",
+    title: "Cricket Bat - English Willow",
+    description:
+      "Need a good English willow cricket bat for tape ball and hard ball. Brands like HS, MB, or CA preferred. Should have a nice middle and at least a few knocks left. Weight around 2.7-2.9 lbs.",
+    category: "sports",
+    budgetMin: 2000,
+    budgetMax: 6000,
+    city: "karachi",
+    createdAt: "2026-02-11T08:45:00Z",
+    responses: 5,
+  },
+  {
+    id: "req-5",
+    userId: "user-5",
+    title: "Inverex or Homage UPS - 1000W+",
+    description:
+      "Looking for a used UPS/inverter, minimum 1000 watt capacity. Inverex, Homage, or similar reliable brand. Must be in working condition with decent battery backup. Need it urgently for load shedding season.",
+    category: "electronics",
+    budgetMin: 8000,
+    budgetMax: 18000,
+    city: "faisalabad",
+    createdAt: "2026-02-15T10:00:00Z",
+    responses: 2,
+  },
+  {
+    id: "req-6",
+    userId: "user-8",
+    title: "Children's Books in Urdu - Ages 5-10",
+    description:
+      "Looking for a collection of Urdu storybooks suitable for children ages 5-10. Educational and moral stories preferred. Can be used but should be in readable condition. Will buy in bulk if good collection available.",
+    category: "books",
+    budgetMin: 300,
+    budgetMax: 1500,
+    city: "karachi",
+    createdAt: "2026-02-10T14:20:00Z",
+    responses: 1,
+  },
+  {
+    id: "req-7",
+    userId: "user-10",
+    title: "Washing Machine - Semi or Fully Automatic",
+    description:
+      "Need a second-hand washing machine for a small family. Semi-automatic or fully automatic, either works. Brand should be Haier, Samsung, or Dawlance. Must be working with no leakage issues.",
+    category: "home-kitchen",
+    budgetMin: 10000,
+    budgetMax: 25000,
+    city: "islamabad",
+    createdAt: "2026-02-09T07:30:00Z",
+    responses: 6,
+  },
+  {
+    id: "req-8",
+    userId: "user-7",
+    title: "Mountain Bike for Teenagers",
+    description:
+      "Looking for a decent mountain bike suitable for a 14-year-old. 24 or 26 inch wheels. Gear system should work properly. Minor cosmetic issues are fine as long as it rides well. Preferably Phoenix or similar.",
+    category: "vehicles",
+    budgetMin: 5000,
+    budgetMax: 12000,
+    city: "peshawar",
+    createdAt: "2026-02-08T13:15:00Z",
+    responses: 3,
+  },
+];
