@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function Hero() {
   return (
     <section className="relative bg-primaryDark overflow-hidden min-h-[85vh] flex items-center">
@@ -16,9 +18,11 @@ export default function Hero() {
             The most trusted thrift marketplace. Join 50k+ users buying and selling high-quality pre-loved items every day with secure payments.
           </p>
           <div className="flex flex-wrap gap-4 mb-8">
-            <button className="px-8 py-4 bg-white text-primaryDark font-bold rounded-2xl flex items-center gap-2 hover:shadow-[0_0_25px_rgba(255,255,255,0.4)] hover:-translate-y-1 transition-all animate-pulse-glow">
-              Start Selling <span className="material-symbols-outlined">arrow_forward</span>
-            </button>
+            <Link href="/post-ad">
+              <button className="px-8 py-4 bg-white text-primaryDark font-bold rounded-2xl flex items-center gap-2 hover:shadow-[0_0_25px_rgba(255,255,255,0.4)] hover:-translate-y-1 transition-all animate-pulse-glow">
+                Start Selling <span className="material-symbols-outlined">arrow_forward</span>
+              </button>
+            </Link>
             <button className="px-8 py-4 bg-white/10 text-white font-bold rounded-2xl border border-white/20 backdrop-blur-md hover:bg-white/20 transition-all">
               Browse Listings
             </button>

@@ -1,0 +1,86 @@
+interface ProductInfoProps {
+  title: string;
+  price: string;
+  originalPrice: string;
+  discount: string;
+  location: string;
+  time: string;
+  description: string;
+  badges: string[];
+  category: string;
+  condition: string;
+}
+
+export default function ProductInfo({
+  title,
+  price,
+  originalPrice,
+  discount,
+  location,
+  time,
+  description,
+  badges,
+  category,
+  condition,
+}: ProductInfoProps) {
+  const getConditionColor = (condition: string) => {
+    switch (condition) {
+      case 'Like New':
+      case 'Brand New':
+        return 'bg-emerald-50 text-emerald-600 border-emerald-100';
+      case 'Used':
+      case 'Gently Used':
+        return 'bg-blue-50 text-blue-600 border-blue-100';
+      default:
+        return 'bg-slate-50 text-slate-600 border-slate-100';
+    }
+  };
+
+  const getDiscountPercentage = () => {
+    const current = parseInt(price.replace(/[^\d]/g, ''));
+    const original = parseInt(originalPrice.replace(/[^\d]/g, ''));
+    return Math.round(((original - current) / original) * 100);
+  };
+
+  return (
+    <div className="flex flex-col">
+      <div className="flex flex-wrap gap-2 mb-6">
+        {badges.includes('Featured') && (
+          <span className="px-3 py-1 bg-amber-50 text-amber-700 text-xs font-bold rounded-full border border-amber-200 flex items-center gap-1">
+            <span className="material-symbols-outlined text-[14px] filled">stars</span> Featured
+          </span>
+        )}
+        <span className="px-3 py-1 bg-emerald-50 text-primary text-xs font-bold rounded-full border border-emerald-100">
+          {category}
+        </span>
+        <span className={`px-3 py-1 text-xs font-bold rounded-full border ${getConditionColor(condition)}`}>
+          {condition}
+        </span>
+      </div>
+      <h1 className="text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white mb-4">{title}</h1>
+      <div className="flex items-center gap-4 mb-6">
+        <span className="text-3xl font-extrabold text-primary">{price}</span>
+        <div className="flex flex-col">
+          <span className="text-slate-400 line-through text-sm">{originalPrice}</span>
+          <span className="text-rose-500 text-xs font-bold">{getDiscountPercentage()}% OFF</span>
+        </div>
+      </div>
+      <div className="flex items-center gap-6 text-sm text-slate-500 mb-8 pb-8 border-b border-slate-100 dark:border-slate-800">
+        <div className="flex items-center gap-1">
+          <span className="material-symbols-outlined text-[18px]">location_on</span>
+          {location}
+        </div>
+        <div className="flex items-center gap-1">
+          <span className="material-symbols-outlined text-[18px]">schedule</span>
+          {time}
+        </div>
+      </div>
+      <div className="mb-10">
+        <h3 className="text-lg font-bold mb-3">Description</h3>
+        <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+          {description}
+        </p>
+      </div>
+    </div>
+  );
+}
