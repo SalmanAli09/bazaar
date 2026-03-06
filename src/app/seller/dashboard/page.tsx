@@ -18,6 +18,7 @@ import {
   Heart,
   Check
 } from "lucide-react";
+import Link from "next/link";
 
 export default function SellerHub() {
   const [activeTab, setActiveTab] = useState("Dashboard");
@@ -85,7 +86,7 @@ export default function SellerHub() {
         <header className="flex justify-between items-center mb-10">
           <div>
             <h2 className="text-3xl font-black text-slate-900 tracking-tight">Seller Dashboard</h2>
-            <p className="text-slate-500 font-medium mt-1">Welcome back, <span className="text-slate-900 font-bold">Vintage Vibes</span>! Your shop is trending today.</p>
+            <p className="text-slate-500 font-medium mt-1" >Welcome back, <span className="text-slate-900 font-bold">Vintage Vibes</span>! Your shop is trending today.</p>
           </div>
           
           <div className="flex items-center gap-4">
@@ -93,7 +94,7 @@ export default function SellerHub() {
               <div className="size-9 rounded-xl bg-slate-100 overflow-hidden border border-slate-200">
                 <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Vintage" alt="Profile" className="w-full h-full object-cover" />
               </div>
-              <span className="text-sm font-black text-slate-700">Vintage Vibes</span>
+              <Link href="/seller/edit-profile" className="text-sm font-black text-slate-700">Vintage Vibes</Link>
             </div>
           </div>
         </header>
