@@ -20,7 +20,7 @@ export default function RequestSection() {
               Post a "Request" and let our community of sellers find it for you. From vintage collectibles to specific tech, someone might have exactly what you need.
             </p>
             <div className="flex flex-wrap gap-4">
-              <button onClick={() => router.push('/post-ad')} className="px-8 py-4 bg-primary text-white font-bold rounded-2xl hover:shadow-lg hover:bg-emerald-700 transition-all flex items-center gap-2">
+              <button onClick={() => router.push('/requests')} className="px-8 py-4 bg-primary text-white font-bold rounded-2xl hover:shadow-lg hover:bg-emerald-700 transition-all flex items-center gap-2">
                 <Plus className="w-5 h-5" /> Post a Request
               </button>
               <button onClick={() => router.push('/buyers/request')} className="px-8 py-4 bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-white font-bold rounded-2xl hover:bg-slate-200 dark:hover:bg-slate-600 transition-all">
