@@ -3,8 +3,10 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { ShoppingBag, Mail, Lock, Eye, ArrowRight, Loader2 } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function LoginPage() {
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: 'msalmanali7890@gmail.com',
     password: 'password123'
@@ -42,7 +44,7 @@ export default function LoginPage() {
       }
 
       // Store user data (in production, you'd use proper session management)
-      localStorage.setItem('user', JSON.stringify(data.user));
+      login(data.user);
       
       // Redirect to dashboard or home
       window.location.href = '/';

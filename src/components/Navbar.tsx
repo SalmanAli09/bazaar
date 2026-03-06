@@ -2,8 +2,13 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Search, MapPin, ChevronDown } from "lucide-react";
+import UserMenu from "./UserMenu";
+import { useAuth } from "@/contexts/AuthContext";
+
 export default function Navbar() {
   const router = useRouter();
+  const { user } = useAuth();
+  
   return (
     <nav className="sticky top-0 z-50 bg-white/90 dark:bg-background-dark/90 backdrop-blur-md border-b border-slate-100 dark:border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -30,9 +35,14 @@ export default function Navbar() {
               <span>All Cities</span>
               <ChevronDown className="w-4 h-4" />
             </div>
-            <button onClick={()=>router.push('/login')}  className="px-5 py-2 bg-primary hover:bg-opacity-90 text-white font-semibold rounded-full transition-all">
-              Sign In
-            </button> 
+            
+            {user ? (
+              <UserMenu />
+            ) : (
+              <button onClick={()=>router.push('/login')}  className="px-5 py-2 bg-primary hover:bg-opacity-90 text-white font-semibold rounded-full transition-all">
+                Sign In
+              </button>
+            )}
           </div>
         </div>
       </div>
