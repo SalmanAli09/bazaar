@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { 
   ShoppingBag, 
@@ -8,10 +8,16 @@ import {
   ShieldCheck, 
   Eye, 
   ArrowRight, 
-  HeadphonesIcon 
+  HeadphonesIcon,
+  Store,
+  MapPin,
+  Phone,
+  User
 } from 'lucide-react';
 
 export default function RegisterPage() {
+  const [isSeller, setIsSeller] = useState(false);
+
   return (
     <main className="flex min-h-screen bg-white dark:bg-[#0f172a]">
       {/* Left Side: Brand & Mesh Background */}
@@ -96,6 +102,82 @@ export default function RegisterPage() {
                   Identity verification helps prevent fraud and builds trust.
                 </p>
               </div>
+
+              {/* Seller Toggle */}
+              <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-xl">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <Store size={20} className="text-[#069668]" />
+                    <div>
+                      <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Register as Seller</label>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">Sell products on Bazaar marketplace</p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setIsSeller(!isSeller)}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                      isSeller ? 'bg-[#069668]' : 'bg-slate-300 dark:bg-slate-600'
+                    }`}
+                  >
+                    <span
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                        isSeller ? 'translate-x-6' : 'translate-x-1'
+                      }`}
+                    />
+                  </button>
+                </div>
+              </div>
+
+              {/* Seller Fields - Only show when isSeller is true */}
+              {isSeller && (
+                <div className="space-y-4 p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl border border-emerald-200 dark:border-emerald-800">
+                  <h3 className="text-sm font-semibold text-emerald-800 dark:text-emerald-200 mb-3 flex items-center gap-2">
+                    <Store size={16} />
+                    Seller Information
+                  </h3>
+                  
+                  {/* Store Name */}
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Store Name</label>
+                    <input
+                      type="text"
+                      placeholder="Enter your store name"
+                      className="w-full px-4 py-3 bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-700 rounded-xl focus:ring-2 focus:ring-[#069668] dark:text-white transition-all outline-none"
+                    />
+                  </div>
+
+                  {/* Pickup Address */}
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Pickup Address</label>
+                    <input
+                      type="text"
+                      placeholder="Where customers can pick up items"
+                      className="w-full px-4 py-3 bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-700 rounded-xl focus:ring-2 focus:ring-[#069668] dark:text-white transition-all outline-none"
+                    />
+                  </div>
+
+                  {/* Address */}
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Full Address</label>
+                    <input
+                      type="text"
+                      placeholder="Complete address"
+                      className="w-full px-4 py-3 bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-700 rounded-xl focus:ring-2 focus:ring-[#069668] dark:text-white transition-all outline-none"
+                    />
+                  </div>
+
+                  {/* Phone Number */}
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Phone Number</label>
+                    <input
+                      type="tel"
+                      placeholder="03XX-XXXXXXX"
+                      className="w-full px-4 py-3 bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-700 rounded-xl focus:ring-2 focus:ring-[#069668] dark:text-white transition-all outline-none"
+                    />
+                  </div>
+                </div>
+              )}
 
               {/* Password */}
               <div>
