@@ -1,5 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { ChevronRight } from "lucide-react";
 import categories from "../../data/category";
 
 export default function Categories() {
@@ -14,7 +15,7 @@ export default function Categories() {
             <p className="text-slate-500">Explore curated collections from top categories</p>
           </div>
           <a className="text-primary font-bold flex items-center gap-1 group" href="#">
-            See All <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">chevron_right</span>
+            See All <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </a>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
@@ -25,7 +26,7 @@ export default function Categories() {
               className="group p-6 bg-slate-50 dark:bg-slate-800/50 rounded-3xl border border-transparent hover:border-primary/20 hover:bg-white dark:hover:bg-slate-800 hover:shadow-xl transition-all cursor-pointer text-center"
             >
               <div className={`w-16 h-16 mx-auto mb-4 ${category.bgColor} rounded-2xl flex items-center justify-center ${category.textColor} group-hover:scale-110 transition-transform`}>
-                <span className="material-symbols-outlined text-3xl">{category.icon}</span>
+                <category.icon className="w-8 h-8" />
               </div>
               <h3 className="font-bold mb-1">{category.name}</h3>
               <p className="text-slate-400 text-sm">{category.items}</p>

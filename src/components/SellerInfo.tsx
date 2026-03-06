@@ -1,5 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { Star, CheckCircle, List, ShoppingCart, Trophy, MessageCircle } from "lucide-react";
 
 interface SellerInfoProps {
   name: string;
@@ -25,20 +26,20 @@ export default function SellerInfo({
 
     for (let i = 0; i < fullStars; i++) {
       stars.push(
-        <span key={`full-${i}`} className="material-symbols-outlined text-[16px] filled">star</span>
+        <Star key={`full-${i}`} className="w-4 h-4 fill-current" />
       );
     }
 
     if (hasHalfStar) {
       stars.push(
-        <span key="half" className="material-symbols-outlined text-[16px] filled">star_half</span>
+        <Star key="half" className="w-4 h-4 fill-current opacity-50" />
       );
     }
 
     const emptyStars = 5 - Math.ceil(rating);
     for (let i = 0; i < emptyStars; i++) {
       stars.push(
-        <span key={`empty-${i}`} className="material-symbols-outlined text-[16px]">star</span>
+        <Star key={`empty-${i}`} className="w-4 h-4" />
       );
     }
 
@@ -58,7 +59,7 @@ export default function SellerInfo({
               <h4 onClick={()=> router.push(`/profile/${name}`)} className="font-bold text-slate-900 dark:text-white cursor-pointer hover:text-primary transition-colors">
                 {name}
               </h4>
-              <span className="material-symbols-outlined text-emerald-500 text-[18px] filled">verified</span>
+              <CheckCircle className="w-[18px] h-[18px] text-emerald-500 fill-current" />
             </div>
             <div className="flex items-center gap-1">
               <div className="flex text-amber-400">
@@ -71,23 +72,23 @@ export default function SellerInfo({
       </div>
       <div className="grid grid-cols-3 gap-4 mb-6">
         <div className="bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-3 text-center">
-          <span className="material-symbols-outlined text-slate-400 text-[20px] mb-1">list_alt</span>
+          <List className="w-5 h-5 text-slate-400 mb-1 mx-auto" />
           <div className="text-sm font-bold">{listings}</div>
           <div className="text-[10px] text-slate-400 uppercase font-semibold">Listings</div>
         </div>
         <div className="bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-3 text-center">
-          <span className="material-symbols-outlined text-slate-400 text-[20px] mb-1">shopping_cart</span>
+          <ShoppingCart className="w-5 h-5 text-slate-400 mb-1 mx-auto" />
           <div className="text-sm font-bold">{sales}</div>
           <div className="text-[10px] text-slate-400 uppercase font-semibold">Sales</div>
         </div>
         <div className="bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-3 text-center">
-          <span className="material-symbols-outlined text-slate-400 text-[20px] mb-1">grade</span>
+          <Trophy className="w-5 h-5 text-slate-400 mb-1 mx-auto" />
           <div className="text-sm font-bold">{rating}</div>
           <div className="text-[10px] text-slate-400 uppercase font-semibold">Rating</div>
         </div>
       </div>
       <button className="w-full py-3 bg-slate-50 dark:bg-slate-900/50 hover:bg-slate-100 text-slate-900 dark:text-white font-bold rounded-2xl transition-all flex items-center justify-center gap-2 border border-slate-100 dark:border-slate-800">
-        <span className="material-symbols-outlined text-[20px]">chat</span>
+        <MessageCircle className="w-5 h-5" />
         Chat with Seller
       </button>
     </div>

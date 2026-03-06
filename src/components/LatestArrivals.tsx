@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ArrowRight, Heart, MapPin } from 'lucide-react';
 
 export default function LatestArrivals(props:any) {
  
@@ -24,7 +25,7 @@ export default function LatestArrivals(props:any) {
             <p className="text-slate-500">Recently added treasures just for you</p>
           </div>
           <button className="flex items-center gap-2 text-primary font-bold hover:gap-3 transition-all">
-            View All <span className="material-symbols-outlined">arrow_forward</span>
+            View All <ArrowRight className="w-4 h-4" />
           </button>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -53,7 +54,7 @@ export default function LatestArrivals(props:any) {
                     ))}
                   </div>
                   <button className="absolute top-4 right-4 w-10 h-10 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md rounded-full flex items-center justify-center text-slate-900 dark:text-white hover:text-red-500 transition-colors">
-                    <span className="material-symbols-outlined text-xl">favorite</span>
+                    <Heart className="w-5 h-5" />
                   </button>
                   <div className="absolute bottom-4 right-4">
                     <span className={`px-3 py-1 ${getConditionColor(product.condition)} text-[10px] font-bold rounded-full uppercase`}>
@@ -69,7 +70,7 @@ export default function LatestArrivals(props:any) {
                   </div>
                   <div className="flex items-center justify-between text-slate-400 text-xs">
                     <div className="flex items-center gap-1">
-                      <span className="material-symbols-outlined text-sm">location_on</span> {product.location}
+                      <MapPin className="w-4 h-4" /> {product.location}
                     </div>
                     <span>{product.time}</span>
                   </div>

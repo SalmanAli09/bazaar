@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { CreditCard } from 'lucide-react';
 
 export default function Pricing() {
   const [isNegotiable, setIsNegotiable] = useState(false);
@@ -9,7 +10,7 @@ export default function Pricing() {
     <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-lg font-semibold flex items-center gap-2">
-          <span className="material-symbols-outlined text-primary">payments</span>
+          <CreditCard className="w-5 h-5 text-primary" />
           Pricing
         </h2>
         <div className="flex items-center gap-2">

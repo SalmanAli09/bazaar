@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface ProductImageGalleryProps {
   images: string[];
@@ -30,13 +31,13 @@ export default function ProductImageGallery({ images, title }: ProductImageGalle
           onClick={prevImage}
           className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 dark:bg-slate-800/80 backdrop-blur rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-all opacity-0 group-hover:opacity-100"
         >
-          <span className="material-symbols-outlined">chevron_left</span>
+          <ChevronLeft className="w-5 h-5" />
         </button>
         <button
           onClick={nextImage}
           className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 dark:bg-slate-800/80 backdrop-blur rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-all opacity-0 group-hover:opacity-100"
         >
-          <span className="material-symbols-outlined">chevron_right</span>
+          <ChevronRight className="w-5 h-5" />
         </button>
         <div className="absolute top-4 right-4 px-3 py-1 bg-black/50 text-white text-xs font-bold rounded-full backdrop-blur">
           {currentImageIndex + 1} / {images.length}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { FileText } from 'lucide-react';
 
 export default function BasicDetails() {
   const [condition, setCondition] = useState('new');
@@ -8,7 +9,7 @@ export default function BasicDetails() {
   return (
     <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
       <h2 className="text-lg font-semibold mb-6 flex items-center gap-2">
-        <span className="material-symbols-outlined text-primary">description</span>
+        <FileText className="w-5 h-5 text-primary" />
         Basic Details
       </h2>
       <div className="space-y-6">

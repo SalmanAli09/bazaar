@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Sparkles, Crown, Zap } from 'lucide-react';
 
 export default function BoostListing() {
   const [featured, setFeatured] = useState(false);
@@ -9,14 +10,14 @@ export default function BoostListing() {
   return (
     <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
       <h2 className="text-lg font-semibold mb-6 flex items-center gap-2">
-        <span className="material-symbols-outlined text-amber-500">auto_awesome</span>
+        <Sparkles className="w-5 h-5 text-amber-500" />
         Boost Your Listing
       </h2>
       <div className="space-y-3">
         <label className="flex items-center p-4 rounded-xl border border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/30 cursor-pointer hover:border-primary transition-all">
           <div className="flex-1 flex items-start gap-3">
             <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-lg text-amber-600">
-              <span className="material-symbols-outlined">workspace_premium</span>
+              <Crown className="w-5 h-5" />
             </div>
             <div>
               <h4 className="font-semibold text-sm">Featured Listing</h4>
@@ -35,7 +36,7 @@ export default function BoostListing() {
         <label className="flex items-center p-4 rounded-xl border border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/30 cursor-pointer hover:border-primary transition-all">
           <div className="flex-1 flex items-start gap-3">
             <div className="p-2 bg-red-100 dark:bg-red-900/30 rounded-lg text-red-600">
-              <span className="material-symbols-outlined">bolt</span>
+              <Zap className="w-5 h-5" />
             </div>
             <div>
               <h4 className="font-semibold text-sm">Urgent Ad</h4>

@@ -1,6 +1,7 @@
 "use client"
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { ArrowRight, ShieldCheck, Zap, TrendingUp, CreditCard, Star } from 'lucide-react';
 
 export default function Hero() {
   const router = useRouter()
@@ -23,7 +24,7 @@ export default function Hero() {
           <div className="flex flex-wrap gap-4 mb-8">
             <Link href="/post-ad">
               <button className="px-8 py-4 bg-white text-primaryDark font-bold rounded-2xl flex items-center gap-2 hover:shadow-[0_0_25px_rgba(255,255,255,0.4)] hover:-translate-y-1 transition-all animate-pulse-glow">
-                Start Selling <span className="material-symbols-outlined">arrow_forward</span>
+                Start Selling <ArrowRight className="w-5 h-5" />
               </button>
             </Link>
             <button onClick={() => router.push('/products')} className="px-8 py-4 bg-white/10 text-white font-bold rounded-2xl border border-white/20 backdrop-blur-md hover:bg-white/20 transition-all">
@@ -48,7 +49,7 @@ export default function Hero() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-16">
             <div className="flex items-center gap-4 p-4 glass-card rounded-2xl hover:-translate-y-2 transition-transform duration-300 cursor-default">
               <div className="w-10 h-10 rounded-xl bg-emerald-400/20 flex items-center justify-center text-emerald-300">
-                <span className="material-symbols-outlined">verified_user</span>
+                <ShieldCheck className="w-5 h-5" />
               </div>
               <div>
                 <div className="text-white font-bold text-lg leading-none">500+</div>
@@ -57,7 +58,7 @@ export default function Hero() {
             </div>
             <div className="flex items-center gap-4 p-4 glass-card rounded-2xl hover:-translate-y-2 transition-transform duration-300 cursor-default">
               <div className="w-10 h-10 rounded-xl bg-emerald-400/20 flex items-center justify-center text-emerald-300">
-                <span className="material-symbols-outlined">bolt</span>
+                <Zap className="w-5 h-5" />
               </div>
               <div>
                 <div className="text-white font-bold text-lg leading-none">10k+</div>
@@ -66,7 +67,7 @@ export default function Hero() {
             </div>
             <div className="flex items-center gap-4 p-4 glass-card rounded-2xl hover:-translate-y-2 transition-transform duration-300 cursor-default">
               <div className="w-10 h-10 rounded-xl bg-emerald-400/20 flex items-center justify-center text-emerald-300">
-                <span className="material-symbols-outlined">trending_up</span>
+                <TrendingUp className="w-5 h-5" />
               </div>
               <div>
                 <div className="text-white font-bold text-lg leading-none">98%</div>
@@ -111,13 +112,13 @@ export default function Hero() {
           </div>
           <div className="absolute top-[5%] right-[20%] glass-card p-3 rounded-2xl flex items-center gap-3 animate-float-slow z-40 border border-white/20">
             <div className="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white">
-              <span className="material-symbols-outlined text-sm">payments</span>
+              <CreditCard className="w-4 h-4" />
             </div>
             <span className="text-white text-xs font-bold whitespace-nowrap">Secure Escrow</span>
           </div>
           <div className="absolute bottom-[20%] right-[10%] glass-card p-3 rounded-2xl flex items-center gap-3 animate-float z-40 border border-white/20">
             <div className="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center text-white">
-              <span className="material-symbols-outlined text-sm">stars</span>
+              <Star className="w-4 h-4" />
             </div>
             <span className="text-white text-xs font-bold whitespace-nowrap">Top Rated</span>
           </div>

@@ -4,6 +4,7 @@ import ProductImageGallery from '@/components/ProductImageGallery';
 import ProductInfo from '@/components/ProductInfo';
 import SellerInfo from '@/components/SellerInfo';
 import { useRouter } from 'next/navigation';
+import { ArrowLeft, ShoppingBag } from 'lucide-react';
 
 interface ProductPageProps {
   params: {
@@ -122,7 +123,7 @@ export default function ProductPage({ params }: ProductPageProps) {
           href="/"
           className="inline-flex items-center gap-2 text-slate-500 hover:text-primary transition-colors font-medium mb-8"
         >
-          <span className="material-symbols-outlined">arrow_back</span>
+          <ArrowLeft className="w-5 h-5" />
           Back
         </Link>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -150,7 +151,7 @@ export default function ProductPage({ params }: ProductPageProps) {
             />
             <div className="mt-auto">
               <button onClick={() => router.push('/checkout')} className="w-full py-5 bg-primary hover:bg-emerald-700 text-white font-bold text-lg rounded-2xl shadow-xl shadow-emerald-500/20 transition-all flex items-center justify-center gap-3">
-                <span className="material-symbols-outlined filled">shopping_bag</span>
+                <ShoppingBag className="w-5 h-5 fill-current" />
                 Buy Now - {product.price}
               </button>
             </div>

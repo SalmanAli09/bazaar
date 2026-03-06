@@ -1,3 +1,5 @@
+import { Star, MapPin, Clock } from 'lucide-react';
+
 interface ProductInfoProps {
   title: string;
   price: string;
@@ -47,7 +49,7 @@ export default function ProductInfo({
       <div className="flex flex-wrap gap-2 mb-6">
         {badges.includes('Featured') && (
           <span className="px-3 py-1 bg-amber-50 text-amber-700 text-xs font-bold rounded-full border border-amber-200 flex items-center gap-1">
-            <span className="material-symbols-outlined text-[14px] filled">stars</span> Featured
+            <Star className="w-[14px] h-[14px] fill-current" /> Featured
           </span>
         )}
         <span className="px-3 py-1 bg-emerald-50 text-primary text-xs font-bold rounded-full border border-emerald-100">
@@ -67,11 +69,11 @@ export default function ProductInfo({
       </div>
       <div className="flex items-center gap-6 text-sm text-slate-500 mb-8 pb-8 border-b border-slate-100 dark:border-slate-800">
         <div className="flex items-center gap-1">
-          <span className="material-symbols-outlined text-[18px]">location_on</span>
+          <MapPin className="w-[18px] h-[18px]" />
           {location}
         </div>
         <div className="flex items-center gap-1">
-          <span className="material-symbols-outlined text-[18px]">schedule</span>
+          <Clock className="w-[18px] h-[18px]" />
           {time}
         </div>
       </div>
