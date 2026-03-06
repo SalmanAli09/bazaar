@@ -12,11 +12,70 @@ import {
   Store,
   MapPin,
   Phone,
-  User
+  User,
+  Loader2
 } from 'lucide-react';
 
 export default function RegisterPage() {
   const [isSeller, setIsSeller] = useState(false);
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    cnic: '',
+    password: '',
+    storeName: '',
+    pickupAddress: '',
+    address: '',
+    phoneNumber: ''
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError('');
+    setSuccess('');
+
+    try {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          isSeller
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Registration failed');
+      }
+
+      setSuccess('Account created successfully! Redirecting to login...');
+      setTimeout(() => {
+        window.location.href = '/login';
+      }, 2000);
+
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <main className="flex min-h-screen bg-white dark:bg-[#0f172a]">
@@ -60,14 +119,30 @@ export default function RegisterPage() {
               <p className="text-slate-500 dark:text-slate-400">Join the marketplace today</p>
             </div>
 
-            <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+            {/* Error and Success Messages */}
+            {error && (
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
+                {error}
+              </div>
+            )}
+            {success && (
+              <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-xl text-green-700 text-sm">
+                {success}
+              </div>
+            )}
+
+            <form className="space-y-5" onSubmit={handleSubmit}>
               {/* Full Name */}
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Full Name</label>
                 <input
                   type="text"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleInputChange}
                   placeholder="Enter your full name"
                   className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border-none rounded-xl focus:ring-2 focus:ring-[#069668] dark:text-white transition-all outline-none"
+                  required
                 />
               </div>
 
@@ -76,8 +151,12 @@ export default function RegisterPage() {
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Email Address</label>
                 <input
                   type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
                   placeholder="example@email.com"
                   className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border-none rounded-xl focus:ring-2 focus:ring-[#069668] dark:text-white transition-all outline-none"
+                  required
                 />
               </div>
 
@@ -94,8 +173,12 @@ export default function RegisterPage() {
                 </div>
                 <input
                   type="text"
+                  name="cnic"
+                  value={formData.cnic}
+                  onChange={handleInputChange}
                   placeholder="00000-0000000-0"
                   className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border-none rounded-xl focus:ring-2 focus:ring-[#069668] dark:text-white transition-all outline-none"
+                  required
                 />
                 <p className="mt-1.5 text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
                   <ShieldCheck size={12} className="text-[#069668]" />
@@ -142,8 +225,12 @@ export default function RegisterPage() {
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Store Name</label>
                     <input
                       type="text"
+                      name="storeName"
+                      value={formData.storeName}
+                      onChange={handleInputChange}
                       placeholder="Enter your store name"
                       className="w-full px-4 py-3 bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-700 rounded-xl focus:ring-2 focus:ring-[#069668] dark:text-white transition-all outline-none"
+                      required={isSeller}
                     />
                   </div>
 
@@ -152,8 +239,12 @@ export default function RegisterPage() {
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Pickup Address</label>
                     <input
                       type="text"
+                      name="pickupAddress"
+                      value={formData.pickupAddress}
+                      onChange={handleInputChange}
                       placeholder="Where customers can pick up items"
                       className="w-full px-4 py-3 bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-700 rounded-xl focus:ring-2 focus:ring-[#069668] dark:text-white transition-all outline-none"
+                      required={isSeller}
                     />
                   </div>
 
@@ -162,8 +253,12 @@ export default function RegisterPage() {
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Full Address</label>
                     <input
                       type="text"
+                      name="address"
+                      value={formData.address}
+                      onChange={handleInputChange}
                       placeholder="Complete address"
                       className="w-full px-4 py-3 bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-700 rounded-xl focus:ring-2 focus:ring-[#069668] dark:text-white transition-all outline-none"
+                      required={isSeller}
                     />
                   </div>
 
@@ -172,8 +267,12 @@ export default function RegisterPage() {
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Phone Number</label>
                     <input
                       type="tel"
+                      name="phoneNumber"
+                      value={formData.phoneNumber}
+                      onChange={handleInputChange}
                       placeholder="03XX-XXXXXXX"
                       className="w-full px-4 py-3 bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-700 rounded-xl focus:ring-2 focus:ring-[#069668] dark:text-white transition-all outline-none"
+                      required={isSeller}
                     />
                   </div>
                 </div>
@@ -184,11 +283,19 @@ export default function RegisterPage() {
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Password</label>
                 <div className="relative">
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleInputChange}
                     placeholder="••••••••"
                     className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border-none rounded-xl focus:ring-2 focus:ring-[#069668] dark:text-white transition-all outline-none"
+                    required
                   />
-                  <button type="button" className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+                  <button 
+                    type="button" 
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                  >
                     <Eye size={18} />
                   </button>
                 </div>
@@ -209,10 +316,20 @@ export default function RegisterPage() {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full bg-[#069668] hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-emerald-200 dark:shadow-none transition-all flex items-center justify-center gap-2 group"
+                disabled={isLoading}
+                className="w-full bg-[#069668] hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-emerald-200 dark:shadow-none transition-all flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Create Account
-                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                {isLoading ? (
+                  <>
+                    <Loader2 size={20} className="animate-spin" />
+                    Creating Account...
+                  </>
+                ) : (
+                  <>
+                    Create Account
+                    <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                  </>
+                )}
               </button>
             </form>
 

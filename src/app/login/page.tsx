@@ -1,10 +1,59 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { ShoppingBag, Mail, Lock, Eye, ArrowRight } from 'lucide-react';
+import { ShoppingBag, Mail, Lock, Eye, ArrowRight, Loader2 } from 'lucide-react';
 
 export default function LoginPage() {
+  const [formData, setFormData] = useState({
+    email: 'msalmanali7890@gmail.com',
+    password: 'password123'
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Login failed');
+      }
+
+      // Store user data (in production, you'd use proper session management)
+      localStorage.setItem('user', JSON.stringify(data.user));
+      
+      // Redirect to dashboard or home
+      window.location.href = '/';
+
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-[#F3F4F6] antialiased">
       {/* Left Side: Brand & Info */}
@@ -53,7 +102,14 @@ export default function LoginPage() {
               <p className="text-slate-500">Sign in to your account</p>
             </div>
 
-            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+            {/* Error Message */}
+            {error && (
+              <div className="mb-6 p-3 bg-red-50 border border-red-200 rounded-2xl text-red-700 text-sm">
+                {error}
+              </div>
+            )}
+
+            <form className="space-y-6" onSubmit={handleSubmit}>
               {/* Email Field */}
               <div className="space-y-2">
                 <label className="block text-sm font-bold text-slate-700 ml-1">Email</label>
@@ -63,9 +119,12 @@ export default function LoginPage() {
                   </span>
                   <input
                     type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
                     className="block w-full pl-11 pr-4 py-4 bg-slate-50 border-none rounded-2xl text-slate-900 placeholder-slate-400 focus:ring-2 focus:ring-[#0D8B5F]/20 focus:bg-white transition-all outline-none"
                     placeholder="your@email.com"
-                    defaultValue="msalmanali7890@gmail.com"
+                    required
                   />
                 </div>
               </div>
@@ -83,13 +142,17 @@ export default function LoginPage() {
                     <Lock size={18} />
                   </span>
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleInputChange}
                     className="block w-full pl-11 pr-12 py-4 bg-slate-50 border-none rounded-2xl text-slate-900 placeholder-slate-400 focus:ring-2 focus:ring-[#0D8B5F]/20 focus:bg-white transition-all outline-none"
                     placeholder="••••••••"
-                    defaultValue="password123"
+                    required
                   />
                   <button
                     type="button"
+                    onClick={() => setShowPassword(!showPassword)}
                     className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 transition-colors"
                   >
                     <Eye size={20} />
@@ -100,10 +163,20 @@ export default function LoginPage() {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full py-4 bg-[#0D8B5F] hover:bg-emerald-700 text-white font-bold rounded-2xl shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 group"
+                disabled={isLoading}
+                className="w-full py-4 bg-[#0D8B5F] hover:bg-emerald-700 text-white font-bold rounded-2xl shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Sign In
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                {isLoading ? (
+                  <>
+                    <Loader2 size={18} className="animate-spin" />
+                    Signing In...
+                  </>
+                ) : (
+                  <>
+                    Sign In
+                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                  </>
+                )}
               </button>
 
               {/* Divider */}
