@@ -1,8 +1,11 @@
+"use client"
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function Hero() {
+  const router = useRouter()
   return (
-    <section className="relative bg-primaryDark overflow-hidden min-h-[85vh] flex items-center">
+    <section className="relative bg-primary overflow-hidden min-h-[100vh] flex items-center">
       <div className="absolute inset-0 z-0">
         <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[60%] bg-emerald-600/30 rounded-full blur-[120px]"></div>
         <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[70%] bg-primary/20 rounded-full blur-[150px]"></div>
@@ -10,9 +13,9 @@ export default function Hero() {
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
         <div className="max-w-3xl">
-          <h1 className="text-5xl lg:text-7xl font-extrabold text-white leading-tight mb-6 text-shadow-sm">
+          <h1 className="text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-6 text-shadow-sm">
             Find Gems. <br />
-            <span className="text-emerald-400">Sell with Ease.</span>
+            <span className="">Sell with Ease.</span>
           </h1>
           <p className="text-emerald-50/80 text-lg lg:text-xl mb-10 max-w-xl">
             The most trusted thrift marketplace. Join 50k+ users buying and selling high-quality pre-loved items every day with secure payments.
@@ -23,12 +26,12 @@ export default function Hero() {
                 Start Selling <span className="material-symbols-outlined">arrow_forward</span>
               </button>
             </Link>
-            <button className="px-8 py-4 bg-white/10 text-white font-bold rounded-2xl border border-white/20 backdrop-blur-md hover:bg-white/20 transition-all">
+            <button onClick={() => router.push('/products')} className="px-8 py-4 bg-white/10 text-white font-bold rounded-2xl border border-white/20 backdrop-blur-md hover:bg-white/20 transition-all">
               Browse Listings
             </button>
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            <span className="text-emerald-300/80 text-sm font-semibold mr-2 uppercase tracking-wider">Trending:</span>
+            <span className="text-white text-sm font-semibold mr-2 uppercase tracking-wider">Trending:</span>
             <a className="px-3 py-1 bg-emerald-800/40 hover:bg-emerald-700/60 text-emerald-100 text-xs font-medium rounded-full border border-emerald-700/50 transition-colors" href="#">
               #VintageTelevisions
             </a>

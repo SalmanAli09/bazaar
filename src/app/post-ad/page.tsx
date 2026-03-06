@@ -1,4 +1,3 @@
-import PostAdHeader from '@/components/PostAdHeader';
 import BasicDetails from '@/components/BasicDetails';
 import Pricing from '@/components/Pricing';
 import PhotoUpload from '@/components/PhotoUpload';
@@ -8,7 +7,6 @@ import PostAdFooter from '@/components/PostAdFooter';
 export default function PostAdPage() {
   return (
     <div className="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
-      <PostAdHeader />
       <main className="max-w-6xl mx-auto px-4 py-10">
         <div className="mb-10">
           <h1 className="text-3xl font-bold dark:text-white">Post an Ad</h1>

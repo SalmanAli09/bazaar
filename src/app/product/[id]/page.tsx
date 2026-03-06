@@ -1,9 +1,9 @@
+"use client";
 import Link from 'next/link';
-import Navbar from '@/components/Navbar';
 import ProductImageGallery from '@/components/ProductImageGallery';
 import ProductInfo from '@/components/ProductInfo';
 import SellerInfo from '@/components/SellerInfo';
-import ProductFooter from '@/components/ProductFooter';
+import { useRouter } from 'next/navigation';
 
 interface ProductPageProps {
   params: {
@@ -11,7 +11,6 @@ interface ProductPageProps {
   };
 }
 
-// Mock product data - in a real app, this would come from an API
 const getProductData = (id: string) => {
   const products = {
     '1': {
@@ -115,13 +114,12 @@ const getProductData = (id: string) => {
 
 export default function ProductPage({ params }: ProductPageProps) {
   const product = getProductData(params.id);
-
+  const router = useRouter();
   return (
     <div className="bg-white dark:bg-background-dark text-slate-900 dark:text-slate-100 transition-colors duration-300 antialiased">
-      <Navbar />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Link 
-          href="/" 
+        <Link
+          href="/"
           className="inline-flex items-center gap-2 text-slate-500 hover:text-primary transition-colors font-medium mb-8"
         >
           <span className="material-symbols-outlined">arrow_back</span>
@@ -151,7 +149,7 @@ export default function ProductPage({ params }: ProductPageProps) {
               sales={product.seller.sales}
             />
             <div className="mt-auto">
-              <button className="w-full py-5 bg-primary hover:bg-emerald-700 text-white font-bold text-lg rounded-2xl shadow-xl shadow-emerald-500/20 transition-all flex items-center justify-center gap-3">
+              <button onClick={() => router.push('/checkout')} className="w-full py-5 bg-primary hover:bg-emerald-700 text-white font-bold text-lg rounded-2xl shadow-xl shadow-emerald-500/20 transition-all flex items-center justify-center gap-3">
                 <span className="material-symbols-outlined filled">shopping_bag</span>
                 Buy Now - {product.price}
               </button>
@@ -159,16 +157,6 @@ export default function ProductPage({ params }: ProductPageProps) {
           </div>
         </div>
       </main>
-      <ProductFooter />
     </div>
   );
-}
-
-export async function generateMetadata({ params }: ProductPageProps) {
-  const product = getProductData(params.id);
-  
-  return {
-    title: `Bazaar - ${product.title}`,
-    description: product.description,
-  };
 }

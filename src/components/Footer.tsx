@@ -56,7 +56,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="pt-8 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-400 text-xs font-medium">
-          <p>© 2024 Bazaar Marketplace. All rights reserved.</p>
+          <p>© 2025 - 2026 Bazaar Marketplace. All rights reserved.</p>
           <div className="flex gap-8">
             <a className="hover:text-primary transition-colors" href="#">Privacy Policy</a>
             <a className="hover:text-primary transition-colors" href="#">Terms of Service</a>

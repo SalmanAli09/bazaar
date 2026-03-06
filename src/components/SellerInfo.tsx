@@ -1,3 +1,6 @@
+"use client";
+import { useRouter } from "next/navigation";
+
 interface SellerInfoProps {
   name: string;
   initials: string;
@@ -41,6 +44,7 @@ export default function SellerInfo({
 
     return stars;
   };
+  const router = useRouter();
 
   return (
     <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 p-6 shadow-sm mb-10">
@@ -51,7 +55,7 @@ export default function SellerInfo({
           </div>
           <div>
             <div className="flex items-center gap-1">
-              <h4 className="font-bold text-slate-900 dark:text-white cursor-pointer hover:text-primary transition-colors">
+              <h4 onClick={()=> router.push(`/profile/${name}`)} className="font-bold text-slate-900 dark:text-white cursor-pointer hover:text-primary transition-colors">
                 {name}
               </h4>
               <span className="material-symbols-outlined text-emerald-500 text-[18px] filled">verified</span>

@@ -1,5 +1,3 @@
-import Footer from '@/components/Footer';
-import Navbar from '@/components/Navbar';
 import ProductCard from '@/components/ProductCard';
 import ReviewCard from '@/components/ReviewCard';
 import StatBox from '@/components/StatBox';
@@ -14,8 +12,6 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#0F172A]">
-      <Navbar />
-      
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumb */}
         <button className="inline-flex items-center gap-2 text-slate-500 hover:text-emerald-600 mb-8 transition-colors group text-sm font-medium">
@@ -105,8 +101,6 @@ export default function ProfilePage() {
           </button>
         </section>
       </main>
-
-      <Footer />
     </div>
   );
 }
