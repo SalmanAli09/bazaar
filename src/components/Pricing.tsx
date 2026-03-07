@@ -1,11 +1,19 @@
 'use client';
 
-import { useState } from 'react';
 import { CreditCard } from 'lucide-react';
 
-export default function Pricing() {
-  const [isNegotiable, setIsNegotiable] = useState(false);
+interface FormData {
+  selling_price: string;
+  original_price: string;
+  negotiable_price: boolean;
+}
 
+interface PricingProps {
+  formData: FormData;
+  updateFormData: (updates: Partial<FormData>) => void;
+}
+
+export default function Pricing({ formData, updateFormData }: PricingProps) {
   return (
     <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
       <div className="flex items-center justify-between mb-6">
@@ -17,8 +25,8 @@ export default function Pricing() {
           <span className="text-sm font-medium text-slate-500">Negotiable</span>
           <label className="relative inline-flex items-center cursor-pointer">
             <input
-              checked={isNegotiable}
-              onChange={(e) => setIsNegotiable(e.target.checked)}
+              checked={formData.negotiable_price}
+              onChange={(e) => updateFormData({ negotiable_price: e.target.checked })}
               className="sr-only peer"
               type="checkbox"
             />
@@ -39,6 +47,8 @@ export default function Pricing() {
               className="w-full pl-12 pr-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 dark:bg-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
               placeholder="0"
               type="number"
+              value={formData.selling_price}
+              onChange={(e) => updateFormData({ selling_price: e.target.value })}
             />
           </div>
         </div>
@@ -54,6 +64,8 @@ export default function Pricing() {
               className="w-full pl-12 pr-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 dark:bg-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
               placeholder="0"
               type="number"
+              value={formData.original_price}
+              onChange={(e) => updateFormData({ original_price: e.target.value })}
             />
           </div>
         </div>

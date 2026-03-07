@@ -3,10 +3,17 @@
 import { useState } from 'react';
 import { Sparkles, Crown, Zap } from 'lucide-react';
 
-export default function BoostListing() {
-  const [featured, setFeatured] = useState(false);
-  const [urgent, setUrgent] = useState(false);
+interface FormData {
+  featured: boolean;
+  urgent: boolean;
+}
 
+interface BoostListingProps {
+  formData: FormData;
+  updateFormData: (updates: Partial<FormData>) => void;
+}
+
+export default function BoostListing({ formData, updateFormData }: BoostListingProps) {
   return (
     <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
       <h2 className="text-lg font-semibold mb-6 flex items-center gap-2">
@@ -21,13 +28,13 @@ export default function BoostListing() {
             </div>
             <div>
               <h4 className="font-semibold text-sm">Featured Listing</h4>
-              <p className="text-xs text-slate-500">Ad appears at the top of category for 7 days.</p>
+              <p className="text-xs text-slate-500">Ad appears at top of category for 7 days.</p>
               <p className="text-sm font-bold text-primary mt-1">Rs. 150</p>
             </div>
           </div>
           <input
-            checked={featured}
-            onChange={(e) => setFeatured(e.target.checked)}
+            checked={formData.featured}
+            onChange={(e) => updateFormData({ featured: e.target.checked })}
             className="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary"
             type="checkbox"
           />
@@ -45,8 +52,8 @@ export default function BoostListing() {
             </div>
           </div>
           <input
-            checked={urgent}
-            onChange={(e) => setUrgent(e.target.checked)}
+            checked={formData.urgent}
+            onChange={(e) => updateFormData({ urgent: e.target.checked })}
             className="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary"
             type="checkbox"
           />
