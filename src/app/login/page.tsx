@@ -1,10 +1,39 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { ShoppingBag, Mail, Lock, Eye, ArrowRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { ShoppingBag, Mail, Lock, Eye, EyeOff, ArrowRight, AlertCircle } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function LoginPage() {
+  const [email, setEmail] = useState('sarah.j@example.com');
+  const [password, setPassword] = useState('1234');
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const { login } = useAuth();
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setIsLoading(true);
+
+    try {
+      const success = await login(email, password);
+      if (success) {
+        router.push('/');
+      } else {
+        setError('Invalid email or password');
+      }
+    } catch (err) {
+      setError('An error occurred during login');
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-[#F3F4F6] antialiased">
       {/* Left Side: Brand & Info */}
@@ -53,7 +82,15 @@ export default function LoginPage() {
               <p className="text-slate-500">Sign in to your account</p>
             </div>
 
-            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              {/* Error Message */}
+              {error && (
+                <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
+                  <AlertCircle size={16} />
+                  {error}
+                </div>
+              )}
+
               {/* Email Field */}
               <div className="space-y-2">
                 <label className="block text-sm font-bold text-slate-700 ml-1">Email</label>
@@ -65,7 +102,9 @@ export default function LoginPage() {
                     type="email"
                     className="block w-full pl-11 pr-4 py-4 bg-slate-50 border-none rounded-2xl text-slate-900 placeholder-slate-400 focus:ring-2 focus:ring-[#0D8B5F]/20 focus:bg-white transition-all outline-none"
                     placeholder="your@email.com"
-                    defaultValue="msalmanali7890@gmail.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
                   />
                 </div>
               </div>
@@ -83,16 +122,19 @@ export default function LoginPage() {
                     <Lock size={18} />
                   </span>
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     className="block w-full pl-11 pr-12 py-4 bg-slate-50 border-none rounded-2xl text-slate-900 placeholder-slate-400 focus:ring-2 focus:ring-[#0D8B5F]/20 focus:bg-white transition-all outline-none"
                     placeholder="••••••••"
-                    defaultValue="password123"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
                   />
                   <button
                     type="button"
                     className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 transition-colors"
+                    onClick={() => setShowPassword(!showPassword)}
                   >
-                    <Eye size={20} />
+                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
                 </div>
               </div>
@@ -100,10 +142,11 @@ export default function LoginPage() {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full py-4 bg-[#0D8B5F] hover:bg-emerald-700 text-white font-bold rounded-2xl shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 group"
+                disabled={isLoading}
+                className="w-full py-4 bg-[#0D8B5F] hover:bg-emerald-700 disabled:bg-slate-400 text-white font-bold rounded-2xl shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 group"
               >
-                Sign In
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                {isLoading ? 'Signing in...' : 'Sign In'}
+                {!isLoading && <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />}
               </button>
 
               {/* Divider */}

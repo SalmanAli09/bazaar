@@ -9,7 +9,7 @@ interface ConditionalLayoutProps {
 
 export default function ConditionalLayout({ children }: ConditionalLayoutProps) {
   const pathname = usePathname();
-  const hideNavFooter = pathname === '/login' || pathname === '/register';
+  const hideNavFooter = pathname === '/login' || pathname === '/register' || pathname === '/seller/dashboard';
 
   return (
     <>

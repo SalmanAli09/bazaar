@@ -1,0 +1,95 @@
+{
+  "seller_id": "sel_8829310",
+  "full_name": "Sarah Jenkins",
+  "email": "sarah.j@example.com",
+  "password": "1234",
+  "store_name": "Urban Edge Boutique",
+  "store_banner_image": "https://cdn.example.com/banners/urban-edge-main.jpg",
+  "phone_number": "+1-555-0123-456",
+  "pickup_address": "123 Maker Street, Austin, TX 78701",
+  "rating": 4.8,
+  "review_count": 124,
+  "items_sold_count": 87,
+  "is_active": true,
+  "is_verified": true,
+  "role": "seller",
+  "products": [
+    {
+      "product_id": "prod_001",
+      "product_name": "Vintage Denim Jacket",
+      "product_description": "Classic 90s fit with distressed detailing.",
+      "product_actual_price": 85.00,
+      "product_selling_price": 65.00,
+      "is_negotiable": true,
+      "is_urgent": false,
+      "is_featured": true,
+      "is_draft": false,
+      "is_published": true,
+      "is_sold": false
+    },
+    {
+      "product_id": "prod_002",
+      "product_name": "Leather Chelsea Boots",
+      "product_description": "Handmade Italian leather, size 10.",
+      "product_actual_price": 120.00,
+      "product_selling_price": 95.00,
+      "is_negotiable": false,
+      "is_urgent": true,
+      "is_featured": false,
+      "is_draft": false,
+      "is_published": true,
+      "is_sold": true
+    },
+    {
+      "product_id": "prod_003",
+      "product_name": "Retro Sunglasses (Unfinished Listing)",
+      "product_description": "Waiting for high-res photos...",
+      "product_actual_price": 30.00,
+      "product_selling_price": 25.00,
+      "is_negotiable": true,
+      "is_urgent": false,
+      "is_featured": false,
+      "is_draft": true,
+      "is_published": false,
+      "is_sold": false
+    }
+  ],
+  "analytics": {
+    "total_revenue": 5420.50,
+    "items_sold_count": 87,
+    "sold_items_this_month": 12,
+    "currency": "USD"
+  },
+  "offers_made": [
+    {
+      "offer_id": "off_44921",
+      "buyer_request_product_id": "req_99203",
+      "offered_price": 55.00,
+      "offered_pictures": [
+        "https://cdn.example.com/offers/off_1.jpg"
+      ],
+      "seller_message": "Perfect match for your request! Clean and ready to ship.",
+      "offer_status": "pending"
+    },
+    {
+      "offer_id": "off_44922",
+      "buyer_request_product_id": "req_10552",
+      "offered_price": 40.00,
+      "offered_pictures": [
+        "https://cdn.example.com/offers/off_2.jpg"
+      ],
+      "seller_message": "I can do $40 if you pick it up today.",
+      "offer_status": "accepted"
+    },
+    {
+      "offer_id": "off_44923",
+      "buyer_request_product_id": "req_11200",
+      "offered_price": 110.00,
+      "offered_pictures": [
+        "https://cdn.example.com/offers/off_3.jpg"
+      ],
+      "seller_message": "Premium quality, barely used.",
+      "offer_status": "rejected"
+    }
+  ]
+}

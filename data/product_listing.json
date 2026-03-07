@@ -1,0 +1,74 @@
+[
+  {
+    "product_id": "prod_001",
+    "product_name": "Vintage Denim Jacket",
+    "product_description": "Classic 90s fit with distressed detailing.",
+    "product_actual_price": 85.00,
+    "product_selling_price": 65.00,
+    "is_negotiable": true,
+    "is_urgent": false,
+    "is_featured": true,
+    "is_draft": false,
+    "is_published": true,
+    "is_sold": false,
+    "category": "Apparel",
+    "images": ["https://cdn.example.com/products/jacket_1.jpg"],
+    "seller": {
+      "seller_id": "sel_8829310",
+      "store_name": "Urban Edge Boutique",
+      "full_name": "Sarah Jenkins",
+      "city": "Austin",
+      "country": "USA",
+      "rating": 4.8,
+      "is_verified": true
+    }
+  },
+  {
+    "product_id": "prod_002",
+    "product_name": "Leather Chelsea Boots",
+    "product_description": "Handmade Italian leather, size 10. Barely worn.",
+    "product_actual_price": 120.00,
+    "product_selling_price": 95.00,
+    "is_negotiable": false,
+    "is_urgent": true,
+    "is_featured": false,
+    "is_draft": false,
+    "is_published": true,
+    "is_sold": false,
+    "category": "Footwear",
+    "images": ["https://cdn.example.com/products/boots_1.jpg"],
+    "seller": {
+      "seller_id": "sel_8829310",
+      "store_name": "Urban Edge Boutique",
+      "full_name": "Sarah Jenkins",
+      "city": "Austin",
+      "country": "USA",
+      "rating": 4.8,
+      "is_verified": true
+    }
+  },
+  {
+    "product_id": "prod_004",
+    "product_name": "Sony WH-1000XM4 Headphones",
+    "product_description": "Noise-canceling headphones in Silver. Original box included.",
+    "product_actual_price": 250.00,
+    "product_selling_price": 180.00,
+    "is_negotiable": true,
+    "is_urgent": false,
+    "is_featured": true,
+    "is_draft": false,
+    "is_published": true,
+    "is_sold": false,
+    "category": "Electronics",
+    "images": ["https://cdn.example.com/products/sony_1.jpg"],
+    "seller": {
+      "seller_id": "sel_554122",
+      "store_name": "Tech Haven",
+      "full_name": "Marcus Chen",
+      "city": "San Francisco",
+      "country": "USA",
+      "rating": 4.9,
+      "is_verified": true
+    }
+  }
+]
