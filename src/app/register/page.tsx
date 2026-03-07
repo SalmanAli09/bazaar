@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import {
+import { useRouter } from 'next/navigation';
+import { 
   ShoppingBag,
   Info,
   ShieldCheck,
@@ -15,9 +16,16 @@ import {
   Phone,
   Upload,
 } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function RegisterPage() {
   const [isSeller, setIsSeller] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
+  const { register } = useAuth();
+  const router = useRouter();
+  
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -37,9 +45,44 @@ export default function RegisterPage() {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Registration data:', { ...formData, role: isSeller ? 'seller' : 'buyer' });
+    setError('');
+    setIsLoading(true);
+
+    try {
+      if (!formData.agreeToTerms) {
+        setError('You must agree to the terms and conditions');
+        return;
+      }
+
+      const result = await register({
+        email: formData.email,
+        password: formData.password,
+        fullName: formData.fullName,
+        phone: formData.phone,
+        address: formData.address,
+        city: formData.city,
+        country: formData.country,
+        isSeller,
+        storeName: isSeller ? formData.storeName : undefined,
+        storeAddress: isSeller ? formData.storeAddress : undefined,
+        storeBannerImage: isSeller ? formData.storeBannerImage : undefined,
+      });
+
+      if (result.success) {
+        setSuccess(true);
+        setTimeout(() => {
+          router.push('/login');
+        }, 2000);
+      } else {
+        setError(result.error || 'Registration failed');
+      }
+    } catch (error) {
+      setError('An unexpected error occurred');
+    } finally {
+      setIsLoading(false);
+    }
   };
   return (
     <main className="flex min-h-screen bg-white dark:bg-[#0f172a]">
@@ -84,6 +127,18 @@ export default function RegisterPage() {
             </div>
 
             <form className="space-y-5" onSubmit={handleSubmit}>
+              {/* Error and Success Messages */}
+              {error && (
+                <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded-xl text-sm">
+                  {error}
+                </div>
+              )}
+              
+              {success && (
+                <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 px-4 py-3 rounded-xl text-sm">
+                  Registration successful! Redirecting to login...
+                </div>
+              )}
               {/* Full Name */}
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Full Name</label>
@@ -306,10 +361,20 @@ export default function RegisterPage() {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full bg-[#069668] hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-emerald-200 dark:shadow-none transition-all flex items-center justify-center gap-2 group"
+                disabled={isLoading}
+                className="w-full bg-[#069668] hover:bg-emerald-700 disabled:bg-emerald-400 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-emerald-200 dark:shadow-none transition-all flex items-center justify-center gap-2 group"
               >
-                Create Account
-                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                {isLoading ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    Creating Account...
+                  </>
+                ) : (
+                  <>
+                    Create Account
+                    <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                  </>
+                )}
               </button>
             </form>
 

@@ -1,20 +1,33 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { supabase } from '@/lib/supabase';
+import type { Database } from '@/lib/supabase';
 
-interface User {
-  id: string;
-  email: string;
-  role: string;
-  full_name?: string;
-  store_name?: string;
-}
+type User = Database['public']['Tables']['users']['Row'] & {
+  sellers?: Database['public']['Tables']['sellers']['Row'];
+};
 
 interface AuthContextType {
   user: User | null;
-  login: (email: string, password: string) => Promise<boolean>;
-  logout: () => void;
+  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  logout: () => Promise<void>;
+  register: (userData: RegisterData) => Promise<{ success: boolean; error?: string }>;
   isLoading: boolean;
+}
+
+interface RegisterData {
+  email: string;
+  password: string;
+  fullName: string;
+  phone: string;
+  address: string;
+  city: string;
+  country: string;
+  isSeller: boolean;
+  storeName?: string;
+  storeAddress?: string;
+  storeBannerImage?: File | null;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -24,70 +37,159 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check for existing auth cookie on mount
-    const checkAuth = () => {
+    // Check for existing session on mount
+    const getSession = async () => {
       try {
-        const authData = document.cookie
-          .split('; ')
-          .find(row => row.startsWith('auth_data='))
-          ?.split('=')[1];
+        const { data: { session } } = await supabase.auth.getSession();
         
-        if (authData) {
-          const decodedData = JSON.parse(decodeURIComponent(authData));
-          setUser(decodedData);
+        if (session?.user) {
+          // Fetch user data from our database
+          const { data: userData } = await supabase
+            .from('users')
+            .select('*, sellers(*)')
+            .eq('user_id', session.user.id)
+            .single();
+          
+          if (userData) {
+            setUser(userData);
+          }
         }
       } catch (error) {
-        console.error('Error parsing auth cookie:', error);
+        console.error('Error getting session:', error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    checkAuth();
+    getSession();
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (event === 'SIGNED_OUT') {
+          setUser(null);
+        } else if (session?.user) {
+          // Fetch user data from our database
+          const { data: userData } = await supabase
+            .from('users')
+            .select('*, sellers(*)')
+            .eq('user_id', session.user.id)
+            .single();
+          
+          if (userData) {
+            setUser(userData);
+          }
+        }
+        setIsLoading(false);
+      }
+    );
+
+    return () => subscription.unsubscribe();
   }, []);
 
-  const login = async (email: string, password: string): Promise<boolean> => {
+  const login = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
     try {
-      // Import seller data
-      const sellerData = await import('../../data/seller_flow.json');
-      const seller = sellerData.default;
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-      // Check if credentials match seller data
-      if (email === seller.email && password === seller.password) {
-        const userData: User = {
-          id: seller.seller_id,
-          email: seller.email,
-          role: seller.role,
-          full_name: seller.full_name,
-          store_name: seller.store_name
-        };
-
-        // Set user in state
-        setUser(userData);
-
-        // Set auth cookie (expires in 7 days)
-        const expires = new Date();
-        expires.setDate(expires.getDate() + 7);
-        document.cookie = `auth_data=${encodeURIComponent(JSON.stringify(userData))}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
-
-        return true;
+      if (error) {
+        return { success: false, error: error.message };
       }
 
-      return false;
+      // User data will be fetched by the auth state listener
+      return { success: true };
     } catch (error) {
-      console.error('Login error:', error);
-      return false;
+      return { success: false, error: 'An unexpected error occurred' };
     }
   };
 
-  const logout = () => {
+  const register = async (userData: RegisterData): Promise<{ success: boolean; error?: string }> => {
+    try {
+      // 1. Create Supabase auth user
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: userData.email,
+        password: userData.password,
+        options: {
+          data: {
+            full_name: userData.fullName,
+          },
+        },
+      });
+
+      if (authError || !authData.user) {
+        return { success: false, error: authError?.message || 'Failed to create account' };
+      }
+
+      // 2. Create user record in our database
+      const { error: userError } = await supabase
+        .from('users')
+        .insert({
+          user_id: authData.user.id,
+          email: userData.email,
+          password_hash: '', // Not storing password hash, Supabase handles this
+          full_name: userData.fullName,
+          phone_number: userData.phone,
+          role: userData.isSeller ? 'seller' : 'buyer',
+          city: userData.city,
+          country: userData.country,
+        });
+
+      if (userError) {
+        return { success: false, error: 'Failed to create user profile' };
+      }
+
+      // 3. If seller, create seller record
+      if (userData.isSeller && userData.storeName) {
+        let storeBannerUrl = null;
+        
+        // Upload store banner image if provided
+        if (userData.storeBannerImage) {
+          const fileExt = userData.storeBannerImage.name.split('.').pop();
+          const fileName = `store-banner-${authData.user.id}.${fileExt}`;
+          
+          const { data: uploadData, error: uploadError } = await supabase.storage
+            .from('store-banners')
+            .upload(fileName, userData.storeBannerImage);
+          
+          if (!uploadError && uploadData) {
+            const { data: { publicUrl } } = supabase.storage
+              .from('store-banners')
+              .getPublicUrl(fileName);
+            storeBannerUrl = publicUrl;
+          }
+        }
+
+        const { error: sellerError } = await supabase
+          .from('sellers')
+          .insert({
+            user_id: authData.user.id,
+            store_name: userData.storeName,
+            store_banner_image: storeBannerUrl,
+            pickup_address: userData.storeAddress,
+            city: userData.city,
+            country: userData.country,
+          });
+
+        if (sellerError) {
+          return { success: false, error: 'Failed to create seller profile' };
+        }
+      }
+
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: 'An unexpected error occurred' };
+    }
+  };
+
+  const logout = async () => {
+    await supabase.auth.signOut();
     setUser(null);
-    // Clear auth cookie
-    document.cookie = 'auth_data=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isLoading }}>
+    <AuthContext.Provider value={{ user, login, logout, register, isLoading }}>
       {children}
     </AuthContext.Provider>
   );
