@@ -2,6 +2,7 @@ import React from 'react';
 import { Heart, MapPin, Sparkles } from 'lucide-react';
 
 interface ProductProps {
+  id: string;
   title: string;
   price: string;
   originalPrice?: string;
@@ -11,9 +12,11 @@ interface ProductProps {
   discount?: string; // e.g., "-50%"
   featured?: boolean;
   urgent?: boolean;
+  images?: string[];
 }
 
 export default function ProductCard({
+  id,
   title,
   price,
   originalPrice,
@@ -23,13 +26,21 @@ export default function ProductCard({
   discount,
   featured,
   urgent,
+  images,
 }: ProductProps) {
   return (
     <div className="group bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col">
       {/* Image Container */}
       <div className="relative aspect-[4/3] overflow-hidden bg-slate-100 dark:bg-slate-700">
-        {/* Placeholder for Next.js Image Component */}
-        <div className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 bg-gradient-to-tr from-slate-200 to-slate-100 dark:from-slate-700 dark:to-slate-600" />
+        {images && images.length > 0 ? (
+          <img 
+            src={images[0]} 
+            alt={title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          />
+        ) : (
+          <div className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 bg-gradient-to-tr from-slate-200 to-slate-100 dark:from-slate-700 dark:to-slate-600" />
+        )}
         
         {/* Badges Overlay */}
         <div className="absolute top-3 left-3 flex flex-col gap-1.5">

@@ -1,105 +1,154 @@
-import ProductCard from '@/components/ProductCard';
-import ReviewCard from '@/components/ReviewCard';
-import StatBox from '@/components/StatBox';
-import { ArrowLeft, MessageSquare, Verified, Star, MapPin, Calendar } from 'lucide-react';
- 
-export default function ProfilePage() {
-  const activeListings = [
-    { id: 5, title: "Gently Used Khaadi Lawn Suit", price: "2,500", originalPrice: "5,800", location: "Karachi", time: "1w ago", tag: "Like New", featured: true },
-    { id: 6, title: "Alchemist + Forty Rules Combo", price: "600", originalPrice: "", location: "Karachi", time: "2w ago", tag: "Like New" },
-    { id: 7, title: "Honda CD 70 - 2022 Model", price: "45,000", originalPrice: "78,000", location: "Karachi", time: "1w ago", tag: "Good" },
-  ];
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import Link from 'next/link';
+import { ArrowLeft, MapPin, Phone, CheckCircle, Star, Package, ShoppingBag, MessageSquare, Loader2 } from 'lucide-react';
+import SellerProfileHeader from '@/components/seller/SellerProfileHeader';
+import SellerStats from '@/components/seller/SellerStats';
+import SellerListings from '@/components/seller/SellerListings';
+import SellerReviews from '@/components/seller/SellerReviews';
+
+interface SellerProfile {
+  id: string;
+  full_name: string;
+  email: string;
+  store_name?: string;
+  store_address?: string;
+  pickup_address?: string;
+  phone_number?: string;
+  is_verified: boolean;
+  is_active: boolean;
+  created_at: string;
+  stats: {
+    listings: number;
+    sales: number;
+    rating: number;
+    reviews: number;
+  };
+}
+
+export default function SellerProfilePage() {
+  const params = useParams();
+  const sellerId = params.id as string;
+  
+  const [seller, setSeller] = useState<SellerProfile | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<'listings' | 'reviews'>('listings');
+
+  useEffect(() => {
+    const fetchSellerProfile = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`/api/sellers/${sellerId}`);
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to fetch seller profile');
+        }
+        
+        setSeller(data.seller);
+      } catch (err) {
+        console.error('Error fetching seller profile:', err);
+        setError('Failed to load seller profile');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (sellerId) {
+      fetchSellerProfile();
+    }
+  }, [sellerId]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white dark:bg-background-dark text-slate-900 dark:text-slate-100 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+          <p className="text-slate-600 dark:text-slate-400">Loading seller profile...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !seller) {
+    return (
+      <div className="min-h-screen bg-white dark:bg-background-dark text-slate-900 dark:text-slate-100 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Seller Not Found</h1>
+          <p className="text-slate-600 dark:text-slate-400 mb-6">{error || 'This seller does not exist or has been removed.'}</p>
+          <Link 
+            href="/" 
+            className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Home
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-[#0F172A]">
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Breadcrumb */}
-        <button className="inline-flex items-center gap-2 text-slate-500 hover:text-emerald-600 mb-8 transition-colors group text-sm font-medium">
-          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-          Back to Bazaar
-        </button>
+    <div className="bg-white dark:bg-background-dark text-slate-900 dark:text-slate-100 transition-colors duration-300 antialiased">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Back Navigation */}
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-slate-500 hover:text-primary transition-colors font-medium mb-8"
+        >
+          <ArrowLeft className="w-5 h-5" />
+          Back
+        </Link>
 
-        {/* Profile Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-          <div className="flex items-center gap-6">
-            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-3xl font-bold shadow-lg">
-              AK
-            </div>
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <h1 className="text-2xl font-bold dark:text-white">Ahmed Khan</h1>
-                <span className="flex items-center gap-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
-                  <Verified size={12} /> Verified
-                </span>
+        {/* Seller Profile Header */}
+        <SellerProfileHeader seller={seller} />
+
+        {/* Seller Stats */}
+        <SellerStats stats={seller.stats} />
+
+        {/* Tabs */}
+        <div className="border-b border-slate-200 dark:border-slate-700 mb-8">
+          <nav className="flex space-x-8">
+            <button
+              onClick={() => setActiveTab('listings')}
+              className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+                activeTab === 'listings'
+                  ? 'border-primary text-primary'
+                  : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <Package className="w-4 h-4" />
+                Listings ({seller.stats.listings})
               </div>
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-slate-500 dark:text-slate-400 text-sm">
-                <span className="flex items-center gap-1"><MapPin size={14} /> Karachi</span>
-                <span className="flex items-center gap-1"><Calendar size={14} /> Joined March 2024</span>
-              </div>
-              <div className="flex items-center gap-1 mt-2">
-                <div className="flex text-amber-400">
-                  {[...Array(5)].map((_, i) => <Star key={i} size={14} fill="currentColor" />)}
-                </div>
-                <span className="text-sm font-bold ml-1 dark:text-white">4.8</span>
-              </div>
-            </div>
-          </div>
-          
-          <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 transition-all active:scale-95">
-            <MessageSquare size={20} />
-            Chat with Ahmed
-          </button>
-        </div>
-
-        {/* Quick Stats */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
-          <StatBox value="12" label="Listings" />
-          <StatBox value="35" label="Sales" />
-          <StatBox value="47" label="Reviews" />
-          <StatBox value="4.8" label="Rating" />
-        </div>
-
-        {/* Active Listings */}
-        <section className="mb-12">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold dark:text-white">Active Listings (3)</h2>
-            <button className="text-emerald-600 text-sm font-semibold hover:underline">View All</button>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {activeListings.map(item => (
-              <ProductCard key={item.id} {...item} />
-            ))}
-          </div>
-        </section>
-
-        {/* Reviews */}
-        <section>
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold dark:text-white">Reviews (2)</h2>
-            <button className="text-slate-500 dark:text-slate-400 text-sm font-semibold flex items-center gap-1 hover:text-emerald-600">
-              Filter by: Most Recent
             </button>
-          </div>
-          <div className="space-y-4">
-            <ReviewCard 
-              name="Ayesha Siddiqui" 
-              initials="AS" 
-              color="bg-emerald-500" 
-              time="6d ago" 
-              content="Excellent seller! The lawn suit was exactly as described. Fabric quality is amazing and it was packed very carefully." 
-            />
-            <ReviewCard 
-              name="Zainab Malik" 
-              initials="ZM" 
-              color="bg-rose-500" 
-              time="1w ago" 
-              content="Both novels are in near-perfect condition. Ahmed even threw in a bookmark. Fast meetup in Clifton." 
-            />
-          </div>
-          <button className="w-full mt-6 py-3 text-slate-500 dark:text-slate-400 font-medium text-sm border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl hover:border-emerald-500 hover:text-emerald-500 transition-all">
-            View All Reviews
-          </button>
-        </section>
+            <button
+              onClick={() => setActiveTab('reviews')}
+              className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+                activeTab === 'reviews'
+                  ? 'border-primary text-primary'
+                  : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <MessageSquare className="w-4 h-4" />
+                Reviews ({seller.stats.reviews})
+              </div>
+            </button>
+          </nav>
+        </div>
+
+        {/* Tab Content */}
+        {activeTab === 'listings' && (
+          <SellerListings sellerId={seller.id} />
+        )}
+        
+        {activeTab === 'reviews' && (
+          <SellerReviews sellerId={seller.id} />
+        )}
       </main>
     </div>
   );

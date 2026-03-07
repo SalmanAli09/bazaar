@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { 
   Store, 
   LayoutDashboard, 
@@ -16,13 +16,43 @@ import {
   Eye,
   ShoppingBag,
   Heart,
-  Check
+  Check,
+  Loader2
 } from "lucide-react";
 import Link from "next/link";
+import { useAuth } from '@/contexts/AuthContext';
+import { getProductsBySeller, Product } from '@/lib/supabase-database';
 
 export default function SellerHub() {
   const [activeTab, setActiveTab] = useState("Dashboard");
-  
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      if (!user?.id) return;
+      
+      try {
+        setLoading(true);
+        const sellerProducts = await getProductsBySeller(user.id);
+        setProducts(sellerProducts);
+      } catch (err) {
+        console.error('Error fetching products:', err);
+        setError('Failed to load products');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [user]);
+
+  const activeListings = products.filter(product => product.is_published && !product.is_sold);
+  const draftListings = products.filter(product => product.is_draft);
+  const soldListings = products.filter(product => product.is_sold);
+
   // Sidebar items definition
   const navItems = [
     { label: "Dashboard", icon: LayoutDashboard },
@@ -31,6 +61,33 @@ export default function SellerHub() {
     { label: "Earnings", icon: Wallet },
     { label: "Notifications", icon: Bell },
   ];
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen bg-[#f6f8f6] font-sans text-slate-900 transition-colors duration-300 items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="w-8 h-8 animate-spin text-[#11d421]" />
+          <p className="text-slate-600">Loading dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex min-h-screen bg-[#f6f8f6] font-sans text-slate-900 transition-colors duration-300 items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">{error}</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="px-4 py-2 bg-[#11d421] text-white rounded-lg hover:bg-[#0fb318]"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen bg-[#f6f8f6] font-sans text-slate-900 transition-colors duration-300">
@@ -123,7 +180,7 @@ export default function SellerHub() {
               <div className="p-2 bg-slate-100 rounded-xl text-slate-400"><Package size={20}/></div>
             </div>
             <div className="flex items-baseline gap-2">
-              <p className="text-4xl font-black text-slate-900">42</p>
+              <p className="text-4xl font-black text-slate-900">{activeListings.length}</p>
               <span className="text-slate-400 text-xs font-bold uppercase">Active Listings</span>
             </div>
             <div className="mt-8">
@@ -159,7 +216,7 @@ export default function SellerHub() {
           {/* Listings Table */}
           <div className="xl:col-span-2 bg-white rounded-[2.5rem] border border-slate-100 shadow-xl shadow-black/[0.02] overflow-hidden">
             <div className="px-8 py-6 border-b border-slate-50 flex justify-between items-center">
-              <h3 className="font-black text-slate-900 uppercase tracking-tight">Active Listings</h3>
+              <h3 className="font-black text-slate-900 uppercase tracking-tight">Active Listings ({activeListings.length})</h3>
               <button className="text-[#11d421] text-xs font-black uppercase tracking-widest hover:underline">View All</button>
             </div>
             <div className="overflow-x-auto">
@@ -173,26 +230,31 @@ export default function SellerHub() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-50">
-                  {[
-                    { name: "Vintage 90s Tee", cat: "Clothing • Large", price: "$25.00", status: "Active" },
-                    { name: "Retro Red Sneakers", cat: "Shoes • US 10", price: "$85.00", status: "Active" }
-                  ].map((item) => (
-                    <tr key={item.name} className="group hover:bg-slate-50/50 transition-colors">
+                  {activeListings.slice(0, 5).map((product) => (
+                    <tr key={product.id} className="group hover:bg-slate-50/50 transition-colors">
                       <td className="px-8 py-5">
                         <div className="flex items-center gap-4">
                           <div className="size-14 rounded-2xl bg-slate-100 overflow-hidden shrink-0 border border-slate-100 group-hover:scale-105 transition-transform">
-                             <img className="w-full h-full object-cover" src={`https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=100&q=80`} alt={item.name} />
+                            {product.product_pictures && product.product_pictures.length > 0 ? (
+                              <img 
+                                src={product.product_pictures[0]} 
+                                alt={product.ad_title}
+                                className="w-full h-full object-cover" 
+                              />
+                            ) : (
+                              <div className="w-full h-full bg-gradient-to-tr from-slate-200 to-slate-100" />
+                            )}
                           </div>
                           <div>
-                            <p className="text-sm font-black text-slate-900">{item.name}</p>
-                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{item.cat}</p>
+                            <p className="text-sm font-black text-slate-900">{product.ad_title}</p>
+                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{product.condition}</p>
                           </div>
                         </div>
                       </td>
-                      <td className="px-8 py-5 text-sm font-black text-slate-700">{item.price}</td>
+                      <td className="px-8 py-5 text-sm font-black text-slate-700">Rs. {product.selling_price}</td>
                       <td className="px-8 py-5">
                         <span className="px-3 py-1 bg-[#11d421]/10 text-[#11d421] text-[10px] font-black rounded-lg uppercase tracking-widest">
-                          {item.status}
+                          Active
                         </span>
                       </td>
                       <td className="px-8 py-5 text-right">
@@ -207,6 +269,13 @@ export default function SellerHub() {
                       </td>
                     </tr>
                   ))}
+                  {activeListings.length === 0 && (
+                    <tr>
+                      <td colSpan={4} className="px-8 py-12 text-center text-slate-500">
+                        No active listings found
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>

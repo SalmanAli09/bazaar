@@ -3,14 +3,14 @@ import { Star, MapPin, Clock } from 'lucide-react';
 interface ProductInfoProps {
   title: string;
   price: string;
-  originalPrice: string;
+  originalPrice?: string;
   discount: string;
   location: string;
   time: string;
   description: string;
   badges: string[];
   category: string;
-  condition: string;
+  condition?: string;
 }
 
 export default function ProductInfo({
@@ -39,6 +39,7 @@ export default function ProductInfo({
   };
 
   const getDiscountPercentage = () => {
+    if (!originalPrice) return 0;
     const current = parseInt(price.replace(/[^\d]/g, ''));
     const original = parseInt(originalPrice.replace(/[^\d]/g, ''));
     return Math.round(((original - current) / original) * 100);
@@ -52,20 +53,19 @@ export default function ProductInfo({
             <Star className="w-[14px] h-[14px] fill-current" /> Featured
           </span>
         )}
-        <span className="px-3 py-1 bg-emerald-50 text-primary text-xs font-bold rounded-full border border-emerald-100">
-          {category}
-        </span>
-        <span className={`px-3 py-1 text-xs font-bold rounded-full border ${getConditionColor(condition)}`}>
-          {condition}
+        <span className={`px-3 py-1 text-xs font-bold rounded-full border ${condition ? getConditionColor(condition) : 'bg-slate-50 text-slate-600 border-slate-100'}`}>
+          {condition || 'N/A'}
         </span>
       </div>
       <h1 className="text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white mb-4">{title}</h1>
       <div className="flex items-center gap-4 mb-6">
         <span className="text-3xl font-extrabold text-primary">{price}</span>
-        <div className="flex flex-col">
-          <span className="text-slate-400 line-through text-sm">{originalPrice}</span>
-          <span className="text-rose-500 text-xs font-bold">{getDiscountPercentage()}% OFF</span>
-        </div>
+        {originalPrice && (
+          <div className="flex flex-col">
+            <span className="text-slate-400 line-through text-sm">{originalPrice}</span>
+            <span className="text-rose-500 text-xs font-bold">{getDiscountPercentage()}% OFF</span>
+          </div>
+        )}
       </div>
       <div className="flex items-center gap-6 text-sm text-slate-500 mb-8 pb-8 border-b border-slate-100 dark:border-slate-800">
         <div className="flex items-center gap-1">

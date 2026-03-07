@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getProductById } from '@/lib/supabase-database';
+import { getProductByIdWithSeller } from '@/lib/supabase-database';
 
 export async function GET(
   request: NextRequest,
@@ -15,7 +15,7 @@ export async function GET(
       );
     }
 
-    const product = await getProductById(id);
+    const product = await getProductByIdWithSeller(id);
 
     if (!product) {
       return NextResponse.json(

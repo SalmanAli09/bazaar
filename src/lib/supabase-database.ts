@@ -38,6 +38,17 @@ export interface Product {
   updated_at: string;
 }
 
+export interface ProductWithSeller extends Product {
+  seller: {
+    id: string;
+    full_name: string;
+    email: string;
+    store_name?: string;
+    phone_number?: string;
+    is_verified: boolean;
+  };
+}
+
 export async function findUserByEmail(email: string): Promise<User | null> {
   try {
     const { data, error } = await supabase
@@ -136,6 +147,35 @@ export async function getProductById(id: string): Promise<Product | null> {
   }
 }
 
+export async function getProductByIdWithSeller(id: string): Promise<ProductWithSeller | null> {
+  try {
+    const { data, error } = await supabase
+      .from('products')
+      .select(`
+        *,
+        seller:users(
+          id,
+          full_name,
+          email,
+          store_name,
+          phone_number,
+          is_verified
+        )
+      `)
+      .eq('id', id)
+      .single();
+
+    if (error || !data) {
+      return null;
+    }
+
+    return data as ProductWithSeller;
+  } catch (error) {
+    console.error('Error fetching product with seller by id:', error);
+    return null;
+  }
+}
+
 export async function createProduct(productData: Omit<Product, 'id' | 'created_at' | 'updated_at'>): Promise<Product | null> {
   try {
     const { data, error } = await supabase
@@ -201,5 +241,54 @@ export async function getCategories(): Promise<Category[]> {
   } catch (error) {
     console.error('Error fetching categories:', error);
     return [];
+  }
+}
+
+export async function getSellerStats(sellerId: string): Promise<{
+  listings: number;
+  sales: number;
+  rating: number;
+  reviews: number;
+}> {
+  try {
+    // Get total listings
+    const { count: listings, error: listingsError } = await supabase
+      .from('products')
+      .select('*', { count: 'exact', head: true })
+      .eq('seller_id', sellerId)
+      .eq('is_published', true);
+
+    // Get total sales (sold products)
+    const { count: sales, error: salesError } = await supabase
+      .from('products')
+      .select('*', { count: 'exact', head: true })
+      .eq('seller_id', sellerId)
+      .eq('is_sold', true);
+
+    // Get reviews and calculate rating
+    const { data: reviews, error: reviewsError } = await supabase
+      .from('product_reviews')
+      .select('rating')
+      .eq('seller_id', sellerId);
+
+    const totalReviews = reviews?.length || 0;
+    const avgRating = totalReviews > 0 
+      ? reviews.reduce((sum, review) => sum + review.rating, 0) / totalReviews 
+      : 0;
+
+    return {
+      listings: listings || 0,
+      sales: sales || 0,
+      rating: Number(avgRating.toFixed(1)),
+      reviews: totalReviews
+    };
+  } catch (error) {
+    console.error('Error fetching seller stats:', error);
+    return {
+      listings: 0,
+      sales: 0,
+      rating: 0,
+      reviews: 0
+    };
   }
 }

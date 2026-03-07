@@ -9,6 +9,7 @@ interface SellerInfoProps {
   reviews: number;
   listings: number;
   sales: number;
+  sellerId?: string; // Add sellerId for navigation
 }
 
 export default function SellerInfo({
@@ -18,6 +19,7 @@ export default function SellerInfo({
   reviews,
   listings,
   sales,
+  sellerId,
 }: SellerInfoProps) {
   const renderStars = (rating: number) => {
     const fullStars = Math.floor(rating);
@@ -56,7 +58,10 @@ export default function SellerInfo({
           </div>
           <div>
             <div className="flex items-center gap-1">
-              <h4 onClick={()=> router.push(`/profile/${name}`)} className="font-bold text-slate-900 dark:text-white cursor-pointer hover:text-primary transition-colors">
+              <h4 
+                onClick={() => sellerId && router.push(`/profile/${sellerId}`)} 
+                className="font-bold text-slate-900 dark:text-white cursor-pointer hover:text-primary transition-colors"
+              >
                 {name}
               </h4>
               <CheckCircle className="w-[18px] h-[18px] text-emerald-500 fill-current" />
