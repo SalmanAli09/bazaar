@@ -1,8 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { FileText } from 'lucide-react';
-import { getCategories, Category } from '@/lib/supabase-database';
 
 interface FormData {
   ad_title: string;
@@ -17,25 +15,18 @@ interface BasicDetailsProps {
   updateFormData: (updates: Partial<FormData>) => void;
 }
 
+const staticCategories = [
+  { id: 'clothing', name: 'Clothing & Fashion' },
+  { id: 'electronics', name: 'Electronics' },
+  { id: 'furniture', name: 'Furniture' },
+  { id: 'books', name: 'Books' },
+  { id: 'sports', name: 'Sports & Outdoors' },
+  { id: 'home', name: 'Home & Garden' },
+  { id: 'vehicles', name: 'Vehicles' },
+  { id: 'toys', name: 'Toys & Games' },
+];
+
 export default function BasicDetails({ formData, updateFormData }: BasicDetailsProps) {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const cats = await getCategories();
-        setCategories(cats);
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCategories();
-  }, []);
-
   const conditionOptions = [
     { value: 'Brand New', label: 'Brand New' },
     { value: 'Like New', label: 'Like New' },
@@ -68,14 +59,13 @@ export default function BasicDetails({ formData, updateFormData }: BasicDetailsP
             <label className="block text-sm font-medium mb-2">
               Category <span className="text-red-500">*</span>
             </label>
-            <select 
+            <select
               className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 dark:bg-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
               value={formData.category_id}
               onChange={(e) => updateFormData({ category_id: e.target.value })}
-              disabled={loading}
             >
               <option value="">Select a category</option>
-              {categories.map((category) => (
+              {staticCategories.map((category) => (
                 <option key={category.id} value={category.id}>
                   {category.name}
                 </option>
@@ -86,7 +76,7 @@ export default function BasicDetails({ formData, updateFormData }: BasicDetailsP
             <label className="block text-sm font-medium mb-2">
               City <span className="text-red-500">*</span>
             </label>
-            <select 
+            <select
               className="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 dark:bg-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
               value={formData.city}
               onChange={(e) => updateFormData({ city: e.target.value })}
@@ -121,8 +111,8 @@ export default function BasicDetails({ formData, updateFormData }: BasicDetailsP
               <label
                 key={option.value}
                 className={`px-5 py-2 rounded-full border text-sm font-medium cursor-pointer transition-all hover:border-primary ${
-                  formData.condition === option.value 
-                    ? 'bg-primary text-white border-primary' 
+                  formData.condition === option.value
+                    ? 'bg-primary text-white border-primary'
                     : 'border-slate-200 dark:border-slate-700'
                 }`}
                 htmlFor={`cond-${option.value.toLowerCase().replace(' ', '-')}`}

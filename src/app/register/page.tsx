@@ -2,18 +2,14 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { 
-  ShoppingBag, 
-  Info, 
-  ShieldCheck, 
-  Eye, 
-  ArrowRight, 
+import {
+  ShoppingBag,
+  Info,
+  ShieldCheck,
+  Eye,
+  ArrowRight,
   HeadphonesIcon,
   Store,
-  MapPin,
-  Phone,
-  User,
-  Loader2
 } from 'lucide-react';
 
 export default function RegisterPage() {
@@ -29,8 +25,6 @@ export default function RegisterPage() {
     phoneNumber: ''
   });
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,40 +35,12 @@ export default function RegisterPage() {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    setError('');
-    setSuccess('');
-
-    try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...formData,
-          isSeller
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Registration failed');
-      }
-
-      setSuccess('Account created successfully! Redirecting to login...');
-      setTimeout(() => {
-        window.location.href = '/login';
-      }, 2000);
-
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
-    }
+    setSuccess('Account created successfully! Redirecting to login...');
+    setTimeout(() => {
+      window.location.href = '/login';
+    }, 2000);
   };
 
   return (
@@ -86,7 +52,7 @@ export default function RegisterPage() {
                                radial-gradient(at 50% 0%, hsla(160, 84%, 39%, 1) 0, transparent 50%),
                                radial-gradient(at 100% 0%, hsla(158, 80%, 45%, 1) 0, transparent 50%)`
            }}>
-        
+
         <div className="relative z-10 max-w-lg">
           <div className="bg-white/20 backdrop-blur-md w-12 h-12 rounded-xl flex items-center justify-center mb-6">
             <ShoppingBag className="text-white" size={24} fill="currentColor" />
@@ -119,12 +85,6 @@ export default function RegisterPage() {
               <p className="text-slate-500 dark:text-slate-400">Join the marketplace today</p>
             </div>
 
-            {/* Error and Success Messages */}
-            {error && (
-              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
-                {error}
-              </div>
-            )}
             {success && (
               <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-xl text-green-700 text-sm">
                 {success}
@@ -219,7 +179,7 @@ export default function RegisterPage() {
                     <Store size={16} />
                     Seller Information
                   </h3>
-                  
+
                   {/* Store Name */}
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Store Name</label>
@@ -291,8 +251,8 @@ export default function RegisterPage() {
                     className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border-none rounded-xl focus:ring-2 focus:ring-[#069668] dark:text-white transition-all outline-none"
                     required
                   />
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
                   >
@@ -303,10 +263,10 @@ export default function RegisterPage() {
 
               {/* Terms Checkbox */}
               <div className="flex items-start gap-2 py-2">
-                <input 
-                  type="checkbox" 
-                  id="terms" 
-                  className="mt-1 rounded text-[#069668] focus:ring-[#069668] border-slate-300 bg-slate-50" 
+                <input
+                  type="checkbox"
+                  id="terms"
+                  className="mt-1 rounded text-[#069668] focus:ring-[#069668] border-slate-300 bg-slate-50"
                 />
                 <label htmlFor="terms" className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                   By registering, I agree to the <Link href="#" className="text-[#069668] hover:underline font-medium">Terms of Service</Link> and <Link href="#" className="text-[#069668] hover:underline font-medium">Privacy Policy</Link>.
@@ -316,20 +276,10 @@ export default function RegisterPage() {
               {/* Submit Button */}
               <button
                 type="submit"
-                disabled={isLoading}
-                className="w-full bg-[#069668] hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-emerald-200 dark:shadow-none transition-all flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-[#069668] hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-emerald-200 dark:shadow-none transition-all flex items-center justify-center gap-2 group"
               >
-                {isLoading ? (
-                  <>
-                    <Loader2 size={20} className="animate-spin" />
-                    Creating Account...
-                  </>
-                ) : (
-                  <>
-                    Create Account
-                    <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                  </>
-                )}
+                Create Account
+                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </button>
             </form>
 

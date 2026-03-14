@@ -1,57 +1,33 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { 
-  Store, 
-  LayoutDashboard, 
-  Tag, 
-  MessageCircle, 
-  Wallet, 
-  Bell, 
-  PlusCircle, 
-  TrendingUp, 
-  Package, 
+import React, { useState } from "react";
+import {
+  Store,
+  LayoutDashboard,
+  Tag,
+  MessageCircle,
+  Wallet,
+  Bell,
+  PlusCircle,
+  TrendingUp,
+  Package,
   TicketPercent,
   Pencil,
   Eye,
   ShoppingBag,
   Heart,
   Check,
-  Loader2
 } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from '@/contexts/AuthContext';
-import { getProductsBySeller, Product } from '@/lib/supabase-database';
+import { staticProducts } from '@/lib/static-data';
 
 export default function SellerHub() {
   const [activeTab, setActiveTab] = useState("Dashboard");
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const { user } = useAuth();
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      if (!user?.id) return;
-      
-      try {
-        setLoading(true);
-        const sellerProducts = await getProductsBySeller(user.id);
-        setProducts(sellerProducts);
-      } catch (err) {
-        console.error('Error fetching products:', err);
-        setError('Failed to load products');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, [user]);
-
+  const products = staticProducts.filter(p => p.seller_id === (user?.id || 'user-1'));
   const activeListings = products.filter(product => product.is_published && !product.is_sold);
-  const draftListings = products.filter(product => product.is_draft);
-  const soldListings = products.filter(product => product.is_sold);
 
   // Sidebar items definition
   const navItems = [
@@ -62,36 +38,9 @@ export default function SellerHub() {
     { label: "Notifications", icon: Bell },
   ];
 
-  if (loading) {
-    return (
-      <div className="flex min-h-screen bg-[#f6f8f6] font-sans text-slate-900 transition-colors duration-300 items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <Loader2 className="w-8 h-8 animate-spin text-[#11d421]" />
-          <p className="text-slate-600">Loading dashboard...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex min-h-screen bg-[#f6f8f6] font-sans text-slate-900 transition-colors duration-300 items-center justify-center">
-        <div className="text-center">
-          <p className="text-red-600 mb-4">{error}</p>
-          <button 
-            onClick={() => window.location.reload()} 
-            className="px-4 py-2 bg-[#11d421] text-white rounded-lg hover:bg-[#0fb318]"
-          >
-            Try Again
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="flex min-h-screen bg-[#f6f8f6] font-sans text-slate-900 transition-colors duration-300">
-      
+
       {/* Sidebar Navigation */}
       <aside className="w-64 bg-white border-r border-slate-200 flex flex-col fixed h-full z-10 shadow-sm">
         <div className="p-6">
@@ -104,15 +53,15 @@ export default function SellerHub() {
               <p className="text-[#11d421] text-[10px] font-black uppercase tracking-[0.15em]">Seller Hub</p>
             </div>
           </div>
-          
+
           <nav className="flex flex-col gap-2">
             {navItems.map((item) => (
               <button
                 key={item.label}
                 onClick={() => setActiveTab(item.label)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-bold text-sm ${
-                  activeTab === item.label 
-                  ? "bg-[#11d421]/10 text-[#11d421]" 
+                  activeTab === item.label
+                  ? "bg-[#11d421]/10 text-[#11d421]"
                   : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
                 }`}
               >
@@ -138,14 +87,14 @@ export default function SellerHub() {
 
       {/* Main Content Area */}
       <main className="ml-64 flex-1 p-10">
-        
+
         {/* Header */}
         <header className="flex justify-between items-center mb-10">
           <div>
             <h2 className="text-3xl font-black text-slate-900 tracking-tight">Seller Dashboard</h2>
             <p className="text-slate-500 font-medium mt-1" >Welcome back, <span className="text-slate-900 font-bold">Vintage Vibes</span>! Your shop is trending today.</p>
           </div>
-          
+
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-3 bg-white pl-1.5 pr-4 py-1.5 rounded-2xl border border-slate-200 shadow-sm">
               <div className="size-9 rounded-xl bg-slate-100 overflow-hidden border border-slate-200">
@@ -212,7 +161,7 @@ export default function SellerHub() {
         </div>
 
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-10">
-          
+
           {/* Listings Table */}
           <div className="xl:col-span-2 bg-white rounded-[2.5rem] border border-slate-100 shadow-xl shadow-black/[0.02] overflow-hidden">
             <div className="px-8 py-6 border-b border-slate-50 flex justify-between items-center">
@@ -236,10 +185,10 @@ export default function SellerHub() {
                         <div className="flex items-center gap-4">
                           <div className="size-14 rounded-2xl bg-slate-100 overflow-hidden shrink-0 border border-slate-100 group-hover:scale-105 transition-transform">
                             {product.product_pictures && product.product_pictures.length > 0 ? (
-                              <img 
-                                src={product.product_pictures[0]} 
+                              <img
+                                src={product.product_pictures[0]}
                                 alt={product.ad_title}
-                                className="w-full h-full object-cover" 
+                                className="w-full h-full object-cover"
                               />
                             ) : (
                               <div className="w-full h-full bg-gradient-to-tr from-slate-200 to-slate-100" />

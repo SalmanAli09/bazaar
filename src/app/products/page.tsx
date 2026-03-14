@@ -1,8 +1,9 @@
 import React from 'react'
 import LatestArrivals from '@/components/LatestArrivals'
-import products from '../../../data/products'
+import { staticProducts } from '@/lib/static-data'
 
 const page = () => {
+    const products = staticProducts.filter(p => p.is_published && !p.is_sold);
     return (
         <div>
             <LatestArrivals products={products} />

@@ -2,8 +2,9 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ShoppingBag, Mail, Lock, Eye, ArrowRight, Loader2 } from 'lucide-react';
+import { ShoppingBag, Mail, Lock, Eye, ArrowRight } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { staticUser } from '@/lib/static-data';
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -12,8 +13,6 @@ export default function LoginPage() {
     password: 'password123'
   });
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -23,37 +22,10 @@ export default function LoginPage() {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    setError('');
-
-    try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Login failed');
-      }
-
-      // Store user data (in production, you'd use proper session management)
-      login(data.user);
-      
-      // Redirect to dashboard or home
-      window.location.href = '/';
-
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
-    }
+    login(staticUser);
+    window.location.href = '/';
   };
 
   return (
@@ -103,13 +75,6 @@ export default function LoginPage() {
               <h2 className="text-3xl font-extrabold text-slate-900 mb-2">Welcome back</h2>
               <p className="text-slate-500">Sign in to your account</p>
             </div>
-
-            {/* Error Message */}
-            {error && (
-              <div className="mb-6 p-3 bg-red-50 border border-red-200 rounded-2xl text-red-700 text-sm">
-                {error}
-              </div>
-            )}
 
             <form className="space-y-6" onSubmit={handleSubmit}>
               {/* Email Field */}
@@ -165,20 +130,10 @@ export default function LoginPage() {
               {/* Submit Button */}
               <button
                 type="submit"
-                disabled={isLoading}
-                className="w-full py-4 bg-[#0D8B5F] hover:bg-emerald-700 text-white font-bold rounded-2xl shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-4 bg-[#0D8B5F] hover:bg-emerald-700 text-white font-bold rounded-2xl shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 group"
               >
-                {isLoading ? (
-                  <>
-                    <Loader2 size={18} className="animate-spin" />
-                    Signing In...
-                  </>
-                ) : (
-                  <>
-                    Sign In
-                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                  </>
-                )}
+                Sign In
+                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </button>
 
               {/* Divider */}

@@ -1,95 +1,17 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, MapPin, Phone, CheckCircle, Star, Package, ShoppingBag, MessageSquare, Loader2 } from 'lucide-react';
+import { ArrowLeft, Package, MessageSquare } from 'lucide-react';
 import SellerProfileHeader from '@/components/seller/SellerProfileHeader';
 import SellerStats from '@/components/seller/SellerStats';
 import SellerListings from '@/components/seller/SellerListings';
 import SellerReviews from '@/components/seller/SellerReviews';
-
-interface SellerProfile {
-  id: string;
-  full_name: string;
-  email: string;
-  store_name?: string;
-  store_address?: string;
-  pickup_address?: string;
-  phone_number?: string;
-  is_verified: boolean;
-  is_active: boolean;
-  created_at: string;
-  stats: {
-    listings: number;
-    sales: number;
-    rating: number;
-    reviews: number;
-  };
-}
+import { staticSellerProfile } from '@/lib/static-data';
 
 export default function SellerProfilePage() {
-  const params = useParams();
-  const sellerId = params.id as string;
-  
-  const [seller, setSeller] = useState<SellerProfile | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const seller = staticSellerProfile;
   const [activeTab, setActiveTab] = useState<'listings' | 'reviews'>('listings');
-
-  useEffect(() => {
-    const fetchSellerProfile = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`/api/sellers/${sellerId}`);
-        const data = await response.json();
-        
-        if (!response.ok) {
-          throw new Error(data.error || 'Failed to fetch seller profile');
-        }
-        
-        setSeller(data.seller);
-      } catch (err) {
-        console.error('Error fetching seller profile:', err);
-        setError('Failed to load seller profile');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (sellerId) {
-      fetchSellerProfile();
-    }
-  }, [sellerId]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-white dark:bg-background-dark text-slate-900 dark:text-slate-100 flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <Loader2 className="w-8 h-8 animate-spin text-primary" />
-          <p className="text-slate-600 dark:text-slate-400">Loading seller profile...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error || !seller) {
-    return (
-      <div className="min-h-screen bg-white dark:bg-background-dark text-slate-900 dark:text-slate-100 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Seller Not Found</h1>
-          <p className="text-slate-600 dark:text-slate-400 mb-6">{error || 'This seller does not exist or has been removed.'}</p>
-          <Link 
-            href="/" 
-            className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Home
-          </Link>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="bg-white dark:bg-background-dark text-slate-900 dark:text-slate-100 transition-colors duration-300 antialiased">
@@ -145,7 +67,7 @@ export default function SellerProfilePage() {
         {activeTab === 'listings' && (
           <SellerListings sellerId={seller.id} />
         )}
-        
+
         {activeTab === 'reviews' && (
           <SellerReviews sellerId={seller.id} />
         )}

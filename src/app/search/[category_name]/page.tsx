@@ -5,9 +5,9 @@ import { ChevronRight, ChevronLeft } from 'lucide-react';
 
 export default function SearchResults() {
   const products = [
-    { title: "Wedding Sherwani - Maroon Embroidered", price: "12,000", originalPrice: "35,000", location: "Islamabad", time: "6d ago", tag: "Like New", featured: true },
-    { title: "Gently Used Khaadi Lawn Suit", price: "2,500", originalPrice: "5,800", location: "Karachi", time: "1w ago", tag: "Like New", featured: true },
-    { title: "Men's Shalwar Kameez - White Cotton", price: "1,800", originalPrice: "3,200", location: "Lahore", time: "1w ago", tag: "New" },
+    { id: "search-1", title: "Wedding Sherwani - Maroon Embroidered", price: "12,000", originalPrice: "35,000", location: "Islamabad", time: "6d ago", tag: "Like New", featured: true },
+    { id: "search-2", title: "Gently Used Khaadi Lawn Suit", price: "2,500", originalPrice: "5,800", location: "Karachi", time: "1w ago", tag: "Like New", featured: true },
+    { id: "search-3", title: "Men's Shalwar Kameez - White Cotton", price: "1,800", originalPrice: "3,200", location: "Lahore", time: "1w ago", tag: "New" },
   ];
 
   const subCategories = ["Ethnic Wear", "Western", "Footwear", "Outerwear", "Accessories"];

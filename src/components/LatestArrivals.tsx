@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, Heart, MapPin, Loader2, Sparkles } from 'lucide-react';
-import { Product } from '@/lib/supabase-database';
+import { ArrowRight, Heart, MapPin, Sparkles } from 'lucide-react';
+import { Product } from '@/lib/static-data';
 
 interface LatestArrivalsProps {
   products: Product[];
@@ -32,7 +32,7 @@ export default function LatestArrivals({ products, loading = false }: LatestArri
     const now = new Date();
     const diffTime = Math.abs(now.getTime() - date.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
+
     if (diffDays === 1) return '1 day ago';
     if (diffDays < 7) return `${diffDays} days ago`;
     if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
@@ -146,7 +146,7 @@ export default function LatestArrivals({ products, loading = false }: LatestArri
               </div>
             </Link>
           ))}
-        </div> 
+        </div>
       </div>
     </section>
   );

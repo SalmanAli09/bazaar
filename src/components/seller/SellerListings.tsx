@@ -1,69 +1,23 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { Loader2, Package } from 'lucide-react';
+import { useState } from 'react';
+import { Package } from 'lucide-react';
 import ProductCard from '@/components/ProductCard';
-
-interface Product {
-  id: string;
-  ad_title: string;
-  selling_price: number;
-  original_price?: number;
-  city: string;
-  condition: string;
-  created_at: string;
-  featured: boolean;
-  urgent: boolean;
-  product_pictures: string[];
-  category?: {
-    name: string;
-    icon?: string;
-  };
-}
+import { staticProducts } from '@/lib/static-data';
 
 interface SellerListingsProps {
   sellerId: string;
 }
 
 export default function SellerListings({ sellerId }: SellerListingsProps) {
-  const [listings, setListings] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<'published' | 'sold' | 'all'>('published');
-  const [pagination, setPagination] = useState({
-    page: 1,
-    limit: 12,
-    total: 0,
-    totalPages: 0
-  });
 
-  useEffect(() => {
-    const fetchListings = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(
-          `/api/sellers/${sellerId}/listings?status=${statusFilter}&page=${pagination.page}&limit=${pagination.limit}`
-        );
-        const data = await response.json();
-        
-        if (!response.ok) {
-          throw new Error(data.error || 'Failed to fetch listings');
-        }
-        
-        setListings(data.listings);
-        setPagination(data.pagination);
-      } catch (err) {
-        console.error('Error fetching listings:', err);
-        setError('Failed to load listings');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (sellerId) {
-      fetchListings();
-    }
-  }, [sellerId, statusFilter, pagination.page]);
+  const allListings = staticProducts.filter(p => p.seller_id === sellerId);
+  const listings = statusFilter === 'all'
+    ? allListings
+    : statusFilter === 'published'
+      ? allListings.filter(p => p.is_published && !p.is_sold)
+      : allListings.filter(p => p.is_sold);
 
   const formatPrice = (price: number) => {
     return `Rs. ${price.toLocaleString()}`;
@@ -74,23 +28,12 @@ export default function SellerListings({ sellerId }: SellerListingsProps) {
     const now = new Date();
     const diffTime = Math.abs(now.getTime() - date.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
+
     if (diffDays === 1) return '1 day ago';
     if (diffDays < 7) return `${diffDays} days ago`;
     if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
     return `${Math.floor(diffDays / 30)} months ago`;
   };
-
-  if (loading && listings.length === 0) {
-    return (
-      <div className="flex items-center justify-center py-12">
-        <div className="flex flex-col items-center gap-4">
-          <Loader2 className="w-8 h-8 animate-spin text-primary" />
-          <p className="text-slate-600 dark:text-slate-400">Loading listings...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div>
@@ -105,7 +48,7 @@ export default function SellerListings({ sellerId }: SellerListingsProps) {
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
-            Active ({pagination.total})
+            Active ({allListings.filter(p => p.is_published && !p.is_sold).length})
           </button>
           <button
             onClick={() => setStatusFilter('sold')}
@@ -158,31 +101,6 @@ export default function SellerListings({ sellerId }: SellerListingsProps) {
           <p className="text-slate-500 dark:text-slate-500 text-sm mt-2">
             This seller hasn't posted any {statusFilter === 'published' ? 'active' : statusFilter} listings yet.
           </p>
-        </div>
-      )}
-
-      {/* Pagination */}
-      {pagination.totalPages > 1 && (
-        <div className="flex items-center justify-center gap-2 mt-8">
-          <button
-            onClick={() => setPagination(prev => ({ ...prev, page: Math.max(1, prev.page - 1) }))}
-            disabled={pagination.page === 1}
-            className="px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Previous
-          </button>
-          
-          <span className="text-sm text-slate-600 dark:text-slate-400 px-4">
-            Page {pagination.page} of {pagination.totalPages}
-          </span>
-          
-          <button
-            onClick={() => setPagination(prev => ({ ...prev, page: Math.min(prev.totalPages, prev.page + 1) }))}
-            disabled={pagination.page === pagination.totalPages}
-            className="px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Next
-          </button>
         </div>
       )}
     </div>
