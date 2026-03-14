@@ -48,7 +48,7 @@ export default function SellerProfileEditor() {
 
   return (
     <div className="min-h-screen bg-[#f6f8f6] dark:bg-[#102212] font-sans text-slate-900 dark:text-slate-100 transition-colors duration-300">
-   
+     
 
       <main className="mx-auto w-full max-w-7xl px-4 py-10 md:px-10">
         <div className="mb-10">

@@ -67,7 +67,7 @@ export default function PostAdPage() {
 
   return (
     <div className="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
-      <main className="max-w-6xl mx-auto px-4 py-10">
+      <main className="max-w-7xl mx-auto px-4 py-10">
         <div className="mb-10">
           <h1 className="text-3xl font-bold dark:text-white">Post an Ad</h1>
           <p className="text-slate-500 dark:text-slate-400 mt-2">
