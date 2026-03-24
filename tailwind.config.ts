@@ -8,13 +8,13 @@ const config: Config = {
     ],
     darkMode: "class",
     theme: {
-        extend: {
+        extend: { 
             colors: {
-                primary: "#0D8B5F",
-                primaryDark: "#064E3B",
-                secondary: "#10B981",
-                "background-light": "#F9FAFB",
-                "background-dark": "#0F172A",
+              primary: "#0D8B5F",
+                        primaryDark: "#052e21",
+                        secondary: "#10B981",
+                        "background-light": "#F9FAFB",
+                        "background-dark": "#0F172A",
             },
             fontFamily: {
                 display: ["Plus Jakarta Sans", "sans-serif"],

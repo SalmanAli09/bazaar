@@ -11,7 +11,7 @@ export default function PostAdFooter({ isSubmitting, onSubmit, onSaveDraft }: Po
         <div className="hidden sm:block">
           <span className="text-slate-500 text-sm">Save as draft and continue later?</span>
           <button 
-            className="ml-2 text-primary font-semibold text-sm hover:underline"
+            className="ml-2 text-[var(--primary-dark)] font-semibold text-sm hover:underline"
             onClick={onSaveDraft}
             disabled={isSubmitting}
           >
@@ -27,7 +27,7 @@ export default function PostAdFooter({ isSubmitting, onSubmit, onSaveDraft }: Po
             Discard
           </button>
           <button
-            className="flex-[2] sm:px-12 py-3 bg-primary text-white rounded-full font-bold shadow-lg shadow-primary/25 hover:bg-primary/90 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-[2] sm:px-12 py-3 bg-[var(--primary-dark)] text-white rounded-full font-bold shadow-lg shadow-primary/25 hover:bg-[var(--primary-dark)]/90 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={onSubmit}
             disabled={isSubmitting}
             type="button"

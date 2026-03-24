@@ -57,7 +57,7 @@ export default function RegisterPage() {
           <div className="bg-white/20 backdrop-blur-md w-12 h-12 rounded-xl flex items-center justify-center mb-6">
             <ShoppingBag className="text-white" size={24} fill="currentColor" />
           </div>
-          <h2 className="text-2xl font-bold mb-8">Bazaar</h2>
+          <h2 className="text-2xl font-bold mb-8">.بازار</h2>
           <h1 className="text-5xl font-extrabold leading-tight mb-6">
             Pakistan's Thrift Marketplace
           </h1>
@@ -153,7 +153,7 @@ export default function RegisterPage() {
                     <Store size={20} className="text-[#069668]" />
                     <div>
                       <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Register as Seller</label>
-                      <p className="text-xs text-slate-500 dark:text-slate-400">Sell products on Bazaar marketplace</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">Sell products on .بازار marketplace</p>
                     </div>
                   </div>
                   <button

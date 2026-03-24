@@ -8,7 +8,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Bazaar - Thrift Marketplace",
+  title: ".بازار - Thrift Marketplace",
   description: "The most trusted thrift marketplace. Join 50k+ users buying and selling high-quality pre-loved items every day with secure payments.",
 };
 

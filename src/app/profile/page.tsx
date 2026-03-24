@@ -61,7 +61,7 @@ export default function SellerProfileEditor() {
           <div className="lg:col-span-8 space-y-8 pb-32">
             
             {/* Branding Section */}
-            <div className="overflow-hidden rounded-3xl bg-white dark:bg-slate-900 shadow-xl shadow-black/5 border border-[#11d421]/5">
+            <div className="overflow-hidden rounded-3xl bg-white dark:bg-slate-900 shadow-xl shadow-black/5 border border-primary/5">
               <div 
                 className="relative h-56 w-full bg-cover bg-center group transition-all duration-500"
                 style={{ backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.5)), url('${cover}')` }}
@@ -95,19 +95,19 @@ export default function SellerProfileEditor() {
             </div>
 
             {/* General Info */}
-            <section className="rounded-3xl bg-white dark:bg-slate-900 p-8 shadow-xl shadow-black/5 border border-[#11d421]/5 space-y-6">
-              <div className="flex items-center gap-3 text-[#11d421]">
+            <section className="rounded-3xl bg-white dark:bg-slate-900 p-8 shadow-xl shadow-black/5 border border-primary/5 space-y-6">
+              <div className="flex items-center gap-3 text-[var(--primary-dark)]">
                 <User className="size-6" />
                 <h3 className="text-lg font-black uppercase tracking-tight text-slate-900 dark:text-white">General Info</h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest">Store Name</label>
-                  <input name="storeName" value={formData.storeName} onChange={handleInputChange} className="w-full rounded-xl border-none bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-[#11d421] transition-all font-bold h-12 px-4" />
+                  <input name="storeName" value={formData.storeName} onChange={handleInputChange} className="w-full rounded-xl border-none bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary transition-all font-bold h-12 px-4" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest">Personal Name</label>
-                  <input name="personalName" value={formData.personalName} onChange={handleInputChange} className="w-full rounded-xl border-none bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-[#11d421] transition-all font-bold h-12 px-4" />
+                  <input name="personalName" value={formData.personalName} onChange={handleInputChange} className="w-full rounded-xl border-none bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary transition-all font-bold h-12 px-4" />
                 </div>
                 <div className="md:col-span-2 space-y-2">
                   <div className="flex justify-between items-center">
@@ -116,25 +116,25 @@ export default function SellerProfileEditor() {
                       {formData.bio.length}/{bioLimit}
                     </span>
                   </div>
-                  <textarea name="bio" value={formData.bio} onChange={handleInputChange} rows={4} className="w-full rounded-xl border-none bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-[#11d421] transition-all font-medium p-4" />
+                  <textarea name="bio" value={formData.bio} onChange={handleInputChange} rows={4} className="w-full rounded-xl border-none bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary transition-all font-medium p-4" />
                 </div>
               </div>
             </section>
 
             {/* Contact & Location */}
-            <section className="rounded-3xl bg-white dark:bg-slate-900 p-8 shadow-xl shadow-black/5 border border-[#11d421]/5 space-y-6">
-              <div className="flex items-center gap-3 text-[#11d421]">
+            <section className="rounded-3xl bg-white dark:bg-slate-900 p-8 shadow-xl shadow-black/5 border border-primary/5 space-y-6">
+              <div className="flex items-center gap-3 text-[var(--primary-dark)]">
                 <MapPin className="size-6" />
                 <h3 className="text-lg font-black uppercase tracking-tight text-slate-900 dark:text-white">Contact & Location</h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest">City</label>
-                  <input name="city" value={formData.city} onChange={handleInputChange} className="w-full rounded-xl border-none bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-[#11d421] h-12 px-4 font-bold" />
+                  <input name="city" value={formData.city} onChange={handleInputChange} className="w-full rounded-xl border-none bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary h-12 px-4 font-bold" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-black text-slate-400 uppercase tracking-widest">Pickup Address</label>
-                  <input name="address" value={formData.address} onChange={handleInputChange} className="w-full rounded-xl border-none bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-[#11d421] h-12 px-4 font-bold" />
+                  <input name="address" value={formData.address} onChange={handleInputChange} className="w-full rounded-xl border-none bg-slate-50 dark:bg-slate-800 focus:ring-2 focus:ring-primary h-12 px-4 font-bold" />
                 </div>
               </div>
             </section>
@@ -143,10 +143,10 @@ export default function SellerProfileEditor() {
           {/* Sidebar - Live Preview */}
           <aside className="lg:col-span-4">
             <div className="sticky top-28 space-y-6">
-              <div className="rounded-[2.5rem] bg-white dark:bg-slate-900 p-8 shadow-2xl border border-[#11d421]/5">
+              <div className="rounded-[2.5rem] bg-white dark:bg-slate-900 p-8 shadow-2xl border border-primary/5">
                 <div className="mb-6 flex items-center justify-between">
                   <h3 className="font-black text-slate-400 uppercase text-[10px] tracking-[0.2em]">Live Preview</h3>
-                  <span className="flex h-2.5 w-2.5 rounded-full bg-[#11d421] animate-pulse"></span>
+                  <span className="flex h-2.5 w-2.5 rounded-full bg-[var(--primary-dark)] animate-pulse"></span>
                 </div>
                 
                 {/* Search Result Card Preview */}
@@ -181,12 +181,12 @@ export default function SellerProfileEditor() {
               </div>
 
               {/* Pro Tip Card */}
-              <div className="rounded-3xl bg-[#11d421]/5 p-6 border border-[#11d421]/10 flex gap-4">
-                <div className="size-10 rounded-2xl bg-[#11d421] text-white flex items-center justify-center shrink-0 shadow-lg shadow-[#11d421]/20">
+              <div className="rounded-3xl bg-[var(--primary-dark)]/5 p-6 border border-primary/10 flex gap-4">
+                <div className="size-10 rounded-2xl bg-[var(--primary-dark)] text-white flex items-center justify-center shrink-0 shadow-lg shadow-primary/20">
                   <Lightbulb size={20} />
                 </div>
                 <div>
-                  <h4 className="text-sm font-black text-[#11d421] mb-1 uppercase tracking-tight">Pro Tip</h4>
+                  <h4 className="text-sm font-black text-[var(--primary-dark)] mb-1 uppercase tracking-tight">Pro Tip</h4>
                   <p className="text-xs font-medium text-slate-600 dark:text-slate-400 leading-relaxed">
                     Personalizing your city and bio increases local pickup requests by nearly 40%!
                   </p>
@@ -203,7 +203,7 @@ export default function SellerProfileEditor() {
           <button className="flex items-center gap-2 text-sm font-black text-slate-400 hover:text-red-500 transition-colors">
             <X size={16} /> Discard
           </button>
-          <button className="flex min-w-[180px] items-center justify-center gap-2 rounded-2xl bg-[#11d421] px-8 py-4 text-sm font-black text-slate-900 shadow-2xl shadow-[#11d421]/30 hover:scale-[1.03] active:scale-95 transition-all">
+          <button className="flex min-w-[180px] items-center justify-center gap-2 rounded-2xl bg-[var(--primary-dark)] px-8 py-4 text-sm font-black text-white shadow-2xl shadow-primary/30 hover:scale-[1.03] active:scale-95 transition-all">
             <Save size={18} /> Save Changes
           </button>
         </div>

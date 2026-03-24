@@ -71,18 +71,18 @@ export default function RequestFeed() {
     <div className="min-h-screen bg-[#f6f8f6] dark:bg-[#102212] transition-colors duration-300">
       <main className="max-w-7xl mx-auto px-4 py-8 pb-24 md:pb-12">
         {/* Hero Banner */}
-        <section className="mb-8 rounded-[2rem] overflow-hidden relative min-h-[180px] flex items-center bg-[#11d421]/10 dark:bg-[#11d421]/5 border border-[#11d421]/10">
+        <section className="mb-8 rounded-[2rem] overflow-hidden relative min-h-[180px] flex items-center bg-primary/10 dark:bg-primary/5 border border-primary/10">
           <div className="relative z-10 p-8 md:p-12 w-full">
             <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white max-w-lg leading-tight">
               Help customers find what they need and{" "}
-              <span className="text-[#11d421]">make a sale!</span>
+              <span className="text-primary">make a sale!</span>
             </h2>
             <p className="mt-3 text-slate-600 dark:text-slate-400 text-sm font-medium max-w-md">
               Browse through active requests from buyers looking for specific items in our community.
             </p>
           </div>
           <div className="absolute right-[-5%] top-[-10%] opacity-10 select-none">
-            <Zap size={200} className="text-[#11d421]" fill="currentColor" />
+            <Zap size={200} className="text-primary" fill="currentColor" />
           </div>
         </section>
 
@@ -112,7 +112,7 @@ export default function RequestFeed() {
 
         {/* Load More */}
         <div className="mt-12 text-center">
-          <button className="px-10 py-4 rounded-full border-2 border-[#11d421] text-[#11d421] font-extrabold hover:bg-[#11d421] hover:text-white transition-all transform active:scale-95">
+          <button className="px-10 py-4 rounded-full border-2 border-primary text-primary font-extrabold hover:bg-primary hover:text-white transition-all transform active:scale-95">
             Load More Requests
           </button>
         </div>
@@ -142,14 +142,14 @@ function RequestCard({ request, onOpenOffer }: { request: any; onOpenOffer: () =
   const { user, avatar, posted, urgency, title, desc, budget, location, image } = request;
 
   return (
-    <div className="group bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl hover:border-[#11d421]/30 transition-all p-6 flex flex-col md:flex-row gap-8">
+    <div className="group bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl hover:border-primary/30 transition-all p-6 flex flex-col md:flex-row gap-8">
       <div className="flex-1">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <img
               src={avatar}
               alt={user}
-              className="size-11 rounded-full object-cover border-2 border-[#11d421]/20"
+              className="size-11 rounded-full object-cover border-2 border-primary/20"
             />
             <div>
               <h4 className="text-sm font-bold text-slate-900 dark:text-white leading-tight">
@@ -172,7 +172,7 @@ function RequestCard({ request, onOpenOffer }: { request: any; onOpenOffer: () =
           )}
         </div>
 
-        <h3 className="text-xl font-extrabold text-slate-900 dark:text-white mb-2 group-hover:text-[#11d421] transition-colors">
+        <h3 className="text-xl font-extrabold text-slate-900 dark:text-white mb-2  transition-colors">
           {title}
         </h3>
         <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6 font-medium">
@@ -181,18 +181,18 @@ function RequestCard({ request, onOpenOffer }: { request: any; onOpenOffer: () =
 
         <div className="flex flex-wrap gap-3 items-center mb-8">
           <div className="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-xl">
-            <Tag size={14} className="text-[#11d421]" />
+            <Tag size={14} className="text-primary" />
             {budget}
           </div>
           <div className="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-xl">
-            <MapPin size={14} className="text-[#11d421]" />
+            <MapPin size={14} className="text-primary" />
             {location}
           </div>
         </div>
 
         <button
           onClick={onOpenOffer} // Calls the parent function
-          className="w-full md:w-auto bg-[#11d421] text-white font-black px-10 py-3.5 rounded-2xl hover:bg-[#0fa31a] transition-all transform hover:scale-[1.02] active:scale-95 shadow-lg shadow-[#11d421]/20"
+          className="w-full md:w-auto bg-[var(--primary-dark)] text-white font-black px-10 py-3.5 rounded-2xl hover:bg-primaryDark transition-all transform hover:scale-[1.02] active:scale-95 shadow-lg shadow-primary/20"
         >
           Send an Offer
         </button>
@@ -224,7 +224,7 @@ function RequestCard({ request, onOpenOffer }: { request: any; onOpenOffer: () =
 // Helper components remain the same
 function FilterButton({ label, icon }: { label: string; icon: React.ReactNode }) {
   return (
-    <button className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold hover:bg-[#11d421]/10 hover:text-[#11d421] transition-all border border-transparent hover:border-[#11d421]/20">
+    <button className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold hover:bg-primary/10 hover:text-primary transition-all border border-transparent hover:border-primary/20">
       {icon} {label} <ChevronDown size={14} />
     </button>
   );
@@ -232,7 +232,7 @@ function FilterButton({ label, icon }: { label: string; icon: React.ReactNode })
 
 function MobileNavItem({ icon, label, active = false }: { icon: React.ReactNode; label: string; active?: boolean }) {
   return (
-    <a className={`flex flex-col items-center gap-1 ${active ? "text-[#11d421]" : "text-slate-400"}`} href="#">
+    <a className={`flex flex-col items-center gap-1 ${active ? "text-primary" : "text-slate-400"}`} href="#">
       {icon}
       <span className="text-[10px] font-bold uppercase tracking-tighter">{label}</span>
     </a>

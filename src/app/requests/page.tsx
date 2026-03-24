@@ -28,7 +28,7 @@ export default function RequestItemPage() {
    
 
       {/* Hero Section */}
-      <section className="w-full bg-[#11d421]/10 dark:bg-[#11d421]/5 py-16 px-6 border-b border-[#11d421]/10">
+      <section className="w-full bg-primary/10 dark:bg-primary/5 py-16 px-6 border-b border-primary/10">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight">
             Can't find what you're looking for?
@@ -63,7 +63,7 @@ export default function RequestItemPage() {
                 <input
                   type="text"
                   placeholder="e.g. Vintage 90s Levi's Denim Jacket"
-                  className="w-full rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 focus:ring-2 focus:ring-[#11d421] focus:border-transparent h-14 px-5 dark:text-white transition-all outline-none"
+                  className="w-full rounded-xl border-primary  border focus:ring-2 focus:ring-primary focus:border-transparent h-14 px-5 dark:text-white transition-all outline-none"
                 />
               </div>
 
@@ -74,7 +74,7 @@ export default function RequestItemPage() {
                     Category
                   </label>
                   <div className="relative">
-                    <select className="w-full rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 focus:ring-2 focus:ring-[#11d421] h-14 px-5 appearance-none dark:text-white outline-none">
+                    <select className="w-full rounded-xl border-primary  border focus:ring-2 focus:ring-primary h-14 px-5 appearance-none dark:text-white outline-none">
                       <option>Select a category</option>
                       <option>Men's Clothing</option>
                       <option>Women's Clothing</option>
@@ -96,13 +96,13 @@ export default function RequestItemPage() {
                     <input
                       type="number"
                       placeholder="Min"
-                      className="w-full rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 focus:ring-2 focus:ring-[#11d421] h-14 px-5 dark:text-white outline-none"
+                      className="w-full rounded-xl border-primary  border focus:ring-2 focus:ring-primary h-14 px-5 dark:text-white outline-none"
                     />
                     <span className="text-slate-300 font-bold">—</span>
                     <input
                       type="number"
                       placeholder="Max"
-                      className="w-full rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 focus:ring-2 focus:ring-[#11d421] h-14 px-5 dark:text-white outline-none"
+                      className="w-full rounded-xl border-primary  border focus:ring-2 focus:ring-primary h-14 px-5 dark:text-white outline-none"
                     />
                   </div>
                 </div>
@@ -120,8 +120,8 @@ export default function RequestItemPage() {
                       onClick={() => setCondition(item)}
                       className={`px-5 py-2.5 rounded-full border text-sm font-bold transition-all ${
                         condition === item
-                          ? "border-[#11d421] bg-[#11d421]/10 text-[#11d421]"
-                          : "border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:border-[#11d421]"
+                          ? "border-primary bg-primary/10 text-primary"
+                          : "border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:border-primary"
                       }`}
                     >
                       {item}
@@ -138,7 +138,7 @@ export default function RequestItemPage() {
                 <textarea
                   rows={5}
                   placeholder="Mention size, color preference, or any specific flaws to avoid..."
-                  className="w-full rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 focus:ring-2 focus:ring-[#11d421] p-5 dark:text-white outline-none resize-none"
+                  className="w-full rounded-xl border-primary  border focus:ring-2 focus:ring-primary p-5 dark:text-white outline-none resize-none"
                 />
               </div>
             </div>
@@ -156,7 +156,7 @@ export default function RequestItemPage() {
               </div>
 
               <div className="aspect-square border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-3xl flex flex-col items-center justify-center p-8 text-center hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-all group">
-                <div className="w-14 h-14 rounded-2xl bg-[#11d421]/10 flex items-center justify-center text-[#11d421] mb-4 group-hover:scale-110 transition-transform">
+                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-4 group-hover:scale-110 transition-transform">
                   <UploadCloud size={28} />
                 </div>
                 <p className="text-sm font-bold text-slate-700 dark:text-slate-300">
@@ -179,7 +179,7 @@ export default function RequestItemPage() {
                     <X size={14} />
                   </button>
                 </div>
-                <button className="aspect-square border-2 border-slate-100 dark:border-slate-800 rounded-2xl flex items-center justify-center text-slate-300 hover:text-[#11d421] hover:border-[#11d421] transition-all">
+                <button className="aspect-square border-2 border-slate-100 dark:border-slate-800 rounded-2xl flex items-center justify-center text-slate-300 hover:text-primary hover:border-primary transition-all">
                   <Plus size={24} />
                 </button>
               </div>
@@ -189,14 +189,14 @@ export default function RequestItemPage() {
           {/* Footer Action */}
           <div className="mt-16 pt-10 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="flex items-center gap-3 text-slate-500 text-sm font-medium">
-              <ShieldCheck className="text-[#11d421]" size={20} />
+              <ShieldCheck className="text-[var(--primary-dark)]" size={20} />
               <span>Broadcast visible to vetted sellers for 30 days.</span>
             </div>
             <div className="flex items-center gap-4 w-full md:w-auto">
               <button className="flex-1 md:flex-none px-8 py-4 font-bold text-slate-500 hover:text-slate-900 transition-colors">
                 Cancel
               </button>
-              <button className="flex-1 md:flex-none px-12 py-4 bg-[#11d421] text-white font-extrabold rounded-xl shadow-xl shadow-[#11d421]/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+              <button className="flex-1 md:flex-none px-12 py-4 bg-[var(--primary-dark)] text-white font-extrabold rounded-xl shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
                 Post Request
               </button>
             </div>
@@ -218,7 +218,7 @@ export default function RequestItemPage() {
           <FeatureItem
             icon={<ShieldAlert size={32} />}
             title="Secure Buy"
-            desc="Once you find the perfect item, complete the purchase through Bazaar's protected checkout."
+            desc="Once you find the perfect item, complete the purchase through .بازار's protected checkout."
           />
         </div>
       </main> 
@@ -237,7 +237,7 @@ function FeatureItem({
 }) {
   return (
     <div className="text-center md:text-left">
-      <div className="text-[#11d421] mb-5 flex justify-center md:justify-start">
+      <div className="text-primary mb-5 flex justify-center md:justify-start">
         {icon}
       </div>
       <h4 className="font-extrabold text-xl text-slate-900 dark:text-white mb-3">

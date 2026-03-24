@@ -29,13 +29,13 @@ export default function BoostListing({ formData, updateFormData }: BoostListingP
             <div>
               <h4 className="font-semibold text-sm">Featured Listing</h4>
               <p className="text-xs text-slate-500">Ad appears at top of category for 7 days.</p>
-              <p className="text-sm font-bold text-primary mt-1">Rs. 150</p>
+              <p className="text-sm font-bold text-[var(--primary-dark)] mt-1">Rs. 150</p>
             </div>
           </div>
           <input
             checked={formData.featured}
             onChange={(e) => updateFormData({ featured: e.target.checked })}
-            className="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary"
+            className="w-5 h-5 rounded border-slate-300 text-[var(--primary-dark)] focus:ring-primary"
             type="checkbox"
           />
         </label>
@@ -48,13 +48,13 @@ export default function BoostListing({ formData, updateFormData }: BoostListingP
             <div>
               <h4 className="font-semibold text-sm">Urgent Ad</h4>
               <p className="text-xs text-slate-500">Highlighted label to attract quick buyers.</p>
-              <p className="text-sm font-bold text-primary mt-1">Rs. 200</p>
+              <p className="text-sm font-bold text-[var(--primary-dark)] mt-1">Rs. 200</p>
             </div>
           </div>
           <input
             checked={formData.urgent}
             onChange={(e) => updateFormData({ urgent: e.target.checked })}
-            className="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary"
+            className="w-5 h-5 rounded border-slate-300 text-[var(--primary-dark)] focus:ring-primary"
             type="checkbox"
           />
         </label>

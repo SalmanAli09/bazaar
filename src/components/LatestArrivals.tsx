@@ -89,7 +89,7 @@ export default function LatestArrivals({ products, loading = false }: LatestArri
             <h2 className="text-3xl font-bold mb-2">Latest Arrivals</h2>
             <p className="text-slate-500">Recently added treasures just for you</p>
           </div>
-          <Link href="/products" className="flex items-center gap-2 text-primary font-bold hover:gap-3 transition-all">
+          <Link href="/products" className="flex items-center gap-2 text-[var(--primary-dark)] font-bold hover:gap-3 transition-all">
             View All <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -109,13 +109,13 @@ export default function LatestArrivals({ products, loading = false }: LatestArri
                   )}
                   <div className="absolute top-4 left-4 flex flex-col gap-2">
                     {product.featured && (
-                      <span className="flex items-center gap-1 bg-amber-400 text-white text-[10px] font-bold rounded-full uppercase">
+                      <span className="flex items-center gap-1 bg-amber-400 text-white text-[10px] font-bold rounded-full uppercase p-2">
                         <Sparkles size={12} fill="currentColor" /> Featured
                       </span>
                     )}
                     {product.urgent && (
-                      <span className="bg-orange-500 text-white text-[10px] font-bold rounded-full uppercase">
-                        Urgent
+                      <span className="flex items-center gap-1 bg-orange-500 text-white text-[10px] font-bold rounded-full uppercase p-2">
+                        <Sparkles size={12} fill="currentColor" /> Urgent
                       </span>
                     )}
                   </div>
@@ -131,7 +131,7 @@ export default function LatestArrivals({ products, loading = false }: LatestArri
                 <div className="p-6">
                   <h3 className="font-bold text-lg mb-1 truncate">{product.ad_title}</h3>
                   <div className="flex items-center gap-2 mb-4">
-                    <span className="text-primary font-extrabold text-xl">{formatPrice(product.selling_price)}</span>
+                    <span className="text-[var(--primary-dark)] font-extrabold text-xl">{formatPrice(product.selling_price)}</span>
                     {product.original_price && product.original_price > 0 && (
                       <span className="text-slate-400 line-through text-sm">{formatPrice(product.original_price)}</span>
                     )}

@@ -28,13 +28,13 @@ export default function SellerInfo({
 
     for (let i = 0; i < fullStars; i++) {
       stars.push(
-        <Star key={`full-${i}`} className="w-4 h-4 fill-current" />
+        <Star key={`full-${i}`} className="w-4 h-4" />
       );
     }
 
     if (hasHalfStar) {
       stars.push(
-        <Star key="half" className="w-4 h-4 fill-current opacity-50" />
+        <Star key="half" className="w-4 h-4 opacity-50" />
       );
     }
 
@@ -64,7 +64,7 @@ export default function SellerInfo({
               >
                 {name}
               </h4>
-              <CheckCircle className="w-[18px] h-[18px] text-emerald-500 fill-current" />
+              <CheckCircle className="w-[18px] h-[18px] text-emerald-500" />
             </div>
             <div className="flex items-center gap-1">
               <div className="flex text-amber-400">

@@ -24,7 +24,7 @@ export default function ChatProductDetails() {
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             src="https://images.unsplash.com/photo-1583394838336-acd977730f90?q=80&w=500&auto=format&fit=crop" 
           />
-          <div className="absolute top-3 right-3 bg-white/90 backdrop-blur px-2.5 py-1 rounded-lg text-[10px] font-bold text-[#11d421] border border-[#11d421]/20 shadow-sm">
+          <div className="absolute top-3 right-3 bg-white/90 backdrop-blur px-2.5 py-1 rounded-lg text-[10px] font-bold text-primary border border-primary/20 shadow-sm">
             Excellent Condition
           </div>
           <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -36,7 +36,7 @@ export default function ChatProductDetails() {
           <h3 className="font-bold text-[15px] text-slate-800 mb-1 truncate">
             Gently Used Khaadi Lawn Suit
           </h3>
-          <p className="text-xl font-bold text-[#11d421] mb-4">Rs. 3,500</p>
+          <p className="text-xl font-bold text-primary mb-4">Rs. 3,500</p>
           
           <div className="space-y-2.5">
             <DetailRow icon={<Tag size={14} />} label="Category" value="Ethnic Wear" />
@@ -48,12 +48,12 @@ export default function ChatProductDetails() {
 
       {/* Action Buttons */}
       <div className="flex flex-col gap-3">
-        <button className="w-full py-3.5 bg-[#11d421] text-white rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-[#0fa31a] transition-all shadow-lg shadow-[#11d421]/20">
+        <button className="w-full py-3.5 bg-primary text-white rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-primaryDark transition-all shadow-lg shadow-primary/20">
           <CreditCard size={18} />
           Make an Offer
         </button>
         
-        <button className="w-full py-3 bg-white text-[#11d421] border-2 border-[#11d421]/20 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-[#11d421]/5 hover:border-[#11d421]/40 transition-all">
+        <button className="w-full py-3 bg-white text-primary border-2 border-primary/20 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-primary/5 hover:border-primary/40 transition-all">
           <CheckCircle2 size={18} />
           Mark as Sold
         </button>
@@ -64,7 +64,7 @@ export default function ChatProductDetails() {
             Report User
           </button>
           <p className="text-[10px] text-center text-slate-400 mt-4 leading-relaxed">
-            All transactions are monitored to keep the <br /> Bazaar community safe.
+            All transactions are monitored to keep the <br /> .بازار community safe.
           </p>
         </div>
       </div>

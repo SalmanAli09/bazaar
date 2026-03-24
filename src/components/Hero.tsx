@@ -6,7 +6,7 @@ import { ArrowRight, ShieldCheck, Zap, TrendingUp, CreditCard, Star } from 'luci
 export default function Hero() {
   const router = useRouter()
   return (
-    <section className="relative bg-primary overflow-hidden min-h-[100vh] flex items-center">
+    <section className="relative bg-[var(--primary-dark)] overflow-hidden min-h-[100vh] flex items-center">
       <div className="absolute inset-0 z-0">
         <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[60%] bg-emerald-600/30 rounded-full blur-[120px]"></div>
         <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[70%] bg-primary/20 rounded-full blur-[150px]"></div>

@@ -38,7 +38,7 @@ export default function BasicDetails({ formData, updateFormData }: BasicDetailsP
   return (
     <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
       <h2 className="text-lg font-semibold mb-6 flex items-center gap-2">
-        <FileText className="w-5 h-5 text-primary" />
+        <FileText className="w-5 h-5 text-[var(--primary-dark)]" />
         Basic Details
       </h2>
       <div className="space-y-6">
@@ -112,7 +112,7 @@ export default function BasicDetails({ formData, updateFormData }: BasicDetailsP
                 key={option.value}
                 className={`px-5 py-2 rounded-full border text-sm font-medium cursor-pointer transition-all hover:border-primary ${
                   formData.condition === option.value
-                    ? 'bg-primary text-white border-primary'
+                    ? 'bg-[var(--primary-dark)] text-white border-primary'
                     : 'border-slate-200 dark:border-slate-700'
                 }`}
                 htmlFor={`cond-${option.value.toLowerCase().replace(' ', '-')}`}

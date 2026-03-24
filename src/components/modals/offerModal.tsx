@@ -54,23 +54,23 @@ export default function OfferModal({ isOpen, onClose, requestData }: OfferModalP
           {/* Summary Section */}
           <section>
             <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4">Customer Request Summary</h3>
-            <div className="bg-[#f6f8f6] dark:bg-slate-800/40 rounded-3xl p-6 flex flex-col md:flex-row gap-6 border border-[#11d421]/10">
+            <div className="bg-[#f6f8f6] dark:bg-slate-800/40 rounded-3xl p-6 flex flex-col md:flex-row gap-6 border border-primary/10">
               <div className="flex-1 space-y-4">
                 <div>
-                  <span className="text-[10px] font-bold text-[#11d421] uppercase tracking-wider bg-[#11d421]/10 px-2 py-0.5 rounded">Requested Item</span>
+                  <span className="text-[10px] font-bold text-[var(--primary-dark)] uppercase tracking-wider bg-[var(--primary-dark)]/10 px-2 py-0.5 rounded">Requested Item</span>
                   <h2 className="text-xl font-black text-slate-900 dark:text-white mt-1">{requestData?.title || "Vintage 90s Denim Jacket"}</h2>
                 </div>
                 <div className="flex flex-wrap gap-4">
                   <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300">
-                    <Banknote size={18} className="text-[#11d421]" />
+                    <Banknote size={18} className="text-[var(--primary-dark)]" />
                     <span className="text-sm font-medium">Budget: <span className="font-bold text-slate-900 dark:text-white">{requestData?.budget || "$40 - $60"}</span></span>
                   </div>
                   <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300">
-                    <Minimize2 size={18} className="text-[#11d421]" />
+                    <Minimize2 size={18} className="text-[var(--primary-dark)]" />
                     <span className="text-sm font-medium">Size: <span className="font-bold text-slate-900 dark:text-white">Large</span></span>
                   </div>
                 </div>
-                <button className="flex items-center gap-1.5 text-xs font-bold text-[#11d421] hover:text-[#0fa31a] transition-colors group">
+                <button className="flex items-center gap-1.5 text-xs font-bold text-[var(--primary-dark)] hover:text-[var(--primary-dark)]Dark transition-colors group">
                   View Original Request 
                   <ExternalLink size={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </button>
@@ -92,7 +92,7 @@ export default function OfferModal({ isOpen, onClose, requestData }: OfferModalP
                   <div className="relative">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                     <input 
-                      className="block w-full pl-12 pr-4 py-3.5 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl focus:ring-2 focus:ring-[#11d421] text-sm font-medium dark:text-white transition-all" 
+                      className="block w-full pl-12 pr-4 py-3.5 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl focus:ring-2 focus:ring-primary text-sm font-medium dark:text-white transition-all" 
                       placeholder="Search your inventory..." 
                       type="text"
                     />
@@ -100,11 +100,11 @@ export default function OfferModal({ isOpen, onClose, requestData }: OfferModalP
                 </label>
                 
                 {/* Selected Item Preview */}
-                <div className="border-2 border-[#11d421] bg-[#11d421]/5 rounded-2xl p-4 flex items-center gap-4 shadow-sm">
+                <div className="border-2 border-primary bg-[var(--primary-dark)]/5 rounded-2xl p-4 flex items-center gap-4 shadow-sm">
                   <div className="w-14 h-14 bg-slate-200 rounded-xl bg-cover bg-center border border-white dark:border-slate-700 shadow-sm" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1601333144130-8cbb312386b6?q=80&w=150&auto=format&fit=crop')" }} />
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-bold text-slate-900 dark:text-white truncate">Classic Levi's Denim Jacket</p>
-                    <p className="text-xs text-[#11d421] font-bold mt-0.5">In stock • $45.00</p>
+                    <p className="text-xs text-[var(--primary-dark)] font-bold mt-0.5">In stock • $45.00</p>
                   </div>
                   <ChevronDown className="text-slate-400" size={20} />
                 </div>
@@ -122,9 +122,9 @@ export default function OfferModal({ isOpen, onClose, requestData }: OfferModalP
                 <label className="block">
                   <span className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight">Upload Fresh Photos</span>
                   <p className="text-xs text-slate-500 font-medium mb-3 mt-1">Upload photos directly if the item isn't listed yet</p>
-                  <div className="group border-2 border-slate-200 dark:border-slate-700 border-dashed rounded-[2rem] p-8 hover:border-[#11d421]/50 hover:bg-[#11d421]/5 transition-all cursor-pointer text-center bg-slate-50/50 dark:bg-slate-800/30">
+                  <div className="group border-2 border-slate-200 dark:border-slate-700 border-dashed rounded-[2rem] p-8 hover:border-primary/50 hover:bg-[var(--primary-dark)]/5 transition-all cursor-pointer text-center bg-slate-50/50 dark:bg-slate-800/30">
                     <div className="w-16 h-16 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm group-hover:scale-110 transition-transform">
-                      <Camera className="text-[#11d421]" size={32} />
+                      <Camera className="text-[var(--primary-dark)]" size={32} />
                     </div>
                     <p className="text-sm font-bold text-slate-700 dark:text-slate-300">Click or drag images to upload</p>
                     <p className="text-[10px] text-slate-400 mt-2 font-bold uppercase tracking-wider">PNG, JPG up to 10MB</p>
@@ -148,7 +148,7 @@ export default function OfferModal({ isOpen, onClose, requestData }: OfferModalP
                 <div className="relative mt-3">
                   <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-slate-400 font-bold">$</div>
                   <input 
-                    className="block w-full pl-10 pr-4 py-4 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl focus:ring-2 focus:ring-[#11d421] text-lg font-black dark:text-white transition-all shadow-sm" 
+                    className="block w-full pl-10 pr-4 py-4 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl focus:ring-2 focus:ring-primary text-lg font-black dark:text-white transition-all shadow-sm" 
                     placeholder="0.00" 
                     type="number" 
                     defaultValue="45.00"
@@ -159,7 +159,7 @@ export default function OfferModal({ isOpen, onClose, requestData }: OfferModalP
               <label className="block">
                 <span className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight">Message to Buyer</span>
                 <textarea 
-                  className="mt-3 block w-full px-5 py-4 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl focus:ring-2 focus:ring-[#11d421] text-sm font-medium dark:text-white transition-all min-h-[220px] resize-none" 
+                  className="mt-3 block w-full px-5 py-4 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl focus:ring-2 focus:ring-primary text-sm font-medium dark:text-white transition-all min-h-[220px] resize-none" 
                   placeholder="Tell the buyer why this item is a great match..."
                 />
                 <p className="mt-3 text-[10px] text-slate-400 font-bold uppercase tracking-wider leading-relaxed">
@@ -178,7 +178,7 @@ export default function OfferModal({ isOpen, onClose, requestData }: OfferModalP
           >
             Cancel Offer
           </button>
-          <button className="px-10 py-4 text-sm font-black text-white bg-[#11d421] hover:bg-[#0fa31a] rounded-2xl shadow-xl shadow-[#11d421]/20 transition-all transform hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2">
+          <button className="px-10 py-4 text-sm font-black text-white bg-[var(--primary-dark)] hover:bg-[var(--primary-dark)]Dark rounded-2xl shadow-xl shadow-primary/20 transition-all transform hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2">
             <Send size={18} fill="currentColor" />
             Send Offer Now
           </button>

@@ -6,7 +6,7 @@ export default function FilterSidebar() {
     <div className="sticky top-24 space-y-8">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold flex items-center gap-2 dark:text-white">
-          <SlidersHorizontal size={18} className="text-[#0FB478]" />
+          <SlidersHorizontal size={18} className="text-[var(--primary-dark)]" />
           Filters
         </h2>
       </div>
@@ -24,9 +24,9 @@ export default function FilterSidebar() {
       <FilterSection title="Price Range (PKR)">
         <div className="space-y-4">
           <div className="relative h-1 bg-slate-200 dark:bg-slate-700 rounded-full">
-            <div className="absolute left-[20%] right-[30%] h-full bg-[#0FB478]" />
-            <div className="absolute left-[20%] top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-2 border-[#0FB478] rounded-full cursor-pointer" />
-            <div className="absolute right-[30%] top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-2 border-[#0FB478] rounded-full cursor-pointer" />
+            <div className="absolute left-[20%] right-[30%] h-full bg-[var(--primary-dark)]" />
+            <div className="absolute left-[20%] top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-2 border-[var(--primary-dark)] rounded-full cursor-pointer" />
+            <div className="absolute right-[30%] top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-2 border-[var(--primary-dark)] rounded-full cursor-pointer" />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <input type="number" placeholder="Min" className="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-xl text-sm px-3 py-2 dark:text-white" />
@@ -41,7 +41,7 @@ export default function FilterSidebar() {
           {["New", "Like New", "Good", "Fair"].map((c) => (
             <button key={c} className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
               c === "New" 
-              ? "border-[#0FB478] bg-[#0FB478]/10 text-[#0FB478]" 
+              ? "bg-[var(--primary-dark)] text-white" 
               : "border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-[#0FB478] hover:text-[#0FB478]"
             }`}>
               {c}

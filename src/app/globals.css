@@ -2,13 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --primary: #0D8B5F;
-  --primary-dark: #064E3B;
-  --secondary: #10B981;
-  --background-light: #F9FAFB;
-  --background-dark: #0F172A;
-}
+ :root {
+            --primary: #0D8B5F;
+            --primary-dark: #052e21;--secondary: #10B981;
+            --background-light: #F9FAFB;
+            --background-dark: #0F172A;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
+        }
 
 @keyframes float {
   0%, 100% { transform: translateY(0px) rotate(3deg); }

@@ -2,6 +2,7 @@
 
 import { use } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import ProductImageGallery from '@/components/ProductImageGallery';
 import ProductInfo from '@/components/ProductInfo';
 import SellerInfo from '@/components/SellerInfo';
@@ -16,7 +17,26 @@ interface ProductPageProps {
 
 export default function ProductPage({ params }: ProductPageProps) {
   const { id } = use(params);
-  const product = staticProducts.find(p => p.id === id) || staticProducts[0];
+  const router = useRouter();
+  const product = staticProducts.find(p => p.id === id);
+
+  // Handle case where product is not found
+  if (!product) {
+    return (
+      <div className="min-h-screen bg-white dark:bg-background-dark text-slate-900 dark:text-slate-100 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Product Not Found</h1>
+          <p className="text-slate-600 dark:text-slate-400 mb-6">The product you're looking for doesn't exist.</p>
+          <button 
+            onClick={() => router.push('/')}
+            className="px-6 py-2 bg-[var(--primary-dark)] hover:bg-emerald-700 text-white rounded-lg transition-colors"
+          >
+            Back to Home
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const seller = {
     id: staticUser.id,
@@ -59,12 +79,23 @@ export default function ProductPage({ params }: ProductPageProps) {
       .slice(0, 2);
   };
 
+  const handleBuyNow = () => {
+    // Store product data in sessionStorage for checkout page
+    sessionStorage.setItem('checkoutProduct', JSON.stringify({
+      ...product,
+      seller
+    }));
+    
+    // Navigate to checkout page
+    router.push('/checkout');
+  };
+
   return (
     <div className="bg-white dark:bg-background-dark text-slate-900 dark:text-slate-100 transition-colors duration-300 antialiased">
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-slate-500 hover:text-primary transition-colors font-medium mb-8"
+          className="inline-flex items-center gap-2 text-slate-500 hover:text-[var(--primary-dark)] transition-colors font-medium mb-8"
         >
           <ArrowLeft className="w-5 h-5" />
           Back
@@ -98,8 +129,11 @@ export default function ProductPage({ params }: ProductPageProps) {
               sellerId={seller.id}
             />
             <div className="mt-auto">
-              <button className="w-full py-5 bg-primary hover:bg-emerald-700 text-white font-bold text-lg rounded-2xl shadow-xl shadow-emerald-500/20 transition-all flex items-center justify-center gap-3">
-                <ShoppingBag className="w-5 h-5 fill-current" />
+              <button 
+                onClick={handleBuyNow}
+                className="w-full py-5 bg-[var(--primary-dark)] hover:bg-emerald-700 text-white font-bold text-lg rounded-2xl shadow-xl shadow-emerald-500/20 transition-all flex items-center justify-center gap-3"
+              >
+                <ShoppingBag className="w-5 h-5" />
                 Buy Now - {formatPrice(product.selling_price)}
               </button>
             </div>

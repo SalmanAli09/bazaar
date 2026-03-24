@@ -41,7 +41,7 @@ export default function LoginPage() {
             <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/30 group-hover:bg-white/30 transition-all">
               <ShoppingBag className="text-white" fill="currentColor" size={24} />
             </div>
-            <span className="text-3xl font-extrabold tracking-tight text-white">Bazaar</span>
+            <span className="text-3xl font-extrabold tracking-tight text-white">.بازار</span>
           </Link>
 
           <div className="max-w-lg">
@@ -63,7 +63,7 @@ export default function LoginPage() {
         </div>
 
         <div className="relative z-10 mt-12 text-emerald-100/40 text-xs font-medium uppercase tracking-[0.2em]">
-          © 2026 Bazaar Marketplace
+          © 2026 .بازار Marketplace
         </div>
       </div>
 

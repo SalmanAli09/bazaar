@@ -12,9 +12,9 @@ export default function ChatWindow({ onBack }: { onBack: () => void }) {
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
               <h3 className="font-bold text-base text-slate-800 leading-none">Ahmed Khan</h3>
-              <span className="size-2 bg-[#11d421] rounded-full"></span>
+              <span className="size-2 bg-primary rounded-full"></span>
             </div>
-            <span className="text-[11px] text-[#11d421] font-semibold mt-1">Online</span>
+            <span className="text-[11px] text-primary font-semibold mt-1">Online</span>
           </div>
         </div>
 
@@ -44,16 +44,16 @@ export default function ChatWindow({ onBack }: { onBack: () => void }) {
       <footer className="p-4 bg-white border-t border-slate-100">
         <div className="max-w-4xl mx-auto flex items-end gap-2 bg-slate-50 p-1.5 rounded-2xl border border-slate-200">
           <div className="flex items-center pb-1">
-            <button className="p-2 text-slate-400 hover:text-[#11d421]"><PlusCircle size={20} /></button>
-            <button className="p-2 text-slate-400 hover:text-[#11d421]"><MapPin size={20} /></button>
-            <button className="p-2 text-slate-400 hover:text-[#11d421]"><Smile size={20} /></button>
+            <button className="p-2 text-slate-400 hover:text-primary"><PlusCircle size={20} /></button>
+            <button className="p-2 text-slate-400 hover:text-primary"><MapPin size={20} /></button>
+            <button className="p-2 text-slate-400 hover:text-primary"><Smile size={20} /></button>
           </div>
           <textarea
             className="flex-1 bg-transparent border-none focus:ring-0 text-[14px] py-3 px-2 resize-none max-h-32 placeholder:text-slate-400 text-slate-700"
             placeholder="Type your message..."
             rows={1}
           />
-          <button className="bg-[#11d421] text-white size-10 rounded-xl flex items-center justify-center hover:bg-[#0fa31a] shadow-md mb-1 mr-1 transition-all">
+          <button className="bg-primary text-white size-10 rounded-xl flex items-center justify-center hover:bg-primaryDark shadow-md mb-1 mr-1 transition-all">
             <Send size={18} />
           </button>
         </div>
@@ -68,7 +68,7 @@ function Message({ isOwn, text, time }: any) {
       {!isOwn && <img src="https://i.pravatar.cc/150?u=ahmed" className="size-8 rounded-full object-cover shrink-0" alt="avatar" />}
       <div className={`flex flex-col gap-1 ${isOwn ? 'items-end' : ''}`}>
         <div className={`p-3.5 rounded-2xl text-[14px] leading-relaxed ${
-          isOwn ? 'bg-[#11d421] text-white rounded-br-none shadow-sm' : 'bg-slate-100 text-slate-700 rounded-bl-none'
+          isOwn ? 'bg-primary text-white rounded-br-none shadow-sm' : 'bg-slate-100 text-slate-700 rounded-bl-none'
         }`}>
           {text}
         </div>

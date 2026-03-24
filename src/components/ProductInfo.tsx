@@ -50,7 +50,7 @@ export default function ProductInfo({
       <div className="flex flex-wrap gap-2 mb-6">
         {badges.includes('Featured') && (
           <span className="px-3 py-1 bg-amber-50 text-amber-700 text-xs font-bold rounded-full border border-amber-200 flex items-center gap-1">
-            <Star className="w-[14px] h-[14px] fill-current" /> Featured
+            <Star className="w-[14px] h-[14px]" /> Featured
           </span>
         )}
         <span className={`px-3 py-1 text-xs font-bold rounded-full border ${condition ? getConditionColor(condition) : 'bg-slate-50 text-slate-600 border-slate-100'}`}>
@@ -59,7 +59,7 @@ export default function ProductInfo({
       </div>
       <h1 className="text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white mb-4">{title}</h1>
       <div className="flex items-center gap-4 mb-6">
-        <span className="text-3xl font-extrabold text-primary">{price}</span>
+        <span className="text-3xl font-extrabold text-[var(--primary-dark)]">{price}</span>
         {originalPrice && (
           <div className="flex flex-col">
             <span className="text-slate-400 line-through text-sm">{originalPrice}</span>

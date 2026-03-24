@@ -1,4 +1,7 @@
+'use client';
+
 import React from 'react';
+import Link from 'next/link';
 import { Heart, MapPin, Sparkles } from 'lucide-react';
 
 interface ProductProps {
@@ -29,7 +32,8 @@ export default function ProductCard({
   images,
 }: ProductProps) {
   return (
-    <div className="group bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col">
+    <Link href={`/product/${id}`} className="block">
+      <div className="group bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer">
       {/* Image Container */}
       <div className="relative aspect-[4/3] overflow-hidden bg-slate-100 dark:bg-slate-700">
         {images && images.length > 0 ? (
@@ -62,7 +66,10 @@ export default function ProductCard({
         </div>
 
         {/* Favorite Button */}
-        <button className="absolute top-3 right-3 p-2 bg-white/80 dark:bg-slate-900/50 backdrop-blur-md rounded-full text-slate-400 hover:text-red-500 transition-colors">
+        <button 
+          onClick={(e) => e.preventDefault()}
+          className="absolute top-3 right-3 p-2 bg-white/80 dark:bg-slate-900/50 backdrop-blur-md rounded-full text-slate-400 hover:text-red-500 transition-colors"
+        >
           <Heart size={18} />
         </button>
 
@@ -81,7 +88,7 @@ export default function ProductCard({
         </h3>
         
         <div className="flex items-baseline gap-2 mb-3">
-          <span className="text-emerald-600 dark:text-emerald-400 font-bold text-lg">
+          <span className="text-[var(--primary-dark)] font-bold text-lg">
             Rs. {price}
           </span>
           {originalPrice && (
@@ -98,6 +105,7 @@ export default function ProductCard({
           <span>{time}</span>
         </div>
       </div>
-    </div>
+      </div>
+    </Link>
   );
 }

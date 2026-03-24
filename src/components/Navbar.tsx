@@ -4,18 +4,21 @@ import { useRouter } from "next/navigation";
 import { Search, MapPin, ChevronDown } from "lucide-react";
 import UserMenu from "./UserMenu";
 import { useAuth } from "@/contexts/AuthContext";
+import Image from "next/image";
 
 export default function Navbar() {
   const router = useRouter();
   const { user } = useAuth();
   
   return (
-    <nav className="sticky top-0 z-50 bg-white/90 dark:bg-background-dark/90 backdrop-blur-md border-b border-slate-100 dark:border-slate-800">
+    <nav className="sticky top-0 z-50 bg-white/70 dark:bg-background-dark/90 backdrop-blur-md border-b border-slate-100 dark:border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center gap-2">
             
-            <Link href="/" className="text-3xl font-extrabold tracking-tight text-primary">Bazaar</Link>
+            <Link href="/" className="tracking-tight text-[var(--primary-dark)]">
+            <strong className="text-3xl">.بازار</strong>
+            </Link>
           </div>
           <div className="hidden md:flex flex-1 max-w-lg mx-8">
             <div className="relative w-full">
@@ -30,12 +33,6 @@ export default function Navbar() {
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <div className="hidden sm:flex items-center gap-1 text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary cursor-pointer transition-colors">
-              <MapPin className="w-5 h-5" />
-              <span>All Cities</span>
-              <ChevronDown className="w-4 h-4" />
-            </div>
-            
             {user ? (
               <UserMenu />
             ) : (

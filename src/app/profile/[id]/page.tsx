@@ -19,7 +19,7 @@ export default function SellerProfilePage() {
         {/* Back Navigation */}
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-slate-500 hover:text-primary transition-colors font-medium mb-8"
+          className="inline-flex items-center gap-2 text-slate-500 hover:text-[var(--primary-dark)] transition-colors font-medium mb-8"
         >
           <ArrowLeft className="w-5 h-5" />
           Back
@@ -38,7 +38,7 @@ export default function SellerProfilePage() {
               onClick={() => setActiveTab('listings')}
               className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
                 activeTab === 'listings'
-                  ? 'border-primary text-primary'
+                  ? 'border-primary text-[var(--primary-dark)]'
                   : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
               }`}
             >
@@ -51,7 +51,7 @@ export default function SellerProfilePage() {
               onClick={() => setActiveTab('reviews')}
               className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
                 activeTab === 'reviews'
-                  ? 'border-primary text-primary'
+                  ? 'border-primary text-[var(--primary-dark)]'
                   : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
               }`}
             >

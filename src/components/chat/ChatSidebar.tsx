@@ -7,7 +7,7 @@ export default function ChatSidebar({ onSelectChat }: { onSelectChat: () => void
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
           <input
-            className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 text-sm py-2.5 outline-none focus:ring-2 focus:ring-[#11d421]/20"
+            className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 text-sm py-2.5 outline-none focus:ring-2 focus:ring-primary/20"
             placeholder="Search chats..."
             type="text"
           />
@@ -18,7 +18,7 @@ export default function ChatSidebar({ onSelectChat }: { onSelectChat: () => void
         {/* Active/Selected Chat */}
         <div 
           onClick={onSelectChat}
-          className="flex items-center gap-3 p-4 bg-[#11d421]/5 border-r-4 border-[#11d421] cursor-pointer"
+          className="flex items-center gap-3 p-4 bg-primary/5 border-r-4 border-primary cursor-pointer"
         >
           <img src="https://i.pravatar.cc/150?u=ahmed" className="size-12 rounded-full object-cover" alt="Ahmed" />
           <div className="flex-1 min-w-0">
@@ -44,7 +44,7 @@ function ChatItem({ name, msg, time, img, badge }: any) {
       <div className="relative shrink-0">
         <img src={`https://i.pravatar.cc/150?u=${img}`} className="size-12 rounded-full object-cover" alt={name} />
         {badge && (
-          <div className="absolute -top-1 -right-1 size-5 bg-[#11d421] text-white text-[10px] flex items-center justify-center font-bold rounded-full border-2 border-white">
+          <div className="absolute -top-1 -right-1 size-5 bg-primary text-white text-[10px] flex items-center justify-center font-bold rounded-full border-2 border-white">
             {badge}
           </div>
         )}
