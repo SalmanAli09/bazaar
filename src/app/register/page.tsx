@@ -54,9 +54,6 @@ export default function RegisterPage() {
            }}>
 
         <div className="relative z-10 max-w-lg">
-          <div className="bg-white/20 backdrop-blur-md w-12 h-12 rounded-xl flex items-center justify-center mb-6">
-            <ShoppingBag className="text-white" size={24} fill="currentColor" />
-          </div>
           <h2 className="text-2xl font-bold mb-8">.بازار</h2>
           <h1 className="text-5xl font-extrabold leading-tight mb-6">
             Pakistan's Thrift Marketplace

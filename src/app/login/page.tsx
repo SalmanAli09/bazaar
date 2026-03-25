@@ -38,9 +38,6 @@ export default function LoginPage() {
 
         <div className="relative z-10">
           <Link href="/" className="flex items-center gap-3 mb-16 group">
-            <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/30 group-hover:bg-white/30 transition-all">
-              <ShoppingBag className="text-white" fill="currentColor" size={24} />
-            </div>
             <span className="text-3xl font-extrabold tracking-tight text-white">.بازار</span>
           </Link>
 
@@ -144,14 +141,10 @@ export default function LoginPage() {
               </div>
 
               {/* Social Logins */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4">
                 <SocialButton
                   label="Google"
                   icon={<img src="https://www.google.com/favicon.ico" alt="Google" className="w-5 h-5" />}
-                />
-                <SocialButton
-                  label="Facebook"
-                  icon={<div className="w-5 h-5 bg-[#1877F2] rounded-full flex items-center justify-center text-white text-[10px] font-bold">f</div>}
                 />
               </div>
             </form>
