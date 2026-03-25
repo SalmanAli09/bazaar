@@ -3,13 +3,13 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import {
-  ShoppingBag,
   Info,
   ShieldCheck,
   Eye,
   ArrowRight,
   HeadphonesIcon,
   Store,
+  Loader2,
 } from 'lucide-react';
 
 export default function RegisterPage() {
@@ -26,6 +26,8 @@ export default function RegisterPage() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -35,12 +37,44 @@ export default function RegisterPage() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSuccess('Account created successfully! Redirecting to login...');
-    setTimeout(() => {
-      window.location.href = '/login';
-    }, 2000);
+    setError('');
+    setSuccess('');
+    setLoading(true);
+
+    try {
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          email: formData.email,
+          password: formData.password,
+          phoneNumber: formData.phoneNumber,
+          role: isSeller ? 'seller' : 'buyer',
+          storeName: formData.storeName,
+          pickupAddress: formData.pickupAddress,
+          city: formData.address,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || 'Registration failed');
+        return;
+      }
+
+      setSuccess('Account created successfully! Redirecting to login...');
+      setTimeout(() => {
+        window.location.href = '/login';
+      }, 2000);
+    } catch {
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -81,6 +115,12 @@ export default function RegisterPage() {
               <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">Create Account</h2>
               <p className="text-slate-500 dark:text-slate-400">Join the marketplace today</p>
             </div>
+
+            {error && (
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
+                {error}
+              </div>
+            )}
 
             {success && (
               <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-xl text-green-700 text-sm">
@@ -273,10 +313,10 @@ export default function RegisterPage() {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full bg-[#069668] hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-emerald-200 dark:shadow-none transition-all flex items-center justify-center gap-2 group"
+                disabled={loading}
+                className="w-full bg-[#069668] hover:bg-emerald-700 disabled:opacity-60 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-emerald-200 dark:shadow-none transition-all flex items-center justify-center gap-2 group"
               >
-                Create Account
-                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                {loading ? <Loader2 size={20} className="animate-spin" /> : <>Create Account <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" /></>}
               </button>
             </form>
 
