@@ -13,7 +13,7 @@ interface PricingProps {
   updateFormData: (updates: Partial<FormData>) => void;
 }
 
-export default function Pricing({ formData, updateFormData }: PricingProps) {
+export default function Pricing({ formData, updateFormData }: any) {
   return (
     <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
       <div className="flex items-center justify-between mb-6">

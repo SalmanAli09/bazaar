@@ -21,7 +21,7 @@ interface Category {
   name: string;
 }
 
-export default function BasicDetails({ formData, updateFormData }: BasicDetailsProps) {
+export default function BasicDetails({ formData, updateFormData }: any) {
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
