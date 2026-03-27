@@ -1,12 +1,11 @@
 'use client';
 
-import { use } from 'react';
+import { use, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import ProductImageGallery from '@/components/ProductImageGallery';
 import ProductInfo from '@/components/ProductInfo';
 import SellerInfo from '@/components/SellerInfo';
-import { staticProducts, staticSellerStats, staticUser } from '@/lib/static-data';
 import { ArrowLeft, ShoppingBag } from 'lucide-react';
 
 interface ProductPageProps {
@@ -15,19 +14,66 @@ interface ProductPageProps {
   }>;
 }
 
+interface ProductDetail {
+  id: string;
+  seller_id: string;
+  category_id: string;
+  ad_title: string;
+  city: string;
+  condition: string;
+  description: string;
+  product_pictures: string[];
+  selling_price: number;
+  original_price: number;
+  negotiable_price: boolean;
+  featured: boolean;
+  urgent: boolean;
+  is_draft: boolean;
+  is_published: boolean;
+  is_sold: boolean;
+  created_at: string;
+  updated_at: string;
+  seller: {
+    id: string;
+    full_name: string;
+    email: string;
+    store_name: string;
+    phone_number: string;
+    is_verified: boolean;
+    rating: number;
+    review_count: number;
+  };
+}
+
 export default function ProductPage({ params }: ProductPageProps) {
   const { id } = use(params);
   const router = useRouter();
-  const product = staticProducts.find(p => p.id === id);
+  const [product, setProduct] = useState<ProductDetail | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // Handle case where product is not found
+  useEffect(() => {
+    fetch(`/api/products/${id}`)
+      .then(res => res.json())
+      .then(data => setProduct(data.product || null))
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white dark:bg-background-dark flex items-center justify-center">
+        <div className="animate-pulse text-slate-400">Loading Product ...</div>
+      </div>
+    );
+  }
+
   if (!product) {
     return (
       <div className="min-h-screen bg-white dark:bg-background-dark text-slate-900 dark:text-slate-100 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Product Not Found</h1>
-          <p className="text-slate-600 dark:text-slate-400 mb-6">The product you're looking for doesn't exist.</p>
-          <button 
+          <p className="text-slate-600 dark:text-slate-400 mb-6">The product you&apos;re looking for doesn&apos;t exist.</p>
+          <button
             onClick={() => router.push('/')}
             className="px-6 py-2 bg-[var(--primary-dark)] hover:bg-emerald-700 text-white rounded-lg transition-colors"
           >
@@ -37,15 +83,6 @@ export default function ProductPage({ params }: ProductPageProps) {
       </div>
     );
   }
-
-  const seller = {
-    id: staticUser.id,
-    full_name: staticUser.full_name,
-    email: staticUser.email,
-    store_name: staticUser.store_name,
-    phone_number: staticUser.phone_number,
-    is_verified: staticUser.is_verified,
-  };
 
   const formatPrice = (price: number) => {
     return `Rs. ${price.toLocaleString()}`;
@@ -80,15 +117,11 @@ export default function ProductPage({ params }: ProductPageProps) {
   };
 
   const handleBuyNow = () => {
-    // Store product data in sessionStorage for checkout page
-    sessionStorage.setItem('checkoutProduct', JSON.stringify({
-      ...product,
-      seller
-    }));
-    
-    // Navigate to checkout page
+    sessionStorage.setItem('checkoutProduct', JSON.stringify(product));
     router.push('/checkout');
   };
+
+  const sellerName = product.seller.store_name || product.seller.full_name;
 
   return (
     <div className="bg-white dark:bg-background-dark text-slate-900 dark:text-slate-100 transition-colors duration-300 antialiased">
@@ -120,16 +153,16 @@ export default function ProductPage({ params }: ProductPageProps) {
               condition={product.condition}
             />
             <SellerInfo
-              name={seller.store_name || seller.full_name}
-              initials={getSellerInitials(seller.store_name || seller.full_name)}
-              rating={staticSellerStats.rating}
-              reviews={staticSellerStats.reviews}
-              listings={staticSellerStats.listings}
-              sales={staticSellerStats.sales}
-              sellerId={seller.id}
+              name={sellerName}
+              initials={getSellerInitials(sellerName)}
+              rating={product.seller.rating}
+              reviews={product.seller.review_count}
+              listings={0}
+              sales={0}
+              sellerId={product.seller.id}
             />
             <div className="mt-auto">
-              <button 
+              <button
                 onClick={handleBuyNow}
                 className="w-full py-5 bg-[var(--primary-dark)] hover:bg-emerald-700 text-white font-bold text-lg rounded-2xl shadow-xl shadow-emerald-500/20 transition-all flex items-center justify-center gap-3"
               >

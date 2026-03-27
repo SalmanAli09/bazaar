@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Search,
   MapPin,
@@ -17,52 +17,82 @@ import {
 } from "lucide-react";
 import OfferModal from "@/components/modals/offerModal";
 
-// Mock Data for Requests
-const REQUESTS = [
-  {
-    id: 1,
-    user: "Sarah Jenkins",
-    avatar: "https://i.pravatar.cc/150?u=sarah",
-    posted: "2 hours ago",
-    urgency: "high",
-    title: "Looking for Vintage Leather Jacket",
-    desc: "I am looking for a worn-in 90s style leather jacket, preferably black or dark brown. Size Medium. Needed for a themed birthday event next weekend!",
-    budget: "$100 - $150",
-    location: "Brooklyn, NY",
-    image: "https://images.unsplash.com/photo-1521223890158-f9f7c3d5ded1?q=80&w=400&auto=format&fit=crop",
-  },
-  {
-    id: 2,
-    user: "Marcus Lee",
-    avatar: "https://i.pravatar.cc/150?u=marcus",
-    posted: "5 hours ago",
-    urgency: "regular",
-    title: "Original 1970s Band Tees",
-    desc: "Collector looking for authentic 70s rock band tour shirts. Must be genuine vintage, not reprints. Size Large or XL. Looking for Led Zeppelin or Pink Floyd.",
-    budget: "$200 - $500",
-    location: "Austin, TX",
-    image: null,
-  },
-  {
-    id: 3,
-    user: "David Rossi",
-    avatar: "https://i.pravatar.cc/150?u=david",
-    posted: "1 day ago",
-    urgency: "high",
-    title: "Retro Game Boy Color (Atomic Purple)",
-    desc: "In search of a working Game Boy Color in Atomic Purple. Minimal scratches on screen preferred. Needed for a gift by Friday!",
-    budget: "$75 - $100",
-    location: "Portland, OR",
-    image: "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?q=80&w=400&auto=format&fit=crop",
-  },
-];
+interface BuyerRequest {
+  id: string;
+  buyer_id: string;
+  user: string;
+  title: string;
+  description: string;
+  budget_max: number | null;
+  category_id: string | null;
+  category_name: string;
+  is_active: boolean;
+  request_reference_image: string | null;
+  created_at: string;
+}
+
+function getTimeAgo(dateString: string) {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffMs = Math.abs(now.getTime() - date.getTime());
+  const diffMins = Math.floor(diffMs / 60000);
+  if (diffMins < 60) return `${diffMins}m ago`;
+  const diffHours = Math.floor(diffMins / 60);
+  if (diffHours < 24) return `${diffHours}h ago`;
+  const diffDays = Math.floor(diffHours / 24);
+  if (diffDays === 1) return "1 day ago";
+  return `${diffDays} days ago`;
+}
+
+function RequestSkeleton() {
+  return (
+    <div className="space-y-6">
+      {[...Array(3)].map((_, i) => (
+        <div
+          key={i}
+          className="bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-100 dark:border-slate-800 p-6 flex flex-col md:flex-row gap-8 animate-pulse"
+        >
+          <div className="flex-1 space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="size-11 rounded-full bg-slate-200 dark:bg-slate-700" />
+              <div className="space-y-2">
+                <div className="h-4 w-28 bg-slate-200 dark:bg-slate-700 rounded" />
+                <div className="h-3 w-16 bg-slate-200 dark:bg-slate-700 rounded" />
+              </div>
+            </div>
+            <div className="h-6 w-3/4 bg-slate-200 dark:bg-slate-700 rounded-lg" />
+            <div className="space-y-2">
+              <div className="h-4 w-full bg-slate-200 dark:bg-slate-700 rounded" />
+              <div className="h-4 w-5/6 bg-slate-200 dark:bg-slate-700 rounded" />
+            </div>
+            <div className="flex gap-3">
+              <div className="h-8 w-28 bg-slate-200 dark:bg-slate-700 rounded-xl" />
+              <div className="h-8 w-24 bg-slate-200 dark:bg-slate-700 rounded-xl" />
+            </div>
+            <div className="h-12 w-40 bg-slate-200 dark:bg-slate-700 rounded-2xl" />
+          </div>
+          <div className="w-full md:w-56 h-56 md:h-auto bg-slate-200 dark:bg-slate-700 rounded-[1.5rem]" />
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export default function RequestFeed() {
-  // --- 1. Move Modal State to Parent ---
+  const [requests, setRequests] = useState<BuyerRequest[]>([]);
+  const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedRequest, setSelectedRequest] = useState<any>(null);
+  const [selectedRequest, setSelectedRequest] = useState<BuyerRequest | null>(null);
 
-  const handleOpenOffer = (request: any) => {
+  useEffect(() => {
+    fetch("/api/buyer-requests")
+      .then((res) => res.json())
+      .then((data) => setRequests(data.requests || []))
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  const handleOpenOffer = (request: BuyerRequest) => {
     setSelectedRequest(request);
     setIsModalOpen(true);
   };
@@ -78,7 +108,8 @@ export default function RequestFeed() {
               <span className="text-primary">make a sale!</span>
             </h2>
             <p className="mt-3 text-slate-600 dark:text-slate-400 text-sm font-medium max-w-md">
-              Browse through active requests from buyers looking for specific items in our community.
+              Browse through active requests from buyers looking for specific
+              items in our community.
             </p>
           </div>
           <div className="absolute right-[-5%] top-[-10%] opacity-10 select-none">
@@ -94,31 +125,36 @@ export default function RequestFeed() {
             <FilterButton label="Location" icon={<MapPin size={16} />} />
           </div>
           <div className="text-slate-400 text-xs font-bold uppercase tracking-wider pr-2">
-            124 Requests Found
+            {loading ? "..." : `${requests.length} Requests Found`}
           </div>
         </div>
 
         {/* Request Feed */}
-        <div className="space-y-6">
-          {REQUESTS.map((req) => (
-            // --- 2. Pass handleOpenOffer to the Card ---
-            <RequestCard 
-              key={req.id} 
-              request={req} 
-              onOpenOffer={() => handleOpenOffer(req)} 
-            />
-          ))}
-        </div>
-
-        {/* Load More */}
-        <div className="mt-12 text-center">
-          <button className="px-10 py-4 rounded-full border-2 border-primary text-primary font-extrabold hover:bg-primary hover:text-white transition-all transform active:scale-95">
-            Load More Requests
-          </button>
-        </div>
+        {loading ? (
+          <RequestSkeleton />
+        ) : requests.length === 0 ? (
+          <div className="text-center py-20">
+            <Search className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-4" />
+            <p className="text-slate-600 dark:text-slate-400 text-lg font-medium">
+              No active requests yet
+            </p>
+            <p className="text-slate-500 text-sm mt-2">
+              Check back soon — buyers are always looking for items!
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            {requests.map((req) => (
+              <RequestCard
+                key={req.id}
+                request={req}
+                onOpenOffer={() => handleOpenOffer(req)}
+              />
+            ))}
+          </div>
+        )}
       </main>
 
-      {/* --- 3. Render Modal Once at Root Level --- */}
       <OfferModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -137,61 +173,73 @@ export default function RequestFeed() {
   );
 }
 
-function RequestCard({ request, onOpenOffer }: { request: any; onOpenOffer: () => void }) {
-  // Destructure from request object
-  const { user, avatar, posted, urgency, title, desc, budget, location, image } = request;
+function RequestCard({
+  request,
+  onOpenOffer,
+}: {
+  request: BuyerRequest;
+  onOpenOffer: () => void;
+}) {
+  const initials = request.user
+    .split(" ")
+    .map((w) => w[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
 
   return (
     <div className="group bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl hover:border-primary/30 transition-all p-6 flex flex-col md:flex-row gap-8">
       <div className="flex-1">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <img
-              src={avatar}
-              alt={user}
-              className="size-11 rounded-full object-cover border-2 border-primary/20"
-            />
+            <div className="size-11 rounded-full bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center text-white text-sm font-bold border-2 border-primary/20">
+              {initials}
+            </div>
             <div>
               <h4 className="text-sm font-bold text-slate-900 dark:text-white leading-tight">
-                {user}
+                {request.user}
               </h4>
               <span className="text-[11px] text-slate-400 font-bold uppercase">
-                {posted}
+                {getTimeAgo(request.created_at)}
               </span>
             </div>
           </div>
 
-          {urgency === "high" ? (
+          {request.budget_max && request.budget_max > 10000 ? (
             <span className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full flex items-center gap-1">
-              <Bolt size={12} fill="currentColor" /> High Urgency
+              <Bolt size={12} fill="currentColor" /> High Budget
             </span>
           ) : (
             <span className="bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full flex items-center gap-1">
-              <Clock size={12} /> Regular
+              <Clock size={12} /> Active
             </span>
           )}
         </div>
 
-        <h3 className="text-xl font-extrabold text-slate-900 dark:text-white mb-2  transition-colors">
-          {title}
+        <h3 className="text-xl font-extrabold text-slate-900 dark:text-white mb-2 transition-colors">
+          {request.title}
         </h3>
         <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6 font-medium">
-          {desc}
+          {request.description || "No additional details provided."}
         </p>
 
         <div className="flex flex-wrap gap-3 items-center mb-8">
-          <div className="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-xl">
-            <Tag size={14} className="text-primary" />
-            {budget}
-          </div>
-          <div className="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-xl">
-            <MapPin size={14} className="text-primary" />
-            {location}
-          </div>
+          {request.budget_max && (
+            <div className="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-xl">
+              <Tag size={14} className="text-primary" />
+              Up to Rs. {request.budget_max.toLocaleString()}
+            </div>
+          )}
+          {request.category_name && (
+            <div className="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-xl">
+              <MapPin size={14} className="text-primary" />
+              {request.category_name}
+            </div>
+          )}
         </div>
 
         <button
-          onClick={onOpenOffer} // Calls the parent function
+          onClick={onOpenOffer}
           className="w-full md:w-auto bg-[var(--primary-dark)] text-white font-black px-10 py-3.5 rounded-2xl hover:bg-primaryDark transition-all transform hover:scale-[1.02] active:scale-95 shadow-lg shadow-primary/20"
         >
           Send an Offer
@@ -199,10 +247,10 @@ function RequestCard({ request, onOpenOffer }: { request: any; onOpenOffer: () =
       </div>
 
       <div className="w-full md:w-56 h-56 md:h-auto shrink-0 rounded-[1.5rem] overflow-hidden relative bg-slate-100 dark:bg-slate-800 flex items-center justify-center border border-slate-50 dark:border-slate-800">
-        {image ? (
+        {request.request_reference_image ? (
           <>
             <img
-              src={image}
+              src={request.request_reference_image}
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
               alt="Ref"
             />
@@ -221,8 +269,13 @@ function RequestCard({ request, onOpenOffer }: { request: any; onOpenOffer: () =
   );
 }
 
-// Helper components remain the same
-function FilterButton({ label, icon }: { label: string; icon: React.ReactNode }) {
+function FilterButton({
+  label,
+  icon,
+}: {
+  label: string;
+  icon: React.ReactNode;
+}) {
   return (
     <button className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold hover:bg-primary/10 hover:text-primary transition-all border border-transparent hover:border-primary/20">
       {icon} {label} <ChevronDown size={14} />
@@ -230,11 +283,26 @@ function FilterButton({ label, icon }: { label: string; icon: React.ReactNode })
   );
 }
 
-function MobileNavItem({ icon, label, active = false }: { icon: React.ReactNode; label: string; active?: boolean }) {
+function MobileNavItem({
+  icon,
+  label,
+  active = false,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  active?: boolean;
+}) {
   return (
-    <a className={`flex flex-col items-center gap-1 ${active ? "text-primary" : "text-slate-400"}`} href="#">
+    <a
+      className={`flex flex-col items-center gap-1 ${
+        active ? "text-primary" : "text-slate-400"
+      }`}
+      href="#"
+    >
       {icon}
-      <span className="text-[10px] font-bold uppercase tracking-tighter">{label}</span>
+      <span className="text-[10px] font-bold uppercase tracking-tighter">
+        {label}
+      </span>
     </a>
   );
 }
