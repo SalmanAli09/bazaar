@@ -25,7 +25,7 @@ export default function SustainabilityPage() {
       </section>
 
       {/* Impact Stats */}
-      <section className="max-w-5xl mx-auto px-6 -mt-10">
+      <section className="max-w-5xl mx-auto px-6 -mt-10 relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {impacts.map((item, i) => (
             <div key={i} className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-6 text-center shadow-lg">
