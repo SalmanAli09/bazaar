@@ -1,11 +1,39 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { ShoppingBag, Heart, Package, TrendingUp, ArrowLeft } from 'lucide-react';
+import { ShoppingBag, Heart, Package, TrendingUp, ArrowLeft, Loader2 } from 'lucide-react';
+import ViewOffersModal from '@/components/modals/ViewOffersModal';
+
+interface BuyerRequest {
+  id: string;
+  title: string;
+  description: string;
+  budget_max: number | null;
+  category_name: string;
+  created_at: string;
+}
 
 export default function BuyerDashboard() {
   const { user } = useAuth();
+  const [requests, setRequests] = useState<BuyerRequest[]>([]);
+  const [requestsLoading, setRequestsLoading] = useState(true);
+  const [offersModalOpen, setOffersModalOpen] = useState(false);
+  const [selectedRequest, setSelectedRequest] = useState<BuyerRequest | null>(null);
+
+  useEffect(() => {
+    if (!user?.user_id) return;
+    fetch('/api/buyer-requests')
+      .then(res => res.json())
+      .then(data => {
+        const mine = (data.requests || []).filter(
+          (r: BuyerRequest & { buyer_id: string }) => r.buyer_id === user.user_id
+        );
+        setRequests(mine);
+      })
+      .catch(() => {})
+      .finally(() => setRequestsLoading(false));
+  }, [user?.user_id]);
 
   if (!user || user.role !== 'buyer') {
     return (
@@ -169,7 +197,61 @@ export default function BuyerDashboard() {
             </table>
           </div>
         </div>
+        <div className="mt-8 bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-4">Recent Request</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="text-gray-600 text-sm border-b">
+                  <th className="pb-3">Request ID</th>
+                  <th className="pb-3">Item Name</th>
+                  <th className="pb-3">Item Description</th>
+                  <th className="pb-3">Request Posted On</th>
+                  <th className="pb-3">View offers</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                {requestsLoading ? (
+                  <tr>
+                    <td colSpan={5} className="py-8 text-center text-gray-400">
+                      <Loader2 size={20} className="animate-spin inline-block mr-2" />
+                      Loading requests...
+                    </td>
+                  </tr>
+                ) : requests.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="py-8 text-center text-gray-400">
+                      No requests yet. <a href="/requests" className="text-blue-500 hover:underline">Post your first request</a>
+                    </td>
+                  </tr>
+                ) : (
+                  requests.map((req, index) => (
+                    <tr key={req.id}>
+                      <td className="py-3">{String(index + 1).padStart(3, '0')}</td>
+                      <td className="py-3 font-medium">{req.title}</td>
+                      <td className="py-3 text-gray-600 max-w-xs truncate">{req.description || '—'}</td>
+                      <td className="py-3">{new Date(req.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
+                      <td className="py-3">
+                        <button
+                          onClick={() => { setSelectedRequest(req); setOffersModalOpen(true); }}
+                          className="text-blue-500 hover:text-blue-700"
+                        >View Offers</button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
+
+      <ViewOffersModal
+        isOpen={offersModalOpen}
+        onClose={() => setOffersModalOpen(false)}
+        requestId={selectedRequest?.id || null}
+        requestTitle={selectedRequest?.title || ''}
+      />
     </div>
   );
 }

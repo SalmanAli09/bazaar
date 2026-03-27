@@ -6,7 +6,7 @@ import { ArrowRight, ShieldCheck, Zap, TrendingUp, CreditCard, Star } from 'luci
 export default function Hero() {
   const router = useRouter()
   return (
-    <section className="relative bg-[var(--primary-dark)] overflow-hidden min-h-[100vh] flex items-center">
+    <section className="relative bg-emerald-50 overflow-hidden min-h-[100vh] flex items-center">
       <div className="absolute inset-0 z-0">
         <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[60%] bg-emerald-600/30 rounded-full blur-[120px]"></div>
         <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[70%] bg-primary/20 rounded-full blur-[150px]"></div>
@@ -14,64 +14,64 @@ export default function Hero() {
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
         <div className="max-w-3xl">
-          <h1 className="text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-6 text-shadow-sm">
+          <h1 className="text-6xl lg:text-7xl font-extrabold text-[var(--primary-dark)] leading-tight mb-6 text-shadow-sm">
             Find Gems. <br />
             <span className="">Sell with Ease.</span>
           </h1>
-          <p className="text-emerald-50/80 text-lg lg:text-xl mb-10 max-w-xl">
+          <p className="text-[var(--primary-dark)] text-lg lg:text-xl mb-10 max-w-xl">
             The most trusted thrift marketplace. Join 50k+ users buying and selling high-quality pre-loved items every day with secure payments.
           </p>
           <div className="flex flex-wrap gap-4 mb-8">
             <Link href="/post-ad">
-              <button className="px-8 py-4 bg-white text-primaryDark font-bold rounded-2xl flex items-center gap-2 hover:shadow-[0_0_25px_rgba(255,255,255,0.4)] hover:-translate-y-1 transition-all animate-pulse-glow">
+              <button className="px-8 py-4 bg-white text-primaryDark font-bold rounded-2xl flex items-center gap-2 hover:shadow-[var(--primary-dark)] hover:-translate-y-1 transition-all animate-pulse-glow border border-emerald-700/50 backdrop-blur-md">
                 Start Selling <ArrowRight className="w-5 h-5" />
               </button>
             </Link>
-            <button onClick={() => router.push('/products')} className="px-8 py-4 bg-white/10 text-white font-bold rounded-2xl border border-white/20 backdrop-blur-md hover:bg-white/20 transition-all">
+            <button onClick={() => router.push('/products')} className="px-8 py-4 bg-[var(--primary-dark)] text-white font-bold rounded-2xl border border-white/20 backdrop-blur-md transition-all">
               Browse Listings
             </button>
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            <span className="text-white text-sm font-semibold mr-2 uppercase tracking-wider">Trending:</span>
-            <a className="px-3 py-1 bg-emerald-800/40 hover:bg-emerald-700/60 text-emerald-100 text-xs font-medium rounded-full border border-emerald-700/50 transition-colors" href="#">
+            <span className="text-[var(--primary-dark)] text-sm font-semibold mr-2 uppercase tracking-wider">Trending:</span>
+            <a className="px-3 py-1 bg-emerald-800/40 hover:bg-emerald-700/60 text-[var(--primary-dark)] text-xs font-medium rounded-full border border-emerald-700/50 transition-colors" href="#">
               #VintageTelevisions
             </a>
-            <a className="px-3 py-1 bg-emerald-800/40 hover:bg-emerald-700/60 text-emerald-100 text-xs font-medium rounded-full border border-emerald-700/50 transition-colors" href="#">
+            <a className="px-3 py-1 bg-emerald-800/40 hover:bg-emerald-700/60 text-[var(--primary-dark)] text-xs font-medium rounded-full border border-emerald-700/50 transition-colors" href="#">
               #LawnSuits
             </a>
-            <a className="px-3 py-1 bg-emerald-800/40 hover:bg-emerald-700/60 text-emerald-100 text-xs font-medium rounded-full border border-emerald-700/50 transition-colors" href="#">
+            <a className="px-3 py-1 bg-emerald-800/40 hover:bg-emerald-700/60 text-[var(--primary-dark)] text-xs font-medium rounded-full border border-emerald-700/50 transition-colors" href="#">
               #PS5
             </a>
-            <a className="px-3 py-1 bg-emerald-800/40 hover:bg-emerald-700/60 text-emerald-100 text-xs font-medium rounded-full border border-emerald-700/50 transition-colors" href="#">
+            <a className="px-3 py-1 bg-emerald-800/40 hover:bg-emerald-700/60 text-[var(--primary-dark)] text-xs font-medium rounded-full border border-emerald-700/50 transition-colors" href="#">
               #RetroCameras
             </a>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-16">
             <div className="flex items-center gap-4 p-4 glass-card rounded-2xl hover:-translate-y-2 transition-transform duration-300 cursor-default">
-              <div className="w-10 h-10 rounded-xl bg-emerald-400/20 flex items-center justify-center text-emerald-300">
-                <ShieldCheck className="w-5 h-5" />
+              <div className="w-10 h-10 rounded-xl bg-emerald-400/20 flex items-center justify-center text-emerald-300 border border-emerald-700/50">
+                <ShieldCheck className="w-5 h-5 text-[var(--primary-dark)]" />
               </div>
               <div>
-                <div className="text-white font-bold text-lg leading-none">500+</div>
-                <div className="text-emerald-100/60 text-[10px] uppercase font-bold tracking-tight">Verified Sellers</div>
+                <div className="text-[var(--primary-dark)] font-bold text-lg leading-none">500+</div>
+                <div className="text-[var(--primary-dark)] text-[10px] uppercase font-bold tracking-tight">Verified Sellers</div>
               </div>
             </div>
             <div className="flex items-center gap-4 p-4 glass-card rounded-2xl hover:-translate-y-2 transition-transform duration-300 cursor-default">
-              <div className="w-10 h-10 rounded-xl bg-emerald-400/20 flex items-center justify-center text-emerald-300">
-                <Zap className="w-5 h-5" />
+              <div className="w-10 h-10 rounded-xl bg-emerald-400/20 flex items-center justify-center text-emerald-300 border border-emerald-700/50">
+                <Zap className="w-5 h-5 text-[var(--primary-dark)]" />
               </div>
               <div>
-                <div className="text-white font-bold text-lg leading-none">10k+</div>
-                <div className="text-emerald-100/60 text-[10px] uppercase font-bold tracking-tight">Quick Deals</div>
+                <div className="text-[var(--primary-dark)] font-bold text-lg leading-none">10k+</div>
+                <div className="text-[var(--primary-dark)] text-[10px] uppercase font-bold tracking-tight">Quick Deals</div>
               </div>
             </div>
             <div className="flex items-center gap-4 p-4 glass-card rounded-2xl hover:-translate-y-2 transition-transform duration-300 cursor-default">
-              <div className="w-10 h-10 rounded-xl bg-emerald-400/20 flex items-center justify-center text-emerald-300">
-                <TrendingUp className="w-5 h-5" />
+              <div className="w-10 h-10 rounded-xl bg-emerald-400/20 flex items-center justify-center text-emerald-300 border border-emerald-700/50">
+                <TrendingUp className="w-5 h-5 text-[var(--primary-dark)]" />
               </div>
               <div>
-                <div className="text-white font-bold text-lg leading-none">98%</div>
-                <div className="text-emerald-100/60 text-[10px] uppercase font-bold tracking-tight">Best Prices</div>
+                <div className="text-[var(--primary-dark)] font-bold text-lg leading-none">98%</div>
+                <div className="text-[var(--primary-dark)] text-[10px] uppercase font-bold tracking-tight">Best Prices</div>
               </div>
             </div>
           </div>
@@ -110,11 +110,11 @@ export default function Hero() {
               <h3 className="text-white font-bold text-lg">Artisan Decor</h3>
             </div>
           </div>
-          <div className="absolute top-[5%] right-[20%] glass-card p-3 rounded-2xl flex items-center gap-3 animate-float-slow z-40 border border-white/20">
+          <div className="border border-emerald-700/50 absolute top-[5%] right-[20%] glass-card p-3 rounded-2xl flex items-center gap-3 animate-float-slow z-40 ">
             <div className="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white">
               <CreditCard className="w-4 h-4" />
             </div>
-            <span className="text-white text-xs font-bold whitespace-nowrap">Secure Escrow</span>
+            <span className="text-[var(--primary-dark)] text-xs font-bold whitespace-nowrap">Secure Escrow</span>
           </div>
           <div className="absolute bottom-[20%] right-[10%] glass-card p-3 rounded-2xl flex items-center gap-3 animate-float z-40 border border-white/20">
             <div className="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center text-white">

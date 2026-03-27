@@ -43,7 +43,7 @@ export default function LoginPage() {
       }
 
       login(data.user);
-      window.location.href = '/';
+      window.location.href = data.user.role === 'admin' ? '/admin' : '/';
     } catch {
       setError('Something went wrong. Please try again.');
     } finally {

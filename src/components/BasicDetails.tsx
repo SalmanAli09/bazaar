@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { FileText } from 'lucide-react';
 
 interface FormData {
@@ -15,24 +16,24 @@ interface BasicDetailsProps {
   updateFormData: (updates: Partial<FormData>) => void;
 }
 
-const staticCategories = [
-  { id: 'clothing', name: 'Clothing & Fashion' },
-  { id: 'electronics', name: 'Electronics' },
-  { id: 'furniture', name: 'Furniture' },
-  { id: 'books', name: 'Books' },
-  { id: 'sports', name: 'Sports & Outdoors' },
-  { id: 'home', name: 'Home & Garden' },
-  { id: 'vehicles', name: 'Vehicles' },
-  { id: 'toys', name: 'Toys & Games' },
-];
+interface Category {
+  category_id: string;
+  name: string;
+}
 
 export default function BasicDetails({ formData, updateFormData }: BasicDetailsProps) {
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    fetch('/api/categories')
+      .then(res => res.json())
+      .then(data => setCategories(data.categories || []))
+      .catch(() => {});
+  }, []);
   const conditionOptions = [
-    { value: 'Brand New', label: 'Brand New' },
-    { value: 'Like New', label: 'Like New' },
-    { value: 'Good', label: 'Good' },
-    { value: 'Gently Used', label: 'Gently Used' },
-    { value: 'Used', label: 'Used' }
+    { value: 'new', label: 'Brand New' },
+    { value: 'like_new', label: 'Like New' },
+    { value: 'refurbished', label: 'Refurbished' },
   ];
 
   return (
@@ -65,8 +66,8 @@ export default function BasicDetails({ formData, updateFormData }: BasicDetailsP
               onChange={(e) => updateFormData({ category_id: e.target.value })}
             >
               <option value="">Select a category</option>
-              {staticCategories.map((category) => (
-                <option key={category.id} value={category.id}>
+              {categories.map((category) => (
+                <option key={category.category_id} value={category.category_id}>
                   {category.name}
                 </option>
               ))}

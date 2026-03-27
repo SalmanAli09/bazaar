@@ -77,14 +77,14 @@ export default function UserMenu() {
             )}
           </div>
 
-          <Link
+          {user.role === 'seller' && <Link
             href="/profile"
             className="flex items-center gap-2 px-3 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             onClick={() => setIsDropdownOpen(false)}
           >
             <Eye size={16} />
             View Profile
-          </Link>
+          </Link>}
 
           <Link
             href={user.role === 'seller' ? '/seller/dashboard' : '/buyer/dashboard'}

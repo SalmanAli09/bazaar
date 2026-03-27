@@ -31,7 +31,7 @@ export default function PostAdPage() {
     ad_title: '',
     category_id: '',
     city: '',
-    condition: 'Brand New',
+    condition: 'new',
     description: '',
     selling_price: '',
     original_price: '',
@@ -45,7 +45,7 @@ export default function PostAdPage() {
     setFormData(prev => ({ ...prev, ...updates }));
   };
 
-  const handleSubmit = (e: React.FormEvent, isDraft = false) => {
+  const handleSubmit = async (e: React.FormEvent, isDraft = false) => {
     e.preventDefault();
 
     if (!user) {
@@ -60,9 +60,41 @@ export default function PostAdPage() {
     }
 
     setIsSubmitting(true);
-    alert(isDraft ? 'Draft saved successfully!' : 'Ad posted successfully!');
-    setIsSubmitting(false);
-    router.push('/seller/dashboard');
+
+    try {
+      const res = await fetch('/api/products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          seller_id: user.seller_id,
+          category_id: formData.category_id || null,
+          product_name: formData.ad_title,
+          product_description: formData.description,
+          product_actual_price: formData.original_price,
+          product_selling_price: formData.selling_price,
+          condition: formData.condition,
+          is_negotiable: formData.negotiable_price,
+          is_urgent: formData.urgent,
+          is_featured: formData.featured,
+          is_draft: isDraft,
+          product_pictures: formData.product_pictures,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.error || 'Failed to post ad');
+        return;
+      }
+
+      alert(isDraft ? 'Draft saved successfully!' : 'Ad posted successfully!');
+      router.push('/seller/dashboard');
+    } catch {
+      alert('Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

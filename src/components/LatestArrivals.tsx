@@ -12,14 +12,23 @@ interface LatestArrivalsProps {
 export default function LatestArrivals({ products, loading = false }: LatestArrivalsProps) {
   const getConditionColor = (condition: string) => {
     switch (condition) {
-      case 'Like New':
-      case 'Brand New':
+      case 'new':
         return 'bg-emerald-500 text-white';
-      case 'Used':
-      case 'Gently Used':
+      case 'like_new':
+        return 'bg-teal-500 text-white';
+      case 'refurbished':
         return 'bg-blue-500 text-white';
       default:
         return 'bg-slate-500 text-white';
+    }
+  };
+
+  const getConditionLabel = (condition: string) => {
+    switch (condition) {
+      case 'new': return 'Brand New';
+      case 'like_new': return 'Like New';
+      case 'refurbished': return 'Refurbished';
+      default: return condition;
     }
   };
 
@@ -124,7 +133,7 @@ export default function LatestArrivals({ products, loading = false }: LatestArri
                   </button>
                   <div className="absolute bottom-4 right-4">
                     <span className={`px-3 py-1 ${getConditionColor(product.condition)} text-[10px] font-bold rounded-full uppercase`}>
-                      {product.condition}
+                      {getConditionLabel(product.condition)}
                     </span>
                   </div>
                 </div>

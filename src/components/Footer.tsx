@@ -25,19 +25,19 @@ export default function Footer() {
           <div>
             <h4 className="font-bold mb-6">Marketplace</h4>
             <ul className="space-y-4 text-sm text-slate-500">
-              <li><a className="hover:text-[var(--primary-dark)] transition-colors" href="#">Latest Listings</a></li>
-              <li><a className="hover:text-[var(--primary-dark)] transition-colors" href="#">Popular Categories</a></li>
-              <li><a className="hover:text-[var(--primary-dark)] transition-colors" href="#">Requested Items</a></li>
-              <li><a className="hover:text-[var(--primary-dark)] transition-colors" href="#">Safe Trading Tips</a></li>
+              <li><a className="hover:text-[var(--primary-dark)] transition-colors" href="/products">Latest Listings</a></li>
+              <li><a className="hover:text-[var(--primary-dark)] transition-colors" href="/products">Popular Categories</a></li>
+              <li><a className="hover:text-[var(--primary-dark)] transition-colors" href="/buyers/request">Requested Items</a></li>
+              <li><a className="hover:text-[var(--primary-dark)] transition-colors" href="/safe-trading">Safe Trading Tips</a></li>
             </ul>
           </div>
           <div>
             <h4 className="font-bold mb-6">Company</h4>
             <ul className="space-y-4 text-sm text-slate-500">
-              <li><a className="hover:text-[var(--primary-dark)] transition-colors" href="#">About Us</a></li>
-              <li><a className="hover:text-[var(--primary-dark)] transition-colors" href="#">Sustainability</a></li>
-              <li><a className="hover:text-[var(--primary-dark)] transition-colors" href="#">Careers</a></li>
-              <li><a className="hover:text-[var(--primary-dark)] transition-colors" href="#">Press</a></li>
+              <li><a className="hover:text-[var(--primary-dark)] transition-colors" href="/about">About Us</a></li>
+              <li><a className="hover:text-[var(--primary-dark)] transition-colors" href="/sustainability">Sustainability</a></li>
+              <li><a className="hover:text-[var(--primary-dark)] transition-colors" href="/careers">Careers</a></li>
+              <li><a className="hover:text-[var(--primary-dark)] transition-colors" href="/press">Press</a></li>
             </ul>
           </div>
           <div>

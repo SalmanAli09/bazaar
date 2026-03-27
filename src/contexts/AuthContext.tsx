@@ -6,7 +6,7 @@ interface User {
   user_id: string;
   full_name: string;
   email: string;
-  role: 'buyer' | 'seller';
+  role: 'buyer' | 'seller' | 'admin';
   phone_number?: string;
   city?: string;
   country?: string;
